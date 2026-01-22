@@ -103,7 +103,7 @@ const App = () => {
               onClick={() => scrollToSection('angebot')}
               className="flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-all group"
             >
-              Get a Quote
+              Angebot anfordern
               <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>
@@ -114,7 +114,7 @@ const App = () => {
           <div className="absolute inset-0 -z-10">
             <img 
               src="./input_file_6.png" 
-              alt="Hero" 
+              alt="Hauptbild" 
               className="w-full h-full object-cover brightness-[0.95]"
               onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1581578731522-745d05cb9724?q=80&w=2000'}
             />
@@ -127,8 +127,8 @@ const App = () => {
             </div>
             
             <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-[#1a1a1a] mb-10 tracking-tight">
-              Cleaning is an <span className="italic text-blue-600">art</span>, <br />
-              excellence is our <span className="italic text-yellow-500">standard.</span>
+              Reinigung ist eine <span className="italic text-blue-600">Kunst</span>, <br />
+              Exzellenz ist unser <span className="italic text-yellow-500">Standard.</span>
             </h1>
 
             <p className="fade-in-up delay-200 text-stone-600 text-lg max-w-xl mx-auto leading-relaxed font-light mb-12">
@@ -231,7 +231,7 @@ const App = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-blue-400/5 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
           
           <div className="max-w-3xl mx-auto relative z-10">
-            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-4 italic tracking-tight">Ready to shine?</h2>
+            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-4 italic tracking-tight">Bereit zu glänzen?</h2>
             <p className="text-stone-500 font-light mb-12 max-w-md mx-auto">Schildern Sie uns Ihr Anliegen. Wir erstellen Ihnen innerhalb von 24h ein personalisiertes Angebot.</p>
             
             {/* Big Fancy Text CTA */}
@@ -292,7 +292,7 @@ const App = () => {
               <div className="font-serif-display text-4xl mb-2 tracking-tighter">Lux Cleaning</div>
               <div className="text-[9px] text-stone-500 tracking-[0.5em] font-bold uppercase">Die Kunst der Sauberkeit</div>
             </div>
-            <div className="text-[10px] text-stone-600 font-bold uppercase tracking-[0.2em]">© 2024 LUX CLEANING. MADE WITH PRECISION.</div>
+            <div className="text-[10px] text-stone-600 font-bold uppercase tracking-[0.2em]">© 2024 LUX CLEANING. FÜR PERFEKTE SAUBERKEIT.</div>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-stone-400">
               <a href="#" className="hover:text-yellow-400 transition-colors">Impressum</a>
               <a href="#" className="hover:text-yellow-400 transition-colors">Datenschutz</a>
