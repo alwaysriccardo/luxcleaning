@@ -47,25 +47,25 @@ const REVIEWS = [
   {
     name: "Hans Müller",
     location: "München, Deutschland",
-    text: "Deutsche Pünktlichkeit trifft auf Schweizer Präzision. Lux Cleaning kam genau auf die Minute und die Ergebnisse waren absolut makellos. Sehr empfehlenswert!",
+    text: "Lux Cleaning war super pünktlich und hat echt gute Arbeit gemacht. Catalin war sehr freundlich und hat alles genau erklärt. Kann ich nur weiterempfehlen!",
     initials: "HM"
   },
   {
     name: "Elena Vogt",
     location: "Zürich, Schweiz",
-    text: "Ich bin beeindruckt von der Diskretion und Schnelligkeit. Innerhalb von zwei Stunden war meine Kanzlei bereit für den nächsten Mandanten. Erstklassiger Service!",
+    text: "Bin total zufrieden mit Lux Cleaning. Die waren schnell und diskret, meine Kanzlei war in 2 Stunden fertig. Service war top!",
     initials: "EV"
   },
   {
     name: "Stephan Weber",
     location: "Basel, Schweiz",
-    text: "Endlich eine Reinigungsfirma, die versteht, dass Sauberkeit eine Kunst ist. Die Umzugsreinigung mit Abnahmegarantie hat mir so viel Stress erspart.",
+    text: "Die Umzugsreinigung von Lux Cleaning hat mir echt viel Stress erspart. Catalin und sein Team waren sehr zuverlässig und alles war perfekt sauber. Würde ich wieder buchen!",
     initials: "SW"
   },
   {
     name: "Karin Schmid",
     location: "Berlin, Deutschland",
-    text: "Besonders die Glasreinigung hat mich überzeugt. Kein einziger Streifen! Man merkt, dass hier Profis mit Herz am Werk sind.",
+    text: "Die Fensterreinigung war klasse, keine Streifen überhaupt. Lux Cleaning macht das wirklich professionell, merkt man sofort.",
     initials: "KS"
   }
 ];
