@@ -110,15 +110,18 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center">
-          <div className="absolute inset-0 -z-10">
+        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center overflow-hidden">
+          <div className="absolute inset-0 -z-10 hero-image-container">
             <img 
-              src="./input_file_6.png" 
+              src="./hero-cleaning.jpg" 
               alt="Hauptbild" 
-              className="w-full h-full object-cover brightness-[0.95]"
+              className="w-full h-full object-cover brightness-[0.9] contrast-[1.1] saturate-[1.2]"
               onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1581578731522-745d05cb9724?q=80&w=2000'}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#Fdfcf8]"></div>
+            <div className="absolute inset-0 hero-gradient-overlay"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#Fdfcf8]/90"></div>
+            <div className="hero-shimmer"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.1)_100%)]"></div>
           </div>
 
           <div className="max-w-5xl mx-auto z-10">
