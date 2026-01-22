@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lux Cleaning | Die Kunst der Sauberkeit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Geist', sans-serif; overflow-x: hidden; }
+        .font-serif-display { font-family: 'Instrument Serif', serif; }
+        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 35s linear infinite;
+        }
+
+        @keyframes scroll-reviews {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-50% - 16px)); }
+        }
+        .carousel-track {
+            animation: scroll-reviews 80s linear infinite;
+            display: flex;
+            width: max-content;
+        }
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .mask-edges {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fdfcf8; }
+        ::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4d4d4; }
+
+        input::placeholder, textarea::placeholder {
+            color: #a8a29e;
+            font-weight: 300;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body class="bg-[#Fdfcf8] text-[#1a1a1a] selection:bg-blue-100 selection:text-blue-900 antialiased">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
