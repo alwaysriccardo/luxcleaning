@@ -483,14 +483,14 @@ const App = () => {
         <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
           
           {/* Language Switcher */}
-        <div className="fixed top-24 right-6 md:right-12 z-50" ref={languageMenuRef}>
+        <div className="fixed bottom-6 right-6 md:right-12 z-50" ref={languageMenuRef}>
           <button
             onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-            className="bg-white/90 backdrop-blur-md px-4 py-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+            className="bg-white/90 backdrop-blur-md px-3 py-2 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex items-center gap-1.5 group"
             title="Change Language"
           >
-            <Languages size={18} className="text-stone-700" />
-            <span className="text-xs font-bold uppercase tracking-wider text-stone-700">
+            <Languages size={14} className="text-stone-700" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-700">
               {language.toUpperCase()}
             </span>
           </button>
