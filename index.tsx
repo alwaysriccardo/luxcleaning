@@ -9,7 +9,9 @@ import {
   Send,
   MapPin,
   Languages,
-  Hand
+  Hand,
+  Menu,
+  X
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -342,6 +344,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
+  const [menuOpen, setMenuOpen] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);

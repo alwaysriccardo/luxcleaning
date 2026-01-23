@@ -212,6 +212,24 @@
                 box-shadow: 0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(251, 191, 36, 0.4);
             }
         }
+
+        /* Hamburger Menu Button */
+        .menu-btn {
+            animation: subtle-pulse 3s ease-in-out infinite;
+            width: 44px;
+            height: 44px;
+        }
+        @keyframes subtle-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        .menu-line {
+            will-change: transform, opacity;
+        }
     </style>
 <script type="importmap">
 {
