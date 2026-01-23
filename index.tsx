@@ -443,7 +443,7 @@ const App = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView();
   };
 
   const changeLanguage = (lang: 'de' | 'en' | 'fr') => {
