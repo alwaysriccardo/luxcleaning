@@ -393,7 +393,7 @@ const App = () => {
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img 
               ref={heroImageRef}
-              src="/hero-background.jpg" 
+              src="/hero-gloves-image.jpg" 
               alt="" 
               className="w-full h-full object-cover"
               style={{ 
