@@ -392,7 +392,7 @@ const App = () => {
                 }
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#Fdfcf8]/60"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#Fdfcf8]"></div>
           </div>
 
           {/* Content - In front of background */}
@@ -401,12 +401,12 @@ const App = () => {
               <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
             
-            <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-white mb-10 tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.9), 0 4px 40px rgba(0,0,0,0.6)' }}>
-              {t.hero.title1} <span className="italic text-yellow-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">{t.hero.title2}</span>, <br />
-              {t.hero.title3} <span className="italic text-yellow-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">{t.hero.title4}</span>
+            <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-[#1a1a1a] mb-10 tracking-tight">
+              {t.hero.title1} <span className="italic text-blue-600">{t.hero.title2}</span>, <br />
+              {t.hero.title3} <span className="italic text-yellow-500">{t.hero.title4}</span>
             </h1>
 
-            <p className="fade-in-up delay-200 text-white text-lg max-w-xl mx-auto leading-relaxed font-light mb-12 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" style={{ textShadow: '0 1px 10px rgba(0,0,0,0.9)' }}>
+            <p className="fade-in-up delay-200 text-stone-600 text-lg max-w-xl mx-auto leading-relaxed font-light mb-12">
               {t.hero.description}
             </p>
 
@@ -414,7 +414,7 @@ const App = () => {
               <button onClick={() => scrollToSection('services')} className="px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl">
                 {t.hero.servicesBtn}
               </button>
-              <button onClick={() => scrollToSection('angebot')} className="px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] transition-all shadow-lg">
+              <button onClick={() => scrollToSection('angebot')} className="px-10 py-5 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 transition-all">
                 {t.hero.quoteBtn}
               </button>
             </div>
