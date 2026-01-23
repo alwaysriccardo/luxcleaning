@@ -68,36 +68,29 @@
             font-weight: 300;
         }
         
-        @keyframes shimmer {
+        @keyframes gleam {
             0% { 
-                background-position: -200% center;
-                filter: brightness(1) drop-shadow(0 0 4px rgba(251, 191, 36, 0.4));
-            }
-            50% { 
-                background-position: 200% center;
-                filter: brightness(1.5) drop-shadow(0 0 12px rgba(251, 191, 36, 0.8));
+                background-position: -100% center;
             }
             100% { 
-                background-position: -200% center;
-                filter: brightness(1) drop-shadow(0 0 4px rgba(251, 191, 36, 0.4));
+                background-position: 200% center;
             }
         }
         .shiny-text {
             background: linear-gradient(
                 90deg,
                 #fbbf24 0%,
-                #fbbf24 30%,
-                #ffffff 45%,
-                #fde047 50%,
-                #ffffff 55%,
-                #fbbf24 70%,
+                #fbbf24 40%,
+                #ffffff 48%,
+                #ffffff 52%,
+                #fbbf24 60%,
                 #fbbf24 100%
             );
-            background-size: 200% auto;
+            background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shimmer 2.5s ease-in-out infinite;
+            animation: gleam 3s linear infinite;
             position: relative;
         }
     </style>
