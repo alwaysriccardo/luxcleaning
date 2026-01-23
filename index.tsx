@@ -9,9 +9,7 @@ import {
   Send,
   MapPin,
   Languages,
-  Hand,
-  Menu,
-  X
+  Hand
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -47,10 +45,7 @@ const translations = {
       services: "Leistungen",
       reviews: "Bewertungen",
       quote: "Gratis Angebot",
-      getQuote: "Angebot anfordern",
-      menuServices: "Unsere Leistungen",
-      menuContact: "Kontakt",
-      menuClients: "Unsere Kunden"
+      getQuote: "Angebot anfordern"
     },
     hero: {
       badge: "Schweizer Standard",
@@ -131,10 +126,7 @@ const translations = {
       services: "Services",
       reviews: "Reviews",
       quote: "Free Quote",
-      getQuote: "Get a Quote",
-      menuServices: "Our Services",
-      menuContact: "Contact Us",
-      menuClients: "Our Clients"
+      getQuote: "Get a Quote"
     },
     hero: {
       badge: "Swiss Standard",
@@ -215,10 +207,7 @@ const translations = {
       services: "Services",
       reviews: "Avis",
       quote: "Devis Gratuit",
-      getQuote: "Demander un Devis",
-      menuServices: "Nos Services",
-      menuContact: "Nous Contacter",
-      menuClients: "Nos Clients"
+      getQuote: "Demander un Devis"
     },
     hero: {
       badge: "Standard Suisse",
@@ -353,9 +342,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
-  const [menuOpen, setMenuOpen] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const t = translations[language];
@@ -389,19 +376,16 @@ const App = () => {
       if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
         setLanguageMenuOpen(false);
       }
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false);
-      }
     };
 
-    if (languageMenuOpen || menuOpen) {
+    if (languageMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [languageMenuOpen, menuOpen]);
+  }, [languageMenuOpen]);
 
   // Parallax effect for hero image
   useEffect(() => {
@@ -498,53 +482,6 @@ const App = () => {
       <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
         <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
           
-          {/* Hamburger Menu Button */}
-          <div className="fixed top-8 left-6 md:left-12 z-50" ref={menuRef}>
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="menu-btn p-3 flex flex-col items-center justify-center gap-1.5 group transition-colors"
-              title="Menu"
-              aria-label="Toggle menu"
-            >
-              <span className={`menu-line w-6 h-0.5 rounded-full transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-2 bg-blue-600' : 'bg-stone-700 group-hover:bg-blue-600'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></span>
-              <span className={`menu-line w-6 h-0.5 rounded-full transition-all duration-200 ${menuOpen ? 'opacity-0 bg-blue-600' : 'bg-stone-700 group-hover:bg-blue-600'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></span>
-              <span className={`menu-line w-6 h-0.5 rounded-full transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-2 bg-blue-600' : 'bg-stone-700 group-hover:bg-blue-600'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></span>
-            </button>
-
-            {/* Menu Dropdown */}
-            {menuOpen && (
-              <div className="absolute top-full left-0 mt-3 bg-white/95 backdrop-blur-md rounded-2xl border border-black/10 shadow-xl overflow-hidden min-w-[200px]">
-                <button
-                  onClick={() => {
-                    scrollToSection('services');
-                    setMenuOpen(false);
-                  }}
-                  className="w-full px-6 py-4 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors border-b border-stone-100"
-                >
-                  {t.nav.menuServices}
-                </button>
-                <button
-                  onClick={() => {
-                    scrollToSection('reviews');
-                    setMenuOpen(false);
-                  }}
-                  className="w-full px-6 py-4 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors border-b border-stone-100"
-                >
-                  {t.nav.menuClients}
-                </button>
-                <button
-                  onClick={() => {
-                    scrollToSection('angebot');
-                    setMenuOpen(false);
-                  }}
-                  className="w-full px-6 py-4 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors"
-                >
-                  {t.nav.menuContact}
-                </button>
-              </div>
-            )}
-          </div>
-
           {/* Language Switcher */}
         <div className="fixed bottom-6 right-6 md:right-12 z-50" ref={languageMenuRef}>
           <button
@@ -592,9 +529,14 @@ const App = () => {
           <div className="pointer-events-auto relative">
             <button 
               onClick={() => scrollToSection('angebot')}
-              className="nav-quote-btn flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-all group relative border-2 border-yellow-400 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
+              className="nav-quote-btn flex items-center gap-2 bg-white/20 backdrop-blur-md text-white/95 px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/30 transition-all group relative border border-white/30 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
+              style={{
+                textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+                backdropFilter: 'blur(12px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(12px) saturate(180%)'
+              }}
             >
-              ANGEBOT
+              <span className="relative z-10">ANGEBOT</span>
             </button>
             {/* Badge with text */}
             <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
