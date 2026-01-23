@@ -260,10 +260,9 @@ const REVIEWS = [
 const App = () => {
   const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const languageMenuRef = useRef<HTMLDivElement>(null);
-  const heroImageRef = useRef<HTMLImageElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
   // Preloader effect
@@ -306,14 +305,33 @@ const App = () => {
     };
   }, [languageMenuOpen]);
 
-  // Parallax effect for hero image
+  // Optimized parallax effect for hero image
   useEffect(() => {
+    let rafId: number;
+    
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      
+      rafId = requestAnimationFrame(() => {
+        if (heroRef.current) {
+          const scrolled = window.scrollY;
+          const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLElement;
+          if (heroImage && scrolled < window.innerHeight) {
+            heroImage.style.transform = `translateY(${scrolled * 0.4}px)`;
+          }
+        }
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
   }, []);
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
@@ -415,51 +433,48 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center overflow-hidden">
+        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            <img 
-              ref={heroImageRef}
-              src="/hero-gloves-image.jpg" 
-              alt="Professional cleaning equipment" 
-              loading="eager"
-              className="w-full h-full object-cover"
-              style={{ 
-                filter: 'brightness(0.95) blur(2px)',
-                transform: `translateY(${scrollY * 0.5}px)`,
-                transition: 'transform 0.1s ease-out'
-              }}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                const parent = e.currentTarget.parentElement;
-                if (parent) {
-                  parent.style.backgroundColor = '#f5f5f0';
-                }
+            <div 
+              className="hero-bg-image absolute inset-0 w-full h-full will-change-transform"
+              style={{
+                backgroundImage: 'url(/hero-gloves-image.jpg)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                filter: 'brightness(0.9) blur(1.5px)',
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-[#Fdfcf8]/80"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[1]"></div>
           </div>
 
           {/* Content - In front of background */}
           <div className="max-w-5xl mx-auto relative z-10">
-            <div className="fade-in-up inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
+            <div className="fade-in-up inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
               <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
             
-            <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-white mb-10 tracking-tight">
-              {t.hero.title1} <span className="italic text-blue-600">{t.hero.title2}</span>, <br />
-              {t.hero.title3} <span className="italic text-yellow-400">{t.hero.title4}</span>
+            <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-10 tracking-tight drop-shadow-2xl">
+              {t.hero.title1} <span className="italic text-blue-500 drop-shadow-lg">{t.hero.title2}</span>, <br />
+              {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
             </h1>
 
-            <p className="fade-in-up delay-200 text-white text-lg max-w-xl mx-auto leading-relaxed font-light mb-12">
+            <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-12 drop-shadow-lg px-4">
               {t.hero.description}
             </p>
 
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button onClick={() => scrollToSection('angebot')} className="px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl">
+              <button 
+                onClick={() => scrollToSection('angebot')} 
+                className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:scale-105 transition-all shadow-2xl"
+              >
                 {t.hero.quoteBtn}
               </button>
-              <button onClick={() => scrollToSection('services')} className="px-10 py-5 rounded-full border-2 border-white text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] transition-all">
+              <button 
+                onClick={() => scrollToSection('services')} 
+                className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] hover:scale-105 transition-all shadow-xl"
+              >
                 {t.hero.servicesBtn}
               </button>
             </div>
