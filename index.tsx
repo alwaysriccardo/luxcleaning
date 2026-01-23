@@ -482,32 +482,6 @@ const App = () => {
           </div>
         </header>
 
-        {/* Marquee Promotion */}
-        <div className="py-12 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-[#1a1a1a] overflow-hidden whitespace-nowrap relative z-30 shadow-2xl border-y-4 border-blue-600">
-          {/* Decorative pattern overlay */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)'
-          }}></div>
-          
-          {/* Shimmer effect - optimized */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer will-change-transform"></div>
-          
-          <div className="inline-block animate-marquee-slow relative z-10 will-change-transform">
-            {[1, 2, 3, 4].map(i => (
-              <React.Fragment key={i}>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-blue-600 font-bold drop-shadow-[0_2px_4px_rgba(255,255,255,0.5)]">{t.promo.discount}</span>
-                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]">{t.promo.onAll}</span>
-                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]">{t.promo.until}</span>
-                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-4xl md:text-6xl mx-12 text-blue-700 font-semibold drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]">{t.promo.requestNow}</span>
-                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
-
         {/* Services Grid */}
         <section id="services" className="py-32 px-6 md:px-12 bg-white">
           <div className="max-w-7xl mx-auto text-center mb-20">
