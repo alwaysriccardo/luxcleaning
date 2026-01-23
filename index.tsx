@@ -456,7 +456,7 @@ const App = () => {
             </div>
             
             <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl">
-              {t.hero.title1} <span className="italic text-blue-500 drop-shadow-lg">{t.hero.title2}</span>, <br />
+              {t.hero.title1} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title2}</span>, <br />
               {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
             </h1>
 
