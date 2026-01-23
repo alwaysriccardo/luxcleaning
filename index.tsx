@@ -404,18 +404,7 @@ const App = () => {
         </div>
         
         {/* Navigation */}
-        <nav className="fixed top-8 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
-          <div className="pointer-events-auto">
-            <div className="flex items-center gap-2 group cursor-pointer bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-full border border-black/5 shadow-sm hover:shadow-md transition-all" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm">
-                <Sparkles className="text-white w-4 h-4" />
-              </div>
-              <span className="font-serif-display font-bold tracking-tight text-xs uppercase hidden md:block text-[#1a1a1a]">
-                <span className="text-blue-600">LUX</span> CLEANING <span className="text-yellow-500">&</span> HAUSWARTUNG
-              </span>
-            </div>
-          </div>
-
+        <nav className="fixed top-8 left-0 right-0 z-50 flex justify-end items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
           <div className="pointer-events-auto hidden md:flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
             <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
             <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.reviews}</button>
