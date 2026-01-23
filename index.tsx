@@ -10,7 +10,8 @@ import {
   MapPin,
   Languages,
   Hand,
-  X
+  X,
+  Maximize2
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -998,6 +999,14 @@ const App = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
                   </div>
 
+                  {/* Expand Icon - Top Right Corner */}
+                  <div className="absolute top-4 right-4 z-20 pointer-events-none">
+                    <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-all">
+                      <Maximize2 size={16} className="text-white" />
+                      <span className="text-white text-[10px] font-medium uppercase tracking-wider hidden sm:inline">Tap</span>
+                    </div>
+                  </div>
+
                   {/* Card Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
                     <div className="mb-2 opacity-70">
@@ -1040,6 +1049,14 @@ const App = () => {
                     />
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                  </div>
+
+                  {/* Expand Icon - Top Right Corner */}
+                  <div className="absolute top-4 right-4 z-20 pointer-events-none">
+                    <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-all">
+                      <Maximize2 size={16} className="text-white" />
+                      <span className="text-white text-[10px] font-medium uppercase tracking-wider">Tap</span>
+                    </div>
                   </div>
 
                   {/* Card Content */}
