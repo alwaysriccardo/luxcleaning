@@ -1092,31 +1092,31 @@ const App = () => {
             })}
           </div>
 
-          {/* Full-Screen Overlay Modal */}
+          {/* Full-Screen Overlay Modal - Mobile / Centered Modal - Desktop */}
           {expandedService !== null && (
             <div 
-              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-md animate-fade-in overflow-hidden"
+              className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-md animate-fade-in overflow-hidden p-4 lg:p-8"
               onClick={() => setExpandedService(null)}
             >
               {/* Immersive Backdrop */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black opacity-90"></div>
+              <div className="absolute inset-0 bg-black/80 lg:bg-black/60"></div>
               
               {/* Close Button */}
               <button
                 onClick={() => setExpandedService(null)}
-                className="absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all"
+                className="absolute top-4 right-4 lg:top-6 lg:right-6 z-50 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all"
                 aria-label="Close"
               >
-                <X size={24} className="text-white" />
+                <X size={20} className="lg:w-6 lg:h-6 text-white" />
               </button>
 
-              {/* Content Container */}
+              {/* Content Container - Full screen on mobile, centered modal on desktop */}
               <div 
-                className="relative z-10 flex flex-col h-full w-full overflow-hidden"
+                className="relative z-10 flex flex-col h-full w-full lg:h-auto lg:max-h-[90vh] lg:max-w-6xl lg:rounded-3xl overflow-hidden bg-black lg:shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Top 60% - Large Service Image */}
-                <div className="h-[60vh] max-h-[600px] relative overflow-hidden flex-shrink-0">
+                <div className="h-[50vh] lg:h-[400px] relative overflow-hidden flex-shrink-0">
                   <img 
                     src={SERVICES[expandedService].img} 
                     alt={SERVICES[expandedService].title} 
@@ -1129,45 +1129,45 @@ const App = () => {
 
                 {/* Bottom 40% - Text Content Panel */}
                 <div className="flex-1 min-h-0 bg-gradient-to-b from-black via-[#1a1a1a] to-black overflow-y-auto">
-                  <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 md:py-12">
+                  <div className="max-w-4xl mx-auto px-6 md:px-12 py-6 md:py-8 lg:py-10">
                     {/* Service Number */}
-                    <div className="mb-4 opacity-60">
-                      <span className="font-serif-display text-4xl md:text-5xl lg:text-6xl font-light text-white">
+                    <div className="mb-3 lg:mb-4 opacity-60">
+                      <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light text-white">
                         {String(expandedService + 1).padStart(2, '0')}
                       </span>
                     </div>
 
                     {/* Service Title */}
-                    <h3 className="font-serif-display text-3xl md:text-4xl lg:text-5xl text-white mb-4 md:mb-6 tracking-tight font-semibold">
+                    <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl text-white mb-3 md:mb-4 lg:mb-5 tracking-tight font-semibold">
                       {SERVICES[expandedService].title}
                     </h3>
 
                     {/* Short Description */}
-                    <p className="text-base md:text-lg text-white/90 mb-6 md:mb-8 leading-relaxed font-light max-w-3xl">
+                    <p className="text-sm md:text-base text-white/90 mb-4 md:mb-6 lg:mb-7 leading-relaxed font-light max-w-3xl">
                       {SERVICES[expandedService].desc}
                     </p>
 
                     {/* Full Details */}
-                    <div className="border-t border-white/20 pt-6 md:pt-8 mb-8">
-                      <p className="text-sm md:text-base text-white/80 leading-relaxed font-light max-w-3xl">
+                    <div className="border-t border-white/20 pt-4 md:pt-6 lg:pt-7 mb-6 lg:mb-7">
+                      <p className="text-xs md:text-sm text-white/80 leading-relaxed font-light max-w-3xl">
                         {SERVICES[expandedService].details}
                       </p>
-                      </div>
+                    </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
                       <button 
                         onClick={() => {
                           setExpandedService(null);
                           scrollToSection('angebot');
                         }}
-                        className="px-8 py-4 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                        className="px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
                       >
                         {t.services.requestQuote}
                       </button>
                       <button 
                         onClick={() => setExpandedService(null)}
-                        className="px-8 py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 transition-all"
+                        className="px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 transition-all"
                       >
                         {t.services.showLess}
                       </button>
