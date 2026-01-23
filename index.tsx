@@ -11,7 +11,9 @@ import {
   Languages,
   Hand,
   X,
-  Maximize2
+  Maximize2,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -434,6 +436,7 @@ const App = () => {
   const promoModalShown = useRef(false);
   const reviewIntervalRef = useRef<number | null>(null);
   const reviewCarouselRef = useRef<HTMLDivElement>(null);
+  const servicesScrollRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
   // Preloader effect
@@ -982,62 +985,94 @@ const App = () => {
             </p>
           </div>
 
-          {/* Desktop: Horizontal Scroll */}
-          <div className="hidden lg:flex overflow-x-auto pb-8 px-6 md:px-12 gap-6 min-w-0 w-full">
-            {SERVICES.map((s, idx) => {
-              const isExpanded = expandedService === idx;
-              
-              return (
-                <div
-                  key={idx}
-                  className="flex-shrink-0 w-[400px] h-[500px] relative overflow-hidden rounded-2xl cursor-pointer group"
-                  onClick={() => setExpandedService(isExpanded ? null : idx)}
-                >
-                  {/* Service Card Image */}
-                  <div className="absolute inset-0">
-                  <img 
-                    src={s.img} 
-                    alt={s.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
-                    onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
-                  />
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
-                  </div>
+          {/* Desktop: Horizontal Scroll with Arrows */}
+          <div className="hidden lg:block relative pb-8">
+            {/* Left Arrow */}
+            <button
+              onClick={() => {
+                if (servicesScrollRef.current) {
+                  servicesScrollRef.current.scrollBy({ left: -450, behavior: 'smooth' });
+                }
+              }}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white hover:scale-110 transition-all"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={24} className="text-[#1a1a1a]" />
+            </button>
 
-                  {/* Expand Icon - Top Right Corner */}
-                  <div className="absolute top-4 right-4 z-20 pointer-events-none">
-                    <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-all">
-                      <Maximize2 size={16} className="text-white" />
-                      <span className="text-white text-[10px] font-medium uppercase tracking-wider hidden sm:inline">Tap</span>
+            {/* Right Arrow */}
+            <button
+              onClick={() => {
+                if (servicesScrollRef.current) {
+                  servicesScrollRef.current.scrollBy({ left: 450, behavior: 'smooth' });
+                }
+              }}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white hover:scale-110 transition-all"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={24} className="text-[#1a1a1a]" />
+            </button>
+
+            {/* Scrollable Container */}
+            <div 
+              ref={servicesScrollRef}
+              className="overflow-x-auto scrollbar-hide pb-8 px-6 md:px-12 gap-6 min-w-0 w-full flex"
+            >
+              {SERVICES.map((s, idx) => {
+                const isExpanded = expandedService === idx;
+                
+                return (
+                  <div
+                    key={idx}
+                    className="flex-shrink-0 w-[400px] h-[500px] relative overflow-hidden rounded-2xl cursor-pointer group"
+                    onClick={() => setExpandedService(isExpanded ? null : idx)}
+                  >
+                    {/* Service Card Image */}
+                    <div className="absolute inset-0">
+                    <img 
+                      src={s.img} 
+                      alt={s.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                      onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                    />
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                    </div>
+
+                    {/* Expand Icon - Top Right Corner */}
+                    <div className="absolute top-4 right-4 z-20 pointer-events-none">
+                      <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-all">
+                        <Maximize2 size={16} className="text-white" />
+                        <span className="text-white text-[10px] font-medium uppercase tracking-wider hidden sm:inline">Tap</span>
+                      </div>
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10 pointer-events-none">
+                      <div className="mb-2 opacity-70">
+                        <span className="font-serif-display text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
+                      </div>
+                      <h3 className="font-serif-display text-3xl mb-2 tracking-tight font-semibold drop-shadow-lg">
+                        {s.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
+                        {s.desc}
+                      </p>
+                      <button 
+                        className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all pointer-events-auto"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedService(isExpanded ? null : idx);
+                        }}
+                      >
+                        {t.services.showMore}
+                      </button>
                     </div>
                   </div>
-
-                  {/* Card Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10 pointer-events-none">
-                    <div className="mb-2 opacity-70">
-                      <span className="font-serif-display text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
-                    </div>
-                    <h3 className="font-serif-display text-3xl mb-2 tracking-tight font-semibold drop-shadow-lg">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
-                      {s.desc}
-                    </p>
-                    <button 
-                      className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all pointer-events-auto"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setExpandedService(isExpanded ? null : idx);
-                      }}
-                    >
-                      {t.services.showMore}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
           {/* Mobile: Vertical Scroll */}
