@@ -597,7 +597,7 @@ const App = () => {
                 <div
                   key={idx}
                   ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-[600px] lg:min-h-[500px] lg:aspect-[16/9] flex items-center justify-center relative overflow-hidden ${
+                  className={`service-reveal min-h-[600px] lg:min-h-[500px] lg:aspect-[16/9] flex items-end justify-center relative overflow-hidden ${
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
@@ -610,52 +610,48 @@ const App = () => {
                       className="w-full h-full object-cover"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
-                    {/* Premium Dark Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
-                    {/* Subtle pattern overlay */}
-                    <div className="absolute inset-0 opacity-10" style={{
-                      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)'
-                    }}></div>
+                    {/* Gradual Gradient Overlay - transparent at top, darker at bottom */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/75"></div>
                   </div>
 
-                  {/* Content Overlay */}
-                  <div className={`relative z-10 w-full px-6 md:px-8 text-center text-white transition-all duration-1000 ${
+                  {/* Content Overlay - Positioned at bottom */}
+                  <div className={`relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white transition-all duration-1000 ${
                     isExpanded ? 'scale-105' : 'scale-100'
                   }`}>
                     {/* Service Number */}
-                    <div className="mb-4 lg:mb-6 opacity-60">
-                      <span className="font-serif-display text-4xl md:text-5xl lg:text-6xl font-light">{String(idx + 1).padStart(2, '0')}</span>
+                    <div className="mb-2 lg:mb-3 opacity-60">
+                      <span className="font-serif-display text-2xl md:text-3xl lg:text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
                     </div>
 
                     {/* Service Title */}
-                    <h3 className="font-serif-display text-3xl md:text-4xl lg:text-5xl mb-4 lg:mb-6 tracking-tight drop-shadow-2xl px-4">
+                    <h3 className="font-serif-display text-xl md:text-2xl lg:text-3xl mb-2 lg:mb-3 tracking-tight drop-shadow-2xl px-2">
                       {s.title}
                     </h3>
 
                     {/* Short Description */}
-                    <p className="text-sm md:text-base lg:text-lg text-white/90 mb-6 lg:mb-8 max-w-xl mx-auto leading-relaxed font-light drop-shadow-lg px-4">
+                    <p className="text-xs md:text-sm lg:text-base text-white/95 mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-lg px-2">
                       {s.desc}
                     </p>
 
                     {/* Expandable Details */}
                     <div className={`overflow-hidden transition-all duration-700 ease-in-out ${
-                      isExpanded ? 'max-h-96 opacity-100 mt-6 lg:mt-8' : 'max-h-0 opacity-0'
+                      isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
                     }`}>
-                      <div className="border-t border-white/20 pt-6 lg:pt-8 px-4">
-                        <p className="text-sm md:text-base text-white/80 max-w-2xl mx-auto leading-relaxed font-light">
+                      <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
+                        <p className="text-xs md:text-sm text-white/90 max-w-2xl mx-auto leading-relaxed font-light">
                           {s.details}
                         </p>
                       </div>
                     </div>
 
                     {/* CTA Button */}
-                    <div className="mt-8 lg:mt-10 flex flex-col items-center justify-center gap-3 lg:gap-4 px-4">
+                    <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           scrollToSection('angebot');
                         }}
-                        className="w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-full bg-white text-[#1a1a1a] text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
                       >
                         {t.services.requestQuote}
                       </button>
@@ -664,7 +660,7 @@ const App = () => {
                           e.stopPropagation();
                           setExpandedService(isExpanded ? null : idx);
                         }}
-                        className="w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
                       >
                         {isExpanded ? t.services.showLess : t.services.showMore}
                       </button>
