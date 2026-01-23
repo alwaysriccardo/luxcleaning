@@ -988,7 +988,10 @@ const App = () => {
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
-                  style={{ aspectRatio: 'auto' }}
+                  style={{ 
+                    aspectRatio: 'auto',
+                    animationDelay: `${idx * 0.1}s`
+                  }}
                 >
                   {/* Background Image with Premium Overlay */}
                   <div className="absolute inset-0 w-full h-full">
