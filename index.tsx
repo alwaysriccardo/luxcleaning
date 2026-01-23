@@ -376,18 +376,27 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center">
-          <div 
-            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url('/gil-ribeiro-3hO8igCybds-unsplash.jpg')`,
-              filter: 'brightness(0.95)'
-            }}
-          >
+        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center overflow-hidden">
+          {/* Background Image - Behind everything */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="/hero-background.jpg" 
+              alt="" 
+              className="w-full h-full object-cover"
+              style={{ filter: 'brightness(0.95)' }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const parent = e.currentTarget.parentElement;
+                if (parent) {
+                  parent.style.backgroundColor = '#f5f5f0';
+                }
+              }}
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#Fdfcf8]"></div>
           </div>
 
-          <div className="max-w-5xl mx-auto z-10">
+          {/* Content - In front of background */}
+          <div className="max-w-5xl mx-auto relative z-10">
             <div className="fade-in-up inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
               <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
