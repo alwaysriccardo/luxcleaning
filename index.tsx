@@ -237,11 +237,43 @@ const App = () => {
           </div>
           
           <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-serif-display text-[#1a1a1a] mb-4">
-                Unsere zufriedenen Kunden
+            <div className="text-center mb-20 relative">
+              {/* Decorative background elements */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
+              
+              {/* Badge above title */}
+              <div className="inline-flex items-center gap-2 mb-6 px-6 py-2 rounded-full bg-gradient-to-r from-blue-50 to-yellow-50 border-2 border-blue-200 shadow-sm">
+                <Star size={14} className="text-yellow-400 fill-current" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-700">Bewertungen</span>
+                <Star size={14} className="text-yellow-400 fill-current" />
+              </div>
+              
+              {/* Main title with gradient text */}
+              <h2 className="text-5xl md:text-7xl font-serif-display mb-6 relative z-10">
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-yellow-500 bg-clip-text text-transparent">
+                  Unsere zufriedenen
+                </span>
+                <br />
+                <span className="bg-gradient-to-r from-yellow-500 via-blue-500 to-blue-600 bg-clip-text text-transparent italic">
+                  Kunden
+                </span>
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
+              
+              {/* Decorative underline with multiple elements */}
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="h-1 w-16 bg-gradient-to-r from-transparent to-blue-500 rounded-full"></div>
+                <div className="flex gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                </div>
+                <div className="h-1 w-16 bg-gradient-to-r from-yellow-400 to-transparent rounded-full"></div>
+              </div>
+              
+              {/* Subtitle */}
+              <p className="text-stone-500 text-sm font-light italic max-w-md mx-auto relative z-10">
+                Was unsere Kunden über uns sagen
+              </p>
             </div>
 
             <div className="mask-edges overflow-hidden relative">
