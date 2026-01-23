@@ -399,7 +399,7 @@ const App = () => {
       rafId = requestAnimationFrame(() => {
         if (heroRef.current) {
           const scrolled = window.scrollY;
-          const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLElement;
+          const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLImageElement;
           if (heroImage && scrolled < window.innerHeight) {
             heroImage.style.transform = `translateY(${scrolled * 0.4}px)`;
           }
@@ -540,7 +540,6 @@ const App = () => {
               className="hero-bg-image absolute inset-0 w-full h-full object-cover will-change-transform"
               style={{
                 filter: 'brightness(0.9) blur(1.5px)',
-                transform: `translateY(${typeof window !== 'undefined' ? window.scrollY * 0.4 : 0}px)`,
               }}
               loading="eager"
               fetchPriority="high"
