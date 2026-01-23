@@ -67,6 +67,7 @@ const translations = {
     },
     services: {
       title: "Entdecken Sie Unsere Leistungen",
+      subtitle: "Tippen Sie auf eine Karte, um sie zu erweitern",
       maintenance: { 
         title: "Unterhaltsreinigung", 
         desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume.",
@@ -165,6 +166,7 @@ const translations = {
     },
     services: {
       title: "Explore Our Services",
+      subtitle: "Tap any card to expand",
       maintenance: { 
         title: "Maintenance Cleaning", 
         desc: "Regular, high-quality cleaning for private and commercial spaces.",
@@ -263,6 +265,7 @@ const translations = {
     },
     services: {
       title: "Découvrez Nos Services",
+      subtitle: "Appuyez sur une carte pour l'agrandir",
       maintenance: { 
         title: "Nettoyage Régulier", 
         desc: "Nettoyage régulier et de haute qualité pour espaces privés et commerciaux.",
@@ -973,6 +976,10 @@ const App = () => {
             <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] tracking-tight italic font-light relative inline-block">
               {t.services.title}
             </h2>
+            {/* Mobile subtitle */}
+            <p className="lg:hidden mt-4 text-sm text-stone-500 font-light italic">
+              {t.services.subtitle}
+            </p>
           </div>
 
           {/* Desktop: Horizontal Scroll */}
