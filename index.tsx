@@ -261,9 +261,18 @@ const App = () => {
   const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
   const t = translations[language];
+
+  // Preloader effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -318,10 +327,28 @@ const App = () => {
   });
 
   return (
-    <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
-      <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
-        
-        {/* Language Switcher */}
+    <>
+      {/* Preloader */}
+      {isLoading && (
+        <div className="preloader fixed inset-0 bg-white z-[9999] flex items-center justify-center">
+          <div className="text-center">
+            <div className="preloader-logo mb-6">
+              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-2xl mb-4 preloader-icon">
+                <Sparkles className="text-white w-10 h-10" />
+              </div>
+              <h1 className="font-serif-display text-3xl md:text-4xl tracking-tight preloader-text">
+                <span className="text-blue-600">LUX</span> CLEANING <span className="text-yellow-500">&</span> HAUSWARTUNG
+              </h1>
+            </div>
+            <div className="preloader-spinner w-8 h-8 border-3 border-stone-200 border-t-blue-600 rounded-full mx-auto"></div>
+          </div>
+        </div>
+      )}
+
+      <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
+        <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
+          
+          {/* Language Switcher */}
         <div className="fixed top-24 right-6 md:right-12 z-50" ref={languageMenuRef}>
           <button
             onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
@@ -421,7 +448,7 @@ const App = () => {
             
             <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-white mb-10 tracking-tight">
               {t.hero.title1} <span className="italic text-blue-600">{t.hero.title2}</span>, <br />
-              {t.hero.title3} <span className="italic text-yellow-300 shiny-text">{t.hero.title4}</span>
+              {t.hero.title3} <span className="italic text-yellow-400">{t.hero.title4}</span>
             </h1>
 
             <p className="fade-in-up delay-200 text-white text-lg max-w-xl mx-auto leading-relaxed font-light mb-12">
@@ -633,8 +660,9 @@ const App = () => {
           </div>
         </footer>
 
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
