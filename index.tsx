@@ -497,7 +497,7 @@ const App = () => {
           
           {/* Dropdown Menu */}
           {languageMenuOpen && (
-            <div className="absolute top-full right-0 mt-2 bg-white rounded-2xl border border-black/10 shadow-xl overflow-hidden min-w-[140px]">
+            <div className="absolute bottom-full right-0 mb-2 bg-white rounded-2xl border border-black/10 shadow-xl overflow-hidden min-w-[140px]">
               {(['de', 'en', 'fr'] as const).map((lang) => (
                 <button
                   key={lang}
