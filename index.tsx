@@ -103,7 +103,7 @@ const translations = {
     reviews: {
       title: "Unsere zufriedenen Kunden",
       customer: "Kunde",
-      googleReviews: "70+ Google Bewertungen",
+      googleReviews: "Google Bewertungen",
       rating: "4.9",
       percentage: "98% 5-Sterne Bewertungen",
       viewAll: "Alle Bewertungen anzeigen",
@@ -201,7 +201,7 @@ const translations = {
     reviews: {
       title: "Our Satisfied Customers",
       customer: "Customer",
-      googleReviews: "70+ Google Reviews",
+      googleReviews: "Google Reviews",
       rating: "4.9",
       percentage: "98% 5-Star Reviews",
       viewAll: "View All Reviews",
@@ -299,7 +299,7 @@ const translations = {
     reviews: {
       title: "Nos Clients Satisfaits",
       customer: "Client",
-      googleReviews: "70+ Avis Google",
+      googleReviews: "Avis Google",
       rating: "4.9",
       percentage: "98% Avis 5 Étoiles",
       viewAll: "Voir Tous les Avis",
