@@ -190,12 +190,39 @@
             transform: translateY(30px);
         }
         
-        /* Disable animations on mobile for better performance */
+        /* Mobile 3D Tilt and Float Effects */
         @media (max-width: 1023px) {
             .service-reveal {
                 opacity: 1;
                 transform: translateY(0);
-                transition: none;
+                transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+                perspective: 1000px;
+                transform-style: preserve-3d;
+            }
+            
+            .service-visible {
+                animation: float-card 3s ease-in-out infinite;
+                transform: translateY(0) rotateX(0deg) rotateY(0deg);
+            }
+            
+            .service-reveal:not(.service-visible) {
+                transform: translateY(30px) rotateX(5deg) rotateY(-2deg);
+                opacity: 0.7;
+            }
+            
+            /* 3D tilt on scroll - using IntersectionObserver will handle this */
+            .service-reveal[data-visible="true"] {
+                transform: translateY(0) rotateX(0deg) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes float-card {
+            0%, 100% {
+                transform: translateY(0) rotateX(0deg) rotateY(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotateX(2deg) rotateY(1deg);
             }
         }
 

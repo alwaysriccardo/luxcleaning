@@ -501,15 +501,10 @@ const App = () => {
     };
   }, []);
 
-  // Intersection Observer for service reveal animations - disabled on mobile for performance
+  // Intersection Observer for service reveal animations with 3D tilt on mobile
   useEffect(() => {
-    // Skip on mobile devices for better performance
-    if (window.innerWidth < 1024) {
-      // Mark all as visible on mobile immediately
-      setVisibleServices(new Set([0, 1, 2, 3, 4, 5]));
-      return;
-    }
-
+    const isMobile = window.innerWidth < 1024;
+    
     const observers = serviceRefs.current.map((ref, index) => {
       if (!ref) return null;
       
@@ -518,6 +513,29 @@ const App = () => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               setVisibleServices((prev) => new Set(prev).add(index));
+              // Add data attribute for 3D tilt effect on mobile
+              if (isMobile) {
+                ref.setAttribute('data-visible', 'true');
+                // Add 3D tilt based on scroll position
+                const handleScroll = () => {
+                  const rect = ref.getBoundingClientRect();
+                  const centerY = window.innerHeight / 2;
+                  const cardCenter = rect.top + rect.height / 2;
+                  const distance = cardCenter - centerY;
+                  const maxDistance = window.innerHeight / 2;
+                  const tiltY = Math.max(-5, Math.min(5, (distance / maxDistance) * 5));
+                  const tiltX = Math.max(-2, Math.min(2, (distance / maxDistance) * 2));
+                  ref.style.transform = `translateY(${-8 * Math.sin(Date.now() / 1000 + index)}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                };
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                handleScroll(); // Initial call
+                // Store cleanup function
+                (ref as any).__scrollCleanup = () => window.removeEventListener('scroll', handleScroll);
+              }
+            } else {
+              if (isMobile) {
+                ref.removeAttribute('data-visible');
+              }
             }
           });
         },
@@ -530,6 +548,12 @@ const App = () => {
 
     return () => {
       observers.forEach((observer) => observer?.disconnect());
+      // Cleanup scroll listeners
+      serviceRefs.current.forEach((ref) => {
+        if (ref && (ref as any).__scrollCleanup) {
+          (ref as any).__scrollCleanup();
+        }
+      });
     };
   }, []);
 
