@@ -421,7 +421,7 @@ const App = () => {
     // Skip on mobile devices for better performance
     if (window.innerWidth < 1024) {
       // Mark all as visible on mobile immediately
-      setVisibleServices(new Set(SERVICES.map((_, idx) => idx)));
+      setVisibleServices(new Set([0, 1, 2, 3, 4, 5]));
       return;
     }
 
