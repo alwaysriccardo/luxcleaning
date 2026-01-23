@@ -995,13 +995,13 @@ const App = () => {
                 >
                   {/* Service Card Image */}
                   <div className="absolute inset-0">
-                    <img 
-                      src={s.img} 
-                      alt={s.title} 
+                  <img 
+                    src={s.img} 
+                    alt={s.title} 
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
-                      onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
-                    />
+                    onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                  />
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
                   </div>
@@ -1085,8 +1085,8 @@ const App = () => {
                     </p>
                     <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all">
                       {t.services.showMore}
-                    </button>
-                  </div>
+                </button>
+              </div>
                 </div>
               );
             })}
@@ -1095,7 +1095,7 @@ const App = () => {
           {/* Full-Screen Overlay Modal */}
           {expandedService !== null && (
             <div 
-              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-md animate-fade-in"
+              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-md animate-fade-in overflow-hidden"
               onClick={() => setExpandedService(null)}
             >
               {/* Immersive Backdrop */}
@@ -1112,11 +1112,11 @@ const App = () => {
 
               {/* Content Container */}
               <div 
-                className="relative z-10 flex flex-col h-full overflow-hidden"
+                className="relative z-10 flex flex-col h-full w-full overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Top 60% - Large Service Image */}
-                <div className="h-[60vh] relative overflow-hidden">
+                <div className="h-[60vh] max-h-[600px] relative overflow-hidden flex-shrink-0">
                   <img 
                     src={SERVICES[expandedService].img} 
                     alt={SERVICES[expandedService].title} 
@@ -1128,17 +1128,17 @@ const App = () => {
                 </div>
 
                 {/* Bottom 40% - Text Content Panel */}
-                <div className="h-[40vh] bg-gradient-to-b from-black via-[#1a1a1a] to-black overflow-y-auto">
+                <div className="flex-1 min-h-0 bg-gradient-to-b from-black via-[#1a1a1a] to-black overflow-y-auto">
                   <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 md:py-12">
                     {/* Service Number */}
                     <div className="mb-4 opacity-60">
-                      <span className="font-serif-display text-5xl md:text-6xl font-light text-white">
+                      <span className="font-serif-display text-4xl md:text-5xl lg:text-6xl font-light text-white">
                         {String(expandedService + 1).padStart(2, '0')}
                       </span>
                     </div>
 
                     {/* Service Title */}
-                    <h3 className="font-serif-display text-4xl md:text-5xl lg:text-6xl text-white mb-4 md:mb-6 tracking-tight font-semibold">
+                    <h3 className="font-serif-display text-3xl md:text-4xl lg:text-5xl text-white mb-4 md:mb-6 tracking-tight font-semibold">
                       {SERVICES[expandedService].title}
                     </h3>
 
@@ -1152,7 +1152,7 @@ const App = () => {
                       <p className="text-sm md:text-base text-white/80 leading-relaxed font-light max-w-3xl">
                         {SERVICES[expandedService].details}
                       </p>
-                    </div>
+                      </div>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4">
@@ -1259,9 +1259,9 @@ const App = () => {
                     aria-label={t.contact.submit}
                   >
                     {t.contact.submit}
-                    <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </button>
-                </form>
+                  <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </button>
+              </form>
               )}
             </div>
 
