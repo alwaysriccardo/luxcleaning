@@ -501,27 +501,28 @@ const App = () => {
     };
   }, []);
 
-  // Intersection Observer for service reveal animations - disabled on mobile for performance
+  // Intersection Observer for service reveal animations - optimized for mobile
   useEffect(() => {
-    // Skip on mobile devices for better performance
-    if (window.innerWidth < 1024) {
-      // Mark all as visible on mobile immediately
-      setVisibleServices(new Set([0, 1, 2, 3, 4, 5]));
-      return;
-    }
-
     const observers = serviceRefs.current.map((ref, index) => {
       if (!ref) return null;
+      
+      // Use lower threshold on mobile for earlier trigger, higher on desktop
+      const threshold = window.innerWidth < 1024 ? 0.05 : 0.1;
       
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               setVisibleServices((prev) => new Set(prev).add(index));
+              // Unobserve after animation to improve performance
+              observer.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.1 }
+        { 
+          threshold,
+          rootMargin: window.innerWidth < 1024 ? '50px' : '0px' // Trigger earlier on mobile
+        }
       );
       
       observer.observe(ref);

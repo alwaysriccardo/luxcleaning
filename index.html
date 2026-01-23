@@ -175,11 +175,12 @@
             position: relative;
         }
 
-        /* Service Reveal Animations - Optimized */
+        /* Service Reveal Animations - Optimized for all devices */
         .service-reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            will-change: opacity, transform;
         }
         .service-visible {
             opacity: 1;
@@ -190,8 +191,21 @@
             transform: translateY(30px);
         }
         
-        /* Disable animations on mobile for better performance */
+        /* Optimized animations for mobile - lighter and faster */
         @media (max-width: 1023px) {
+            .service-reveal {
+                opacity: 0;
+                transform: translateY(20px); /* Smaller movement on mobile */
+                transition: opacity 0.4s ease-out, transform 0.4s ease-out; /* Faster on mobile */
+            }
+            .service-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
             .service-reveal {
                 opacity: 1;
                 transform: translateY(0);
