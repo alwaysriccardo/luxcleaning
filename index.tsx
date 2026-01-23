@@ -984,7 +984,7 @@ const App = () => {
                   <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
                     {/* Gradient backdrop box - covers all text when expanded */}
                     <div className={`bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto transition-all duration-500 ${
-                      isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none absolute inset-0'
+                      isExpanded ? 'opacity-100 relative' : 'opacity-0 pointer-events-none absolute'
                     }`}>
                       {/* Service Number */}
                       <div className="mb-2 lg:mb-3 opacity-70">
