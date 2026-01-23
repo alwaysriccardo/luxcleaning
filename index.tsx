@@ -526,14 +526,18 @@ const App = () => {
             <button onClick={() => scrollToSection('angebot')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest bg-yellow-400 hover:bg-yellow-500 transition-colors">{t.nav.quote}</button>
           </div>
 
-          <div className="pointer-events-auto">
+          <div className="pointer-events-auto relative">
             <button 
               onClick={() => scrollToSection('angebot')}
-              className="flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-all group"
+              className="nav-quote-btn flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-all group relative border-2 border-yellow-400 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
             >
               {t.nav.getQuote}
-              <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <Sparkles size={14} className="group-hover:scale-110 transition-transform" />
             </button>
+            {/* Badge with text */}
+            <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
+              20% OFF
+            </div>
           </div>
         </nav>
 

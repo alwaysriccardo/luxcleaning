@@ -198,6 +198,20 @@
                 transition: none;
             }
         }
+
+        /* Navigation Quote Button Enhancements */
+        .nav-quote-btn {
+            animation: pulse-glow 2s ease-in-out infinite;
+            position: relative;
+        }
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.5), 0 0 40px rgba(251, 191, 36, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(251, 191, 36, 0.4);
+            }
+        }
     </style>
 <script type="importmap">
 {
