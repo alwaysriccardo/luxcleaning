@@ -64,13 +64,39 @@ const translations = {
     },
     services: {
       title: "Unsere Leistungen",
-      maintenance: { title: "Unterhaltsreinigung", desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume." },
-      deep: { title: "Grundreinigung", desc: "Gründliche Tiefenreinigung für höchste Ansprüche." },
-      office: { title: "Büro- & Gewerbereinigung", desc: "Sauberkeit auf Premium-Niveau für Arbeits- und Geschäftsräume." },
-      windows: { title: "Fenster- & Glasreinigung", desc: "Streifenfreie Reinigung von Fenstern, Glasflächen und Rahmen." },
-      moving: { title: "Umzugsreinigung", desc: "Professionelle Endreinigung mit Abnahmegarantie." },
-      kitchen: { title: "Sanitär- & Küchenreinigung", desc: "Hygienische Reinigung mit Blick fürs Detail." },
-      requestQuote: "Angebot anfordern"
+      maintenance: { 
+        title: "Unterhaltsreinigung", 
+        desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume.",
+        details: "Wöchentliche oder monatliche Reinigung mit Premium-Produkten. Inklusive Staubsaugen, Wischen, Oberflächenreinigung und Müllentsorgung. Flexible Terminvereinbarung nach Ihren Bedürfnissen."
+      },
+      deep: { 
+        title: "Grundreinigung", 
+        desc: "Gründliche Tiefenreinigung für höchste Ansprüche.",
+        details: "Umfassende Reinigung aller Bereiche inklusive schwer zugänglicher Stellen. Reinigung von Möbeln, Lampen, Heizkörpern und Fensterbänken. Perfekt für Einzüge oder saisonale Tiefenreinigung."
+      },
+      office: { 
+        title: "Büro- & Gewerbereinigung", 
+        desc: "Sauberkeit auf Premium-Niveau für Arbeits- und Geschäftsräume.",
+        details: "Diskrete Reinigung außerhalb der Geschäftszeiten. Sanitärbereiche, Küchen, Arbeitsplätze und Gemeinschaftsräume. Regelmäßige Wartung für ein professionelles Arbeitsumfeld."
+      },
+      windows: { 
+        title: "Fenster- & Glasreinigung", 
+        desc: "Streifenfreie Reinigung von Fenstern, Glasflächen und Rahmen.",
+        details: "Innen- und Außenreinigung mit professionellen Werkzeugen. Auch schwer erreichbare Fenster und Wintergärten. Rahmen, Dichtungen und Fensterbänke inklusive."
+      },
+      moving: { 
+        title: "Umzugsreinigung", 
+        desc: "Professionelle Endreinigung mit Abnahmegarantie.",
+        details: "Komplette Reinigung der alten Wohnung für die Übergabe. Küche, Badezimmer, alle Räume und Böden. Garantiert abnahmefähig für einen reibungslosen Umzug."
+      },
+      kitchen: { 
+        title: "Sanitär- & Küchenreinigung", 
+        desc: "Hygienische Reinigung mit Blick fürs Detail.",
+        details: "Gründliche Reinigung von Küchengeräten, Kühlschrank, Herd und Backofen. Sanitärbereiche mit Desinfektion. Entkalkung und Entfernung hartnäckiger Verschmutzungen."
+      },
+      requestQuote: "Angebot anfordern",
+      showMore: "Mehr erfahren",
+      showLess: "Weniger anzeigen"
     },
     reviews: {
       title: "Unsere zufriedenen Kunden",
@@ -119,13 +145,39 @@ const translations = {
     },
     services: {
       title: "Our Services",
-      maintenance: { title: "Maintenance Cleaning", desc: "Regular, high-quality cleaning for private and commercial spaces." },
-      deep: { title: "Deep Cleaning", desc: "Thorough deep cleaning for the highest standards." },
-      office: { title: "Office & Commercial Cleaning", desc: "Premium-level cleanliness for work and business spaces." },
-      windows: { title: "Window & Glass Cleaning", desc: "Streak-free cleaning of windows, glass surfaces, and frames." },
-      moving: { title: "Move-out Cleaning", desc: "Professional final cleaning with acceptance guarantee." },
-      kitchen: { title: "Bathroom & Kitchen Cleaning", desc: "Hygienic cleaning with attention to detail." },
-      requestQuote: "Request Quote"
+      maintenance: { 
+        title: "Maintenance Cleaning", 
+        desc: "Regular, high-quality cleaning for private and commercial spaces.",
+        details: "Weekly or monthly cleaning with premium products. Includes vacuuming, mopping, surface cleaning, and waste disposal. Flexible scheduling to suit your needs."
+      },
+      deep: { 
+        title: "Deep Cleaning", 
+        desc: "Thorough deep cleaning for the highest standards.",
+        details: "Comprehensive cleaning of all areas including hard-to-reach spots. Furniture, light fixtures, radiators, and window sills. Perfect for move-ins or seasonal deep cleans."
+      },
+      office: { 
+        title: "Office & Commercial Cleaning", 
+        desc: "Premium-level cleanliness for work and business spaces.",
+        details: "Discreet cleaning outside business hours. Restrooms, kitchens, workstations, and common areas. Regular maintenance for a professional work environment."
+      },
+      windows: { 
+        title: "Window & Glass Cleaning", 
+        desc: "Streak-free cleaning of windows, glass surfaces, and frames.",
+        details: "Interior and exterior cleaning with professional tools. Hard-to-reach windows and conservatories included. Frames, seals, and window sills cleaned thoroughly."
+      },
+      moving: { 
+        title: "Move-out Cleaning", 
+        desc: "Professional final cleaning with acceptance guarantee.",
+        details: "Complete cleaning of the old apartment for handover. Kitchen, bathroom, all rooms and floors. Guaranteed acceptance-ready for a smooth move."
+      },
+      kitchen: { 
+        title: "Bathroom & Kitchen Cleaning", 
+        desc: "Hygienic cleaning with attention to detail.",
+        details: "Thorough cleaning of kitchen appliances, refrigerator, stove, and oven. Sanitary areas with disinfection. Descaling and removal of stubborn stains."
+      },
+      requestQuote: "Request Quote",
+      showMore: "Learn More",
+      showLess: "Show Less"
     },
     reviews: {
       title: "Our Satisfied Customers",
@@ -174,13 +226,39 @@ const translations = {
     },
     services: {
       title: "Nos Services",
-      maintenance: { title: "Nettoyage Régulier", desc: "Nettoyage régulier et de haute qualité pour espaces privés et commerciaux." },
-      deep: { title: "Nettoyage en Profondeur", desc: "Nettoyage approfondi pour les plus hauts standards." },
-      office: { title: "Nettoyage de Bureau & Commercial", desc: "Propreté de niveau premium pour espaces de travail et commerciaux." },
-      windows: { title: "Nettoyage de Fenêtres & Vitres", desc: "Nettoyage sans traces des fenêtres, surfaces vitrées et cadres." },
-      moving: { title: "Nettoyage après Déménagement", desc: "Nettoyage final professionnel avec garantie d'acceptation." },
-      kitchen: { title: "Nettoyage Sanitaire & Cuisine", desc: "Nettoyage hygiénique avec attention aux détails." },
-      requestQuote: "Demander un Devis"
+      maintenance: { 
+        title: "Nettoyage Régulier", 
+        desc: "Nettoyage régulier et de haute qualité pour espaces privés et commerciaux.",
+        details: "Nettoyage hebdomadaire ou mensuel avec des produits premium. Aspiration, serpillière, nettoyage des surfaces et gestion des déchets. Planification flexible selon vos besoins."
+      },
+      deep: { 
+        title: "Nettoyage en Profondeur", 
+        desc: "Nettoyage approfondi pour les plus hauts standards.",
+        details: "Nettoyage complet de tous les espaces y compris les endroits difficiles d'accès. Meubles, luminaires, radiateurs et appuis de fenêtre. Parfait pour les emménagements ou nettoyages saisonniers."
+      },
+      office: { 
+        title: "Nettoyage de Bureau & Commercial", 
+        desc: "Propreté de niveau premium pour espaces de travail et commerciaux.",
+        details: "Nettoyage discret en dehors des heures de bureau. Sanitaires, cuisines, postes de travail et espaces communs. Entretien régulier pour un environnement professionnel."
+      },
+      windows: { 
+        title: "Nettoyage de Fenêtres & Vitres", 
+        desc: "Nettoyage sans traces des fenêtres, surfaces vitrées et cadres.",
+        details: "Nettoyage intérieur et extérieur avec outils professionnels. Fenêtres difficiles d'accès et vérandas inclus. Cadres, joints et appuis de fenêtre nettoyés en profondeur."
+      },
+      moving: { 
+        title: "Nettoyage après Déménagement", 
+        desc: "Nettoyage final professionnel avec garantie d'acceptation.",
+        details: "Nettoyage complet de l'ancien appartement pour la remise des clés. Cuisine, salle de bain, toutes les pièces et sols. Garanti prêt pour acceptation pour un déménagement sans tracas."
+      },
+      kitchen: { 
+        title: "Nettoyage Sanitaire & Cuisine", 
+        desc: "Nettoyage hygiénique avec attention aux détails.",
+        details: "Nettoyage approfondi des appareils de cuisine, réfrigérateur, cuisinière et four. Espaces sanitaires avec désinfection. Détartrage et élimination des taches tenaces."
+      },
+      requestQuote: "Demander un Devis",
+      showMore: "En savoir plus",
+      showLess: "Afficher moins"
     },
     reviews: {
       title: "Nos Clients Satisfaits",
@@ -261,8 +339,11 @@ const App = () => {
   const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [expandedService, setExpandedService] = useState<number | null>(null);
+  const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+  const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const t = translations[language];
 
   // Preloader effect
@@ -334,6 +415,31 @@ const App = () => {
     };
   }, []);
 
+  // Intersection Observer for service reveal animations
+  useEffect(() => {
+    const observers = serviceRefs.current.map((ref, index) => {
+      if (!ref) return null;
+      
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleServices((prev) => new Set(prev).add(index));
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      
+      observer.observe(ref);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, []);
+
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
@@ -341,7 +447,8 @@ const App = () => {
     return {
       ...s,
       title: t.services[key].title,
-      desc: t.services[key].desc
+      desc: t.services[key].desc,
+      details: t.services[key].details
     };
   });
 
@@ -471,35 +578,107 @@ const App = () => {
           </div>
         </header>
 
-        {/* Services Grid */}
-        <section id="services" className="py-32 px-6 md:px-12 bg-white">
-          <div className="max-w-7xl mx-auto text-center mb-20">
-            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-6 tracking-tight">{t.services.title}</h2>
-            <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full"></div>
+        {/* Services Section - Split Screen Reveal */}
+        <section id="services" className="relative bg-white">
+          <div className="sticky top-0 z-10 py-16 px-6 md:px-12 text-center bg-white/95 backdrop-blur-sm border-b border-stone-200">
+            <h2 className="font-serif-display text-4xl md:text-6xl text-[#1a1a1a] mb-4 tracking-tight">{t.services.title}</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {SERVICES.map((s, idx) => (
-              <div key={idx} className="group flex flex-col bg-[#Fdfcf8] rounded-[2.5rem] p-6 border border-stone-100 hover:shadow-2xl transition-all duration-700">
-                <div className="aspect-[4/3] rounded-[2rem] overflow-hidden mb-8 relative">
-                  <img 
-                    src={s.img} 
-                    alt={s.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                    onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
-                  />
-                  <div className="absolute inset-0 bg-blue-900/5 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <h3 className="font-serif-display text-3xl text-[#1a1a1a] mb-3 group-hover:text-blue-600 transition-colors">{s.title}</h3>
-                <p className="text-stone-500 text-sm font-light leading-relaxed mb-8 flex-grow">{s.desc}</p>
-                <button 
-                  onClick={() => scrollToSection('angebot')}
-                  className="w-full py-4 rounded-full border border-stone-200 text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all"
+          <div className="relative">
+            {SERVICES.map((s, idx) => {
+              const isVisible = visibleServices.has(idx);
+              const isExpanded = expandedService === idx;
+              
+              return (
+                <div
+                  key={idx}
+                  ref={(el) => { serviceRefs.current[idx] = el; }}
+                  className={`service-reveal min-h-screen flex items-center justify-center relative overflow-hidden ${
+                    isVisible ? 'service-visible' : 'service-hidden'
+                  }`}
+                  onClick={() => setExpandedService(isExpanded ? null : idx)}
                 >
-                  {t.services.requestQuote}
-                </button>
-              </div>
-            ))}
+                  {/* Background Image with Premium Overlay */}
+                  <div className="absolute inset-0 w-full h-full">
+                    <img 
+                      src={s.img} 
+                      alt={s.title} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                    />
+                    {/* Premium Dark Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
+                    {/* Subtle pattern overlay */}
+                    <div className="absolute inset-0 opacity-10" style={{
+                      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)'
+                    }}></div>
+                  </div>
+
+                  {/* Content Overlay */}
+                  <div className={`relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center text-white transition-all duration-1000 ${
+                    isExpanded ? 'scale-105' : 'scale-100'
+                  }`}>
+                    {/* Service Number */}
+                    <div className="mb-6 opacity-60">
+                      <span className="font-serif-display text-6xl md:text-8xl font-light">{String(idx + 1).padStart(2, '0')}</span>
+                    </div>
+
+                    {/* Service Title */}
+                    <h3 className="font-serif-display text-5xl md:text-7xl lg:text-8xl mb-6 tracking-tight drop-shadow-2xl">
+                      {s.title}
+                    </h3>
+
+                    {/* Short Description */}
+                    <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-lg">
+                      {s.desc}
+                    </p>
+
+                    {/* Expandable Details */}
+                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${
+                      isExpanded ? 'max-h-96 opacity-100 mt-8' : 'max-h-0 opacity-0'
+                    }`}>
+                      <div className="border-t border-white/20 pt-8">
+                        <p className="text-base md:text-lg text-white/80 max-w-3xl mx-auto leading-relaxed font-light">
+                          {s.details}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToSection('angebot');
+                        }}
+                        className="px-10 py-5 rounded-full bg-white text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                      >
+                        {t.services.requestQuote}
+                      </button>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedService(isExpanded ? null : idx);
+                        }}
+                        className="px-10 py-5 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                      >
+                        {isExpanded ? t.services.showLess : t.services.showMore}
+                      </button>
+                    </div>
+
+                    {/* Scroll Indicator */}
+                    {idx < SERVICES.length - 1 && (
+                      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+                        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
+                          <div className="w-1 h-3 bg-white/50 rounded-full"></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
