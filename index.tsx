@@ -383,8 +383,32 @@ const REVIEWS = [
   {
     name: "Martina Z.",
     service: "Unterhaltsreinigung",
-    text: "Bin berufstätig und habe keine Zeit für die Hausreinigung. Lux Cleaning übernimmt das jetzt für mich. Die Wohnung sieht immer top aus und ich muss mir keine Sorgen mehr machen. Absolut empfehlenswert!",
+    text: "Bin berufstätig und habe keine Zeit für die Hausreinigung. Lux Cleaning übernimmt das jetzt für mich. Die Wohnung sieht immer top aus und ich muss mir keine Sorgen mehr machen. Absolut empfehlenswert! :)",
     initials: "MZ"
+  },
+  {
+    name: "Stefan R.",
+    service: "Büro- & Gewerbereinigung",
+    text: "Unser Geschäft wird seit einem Jahr von Lux Cleaning betreut. Immer zuverlässig, immer gründlich. Die Kunden bemerken die Sauberkeit sofort. Top! :)",
+    initials: "SR"
+  },
+  {
+    name: "Claudia M.",
+    service: "Grundreinigung",
+    text: "Nach dem Einzug war alles perfekt sauber. Sogar die Fensterrahmen wurden mitgereinigt. Sehr professionell und freundlich. Kann ich nur weiterempfehlen! :)",
+    initials: "CM"
+  },
+  {
+    name: "Robert K.",
+    service: "Fenster- & Glasreinigung",
+    text: "Die Fensterreinigung war spitze. Keine Streifen, alles blitzblank. Die Jungs waren sehr sorgfältig. Werde ich definitiv wieder buchen. :)",
+    initials: "RK"
+  },
+  {
+    name: "Sarah L.",
+    service: "Unterhaltsreinigung",
+    text: "Seit 6 Monaten wöchentliche Reinigung. Immer pünktlich, immer gründlich. Die Wohnung sieht immer perfekt aus. Beste Entscheidung! :)",
+    initials: "SL"
   }
 ];
 
