@@ -261,7 +261,7 @@ const translations = {
       requestNow: "DEMANDER UN DEVIS MAINTENANT"
     },
     services: {
-      title: "Nos Services",
+      title: "Découvrez Nos Services",
       maintenance: { 
         title: "Nettoyage Régulier", 
         desc: "Nettoyage régulier et de haute qualité pour espaces privés et commerciaux.",
