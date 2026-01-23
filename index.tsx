@@ -982,8 +982,8 @@ const App = () => {
 
                   {/* Content Overlay - Positioned at bottom */}
                   <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
-                    {/* Semi-transparent dark box behind text with backdrop blur */}
-                    <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10">
+                    {/* Gradient backdrop box behind text only - darker at bottom, lighter at top */}
+                    <div className="bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto">
                       {/* Service Number */}
                       <div className="mb-2 lg:mb-3 opacity-70">
                         <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
