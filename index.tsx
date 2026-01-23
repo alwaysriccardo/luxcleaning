@@ -377,13 +377,13 @@ const App = () => {
 
         {/* Hero Section */}
         <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center">
-          <div className="absolute inset-0 -z-10">
-            <img 
-              src="/gil-ribeiro-3hO8igCybds-unsplash.jpg" 
-              alt="Hauptbild" 
-              className="w-full h-full object-cover brightness-[0.95]"
-              onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1581578731522-745d05cb9724?q=80&w=2000'}
-            />
+          <div 
+            className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('/gil-ribeiro-3hO8igCybds-unsplash.jpg')`,
+              filter: 'brightness(0.95)'
+            }}
+          >
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#Fdfcf8]"></div>
           </div>
 
