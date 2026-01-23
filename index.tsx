@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   ArrowUpRight, 
@@ -7,41 +7,204 @@ import {
   Sparkles, 
   Star, 
   Send,
-  MapPin
+  MapPin,
+  Languages
 } from 'lucide-react';
 
-const SERVICES = [
+const SERVICES_DATA = [
   {
-    title: "Unterhaltsreinigung",
-    desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume.",
+    id: 'maintenance',
     img: "./input_file_2.png"
   },
   {
-    title: "Grundreinigung",
-    desc: "Gründliche Tiefenreinigung für höchste Ansprüche.",
+    id: 'deep',
     img: "./input_file_3.png"
   },
   {
-    title: "Büro- & Gewerbereinigung",
-    desc: "Sauberkeit auf Premium-Niveau für Arbeits- und Geschäftsräume.",
+    id: 'office',
     img: "./input_file_5.png"
   },
   {
-    title: "Fenster- & Glasreinigung",
-    desc: "Streifenfreie Reinigung von Fenstern, Glasflächen und Rahmen.",
+    id: 'windows',
     img: "./input_file_4.png"
   },
   {
-    title: "Umzugsreinigung",
-    desc: "Professionelle Endreinigung mit Abnahmegarantie.",
+    id: 'moving',
     img: "https://images.unsplash.com/photo-1603712726238-bf1375b651b1?q=80&w=800&auto=format&fit=crop"
   },
   {
-    title: "Sanitär- & Küchenreinigung",
-    desc: "Hygienische Reinigung mit Blick fürs Detail.",
+    id: 'kitchen',
     img: "./input_file_1.png"
   }
 ];
+
+const translations = {
+  de: {
+    nav: {
+      services: "Leistungen",
+      reviews: "Bewertungen",
+      quote: "Gratis Angebot",
+      getQuote: "Angebot anfordern"
+    },
+    hero: {
+      badge: "Makellose Sauberkeit",
+      title1: "Reinigung ist eine",
+      title2: "Kunst",
+      title3: "Exzellenz ist unser",
+      title4: "Standard.",
+      description: "Wir verwandeln Ihre Räumlichkeiten in makellose Zonen der Ruhe. Schnell, diskret und mit der sprichwörtlichen deutschen Gründlichkeit.",
+      servicesBtn: "Unsere Leistungen",
+      quoteBtn: "Angebot einholen"
+    },
+    promo: {
+      discount: "20% RABATT",
+      onAll: "AUF ALLE LEISTUNGEN",
+      until: "BIS ENDE FEBRUAR",
+      requestNow: "JETZT ANGEBOT ANFORDERN"
+    },
+    services: {
+      title: "Unsere Leistungen",
+      maintenance: { title: "Unterhaltsreinigung", desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume." },
+      deep: { title: "Grundreinigung", desc: "Gründliche Tiefenreinigung für höchste Ansprüche." },
+      office: { title: "Büro- & Gewerbereinigung", desc: "Sauberkeit auf Premium-Niveau für Arbeits- und Geschäftsräume." },
+      windows: { title: "Fenster- & Glasreinigung", desc: "Streifenfreie Reinigung von Fenstern, Glasflächen und Rahmen." },
+      moving: { title: "Umzugsreinigung", desc: "Professionelle Endreinigung mit Abnahmegarantie." },
+      kitchen: { title: "Sanitär- & Küchenreinigung", desc: "Hygienische Reinigung mit Blick fürs Detail." },
+      requestQuote: "Angebot anfordern"
+    },
+    reviews: {
+      title: "Unsere zufriedenen Kunden",
+      customer: "Kunde"
+    },
+    contact: {
+      title: "Bereit zu glänzen?",
+      description: "Schildern Sie uns Ihr Anliegen. Wir erstellen Ihnen innerhalb von 24h ein personalisiertes Angebot.",
+      freeQuote: "Gratis Angebot",
+      name: "Name",
+      email: "Email",
+      message: "Ihre Nachricht...",
+      submit: "Absenden",
+      phone: "Anruf / WhatsApp",
+      location: "Standort"
+    },
+    footer: {
+      tagline: "Die Kunst der Sauberkeit",
+      copyright: "© 2024 LUX CLEANING. FÜR PERFEKTE SAUBERKEIT.",
+      imprint: "Impressum",
+      privacy: "Datenschutz"
+    }
+  },
+  en: {
+    nav: {
+      services: "Services",
+      reviews: "Reviews",
+      quote: "Free Quote",
+      getQuote: "Get a Quote"
+    },
+    hero: {
+      badge: "Flawless Cleanliness",
+      title1: "Cleaning is an",
+      title2: "art",
+      title3: "excellence is our",
+      title4: "standard.",
+      description: "We transform your spaces into flawless zones of tranquility. Fast, discreet, and with proverbial German thoroughness.",
+      servicesBtn: "Our Services",
+      quoteBtn: "Get a Quote"
+    },
+    promo: {
+      discount: "20% DISCOUNT",
+      onAll: "ON ALL SERVICES",
+      until: "UNTIL END OF FEBRUARY",
+      requestNow: "REQUEST QUOTE NOW"
+    },
+    services: {
+      title: "Our Services",
+      maintenance: { title: "Maintenance Cleaning", desc: "Regular, high-quality cleaning for private and commercial spaces." },
+      deep: { title: "Deep Cleaning", desc: "Thorough deep cleaning for the highest standards." },
+      office: { title: "Office & Commercial Cleaning", desc: "Premium-level cleanliness for work and business spaces." },
+      windows: { title: "Window & Glass Cleaning", desc: "Streak-free cleaning of windows, glass surfaces, and frames." },
+      moving: { title: "Move-out Cleaning", desc: "Professional final cleaning with acceptance guarantee." },
+      kitchen: { title: "Bathroom & Kitchen Cleaning", desc: "Hygienic cleaning with attention to detail." },
+      requestQuote: "Request Quote"
+    },
+    reviews: {
+      title: "Our Satisfied Customers",
+      customer: "Customer"
+    },
+    contact: {
+      title: "Ready to shine?",
+      description: "Tell us about your needs. We'll create a personalized quote within 24 hours.",
+      freeQuote: "Free Quote",
+      name: "Name",
+      email: "Email",
+      message: "Your message...",
+      submit: "Submit",
+      phone: "Call / WhatsApp",
+      location: "Location"
+    },
+    footer: {
+      tagline: "The Art of Cleanliness",
+      copyright: "© 2024 LUX CLEANING. FOR PERFECT CLEANLINESS.",
+      imprint: "Imprint",
+      privacy: "Privacy"
+    }
+  },
+  fr: {
+    nav: {
+      services: "Services",
+      reviews: "Avis",
+      quote: "Devis Gratuit",
+      getQuote: "Demander un Devis"
+    },
+    hero: {
+      badge: "Propreté Impeccable",
+      title1: "Le nettoyage est un",
+      title2: "art",
+      title3: "l'excellence est notre",
+      title4: "standard.",
+      description: "Nous transformons vos espaces en zones de tranquillité impeccables. Rapide, discret et avec la minutie allemande proverbiale.",
+      servicesBtn: "Nos Services",
+      quoteBtn: "Demander un Devis"
+    },
+    promo: {
+      discount: "20% DE RÉDUCTION",
+      onAll: "SUR TOUS LES SERVICES",
+      until: "JUSQU'À LA FIN FÉVRIER",
+      requestNow: "DEMANDER UN DEVIS MAINTENANT"
+    },
+    services: {
+      title: "Nos Services",
+      maintenance: { title: "Nettoyage Régulier", desc: "Nettoyage régulier et de haute qualité pour espaces privés et commerciaux." },
+      deep: { title: "Nettoyage en Profondeur", desc: "Nettoyage approfondi pour les plus hauts standards." },
+      office: { title: "Nettoyage de Bureau & Commercial", desc: "Propreté de niveau premium pour espaces de travail et commerciaux." },
+      windows: { title: "Nettoyage de Fenêtres & Vitres", desc: "Nettoyage sans traces des fenêtres, surfaces vitrées et cadres." },
+      moving: { title: "Nettoyage après Déménagement", desc: "Nettoyage final professionnel avec garantie d'acceptation." },
+      kitchen: { title: "Nettoyage Sanitaire & Cuisine", desc: "Nettoyage hygiénique avec attention aux détails." },
+      requestQuote: "Demander un Devis"
+    },
+    reviews: {
+      title: "Nos Clients Satisfaits",
+      customer: "Client"
+    },
+    contact: {
+      title: "Prêt à briller?",
+      description: "Décrivez-nous vos besoins. Nous créerons un devis personnalisé sous 24 heures.",
+      freeQuote: "Devis Gratuit",
+      name: "Nom",
+      email: "Email",
+      message: "Votre message...",
+      submit: "Envoyer",
+      phone: "Appel / WhatsApp",
+      location: "Emplacement"
+    },
+    footer: {
+      tagline: "L'Art de la Propreté",
+      copyright: "© 2024 LUX CLEANING. POUR UNE PROPRETÉ PARFAITE.",
+      imprint: "Mentions Légales",
+      privacy: "Confidentialité"
+    }
+  }
+};
 
 const REVIEWS = [
   {
@@ -95,13 +258,47 @@ const REVIEWS = [
 ];
 
 const App = () => {
+  const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
+  const t = translations[language];
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const cycleLanguage = () => {
+    if (language === 'de') setLanguage('en');
+    else if (language === 'en') setLanguage('fr');
+    else setLanguage('de');
+  };
+
+  const SERVICES = SERVICES_DATA.map((s, idx) => {
+    const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
+    const key = serviceKeys[idx];
+    return {
+      ...s,
+      title: t.services[key].title,
+      desc: t.services[key].desc
+    };
+  });
+
   return (
     <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
       <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
+        
+        {/* Language Switcher */}
+        <button
+          onClick={cycleLanguage}
+          className="fixed top-24 right-6 md:right-12 z-50 bg-white/90 backdrop-blur-md px-4 py-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+          title={`Switch to ${language === 'de' ? 'English' : language === 'en' ? 'Français' : 'Deutsch'}`}
+        >
+          <Languages size={18} className="text-stone-700" />
+          <span className="text-xs font-bold uppercase tracking-wider text-stone-700 hidden sm:inline">
+            {language.toUpperCase()}
+          </span>
+          <span className="text-xs text-stone-500 group-hover:text-blue-600 transition-colors">
+            {language === 'de' ? 'EN' : language === 'en' ? 'FR' : 'DE'}
+          </span>
+        </button>
         
         {/* Navigation */}
         <nav className="fixed top-8 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
@@ -117,9 +314,9 @@ const App = () => {
           </div>
 
           <div className="pointer-events-auto hidden md:flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
-            <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">Leistungen</button>
-            <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">Bewertungen</button>
-            <button onClick={() => scrollToSection('angebot')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest bg-yellow-400 hover:bg-yellow-500 transition-colors">Gratis Angebot</button>
+            <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
+            <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.reviews}</button>
+            <button onClick={() => scrollToSection('angebot')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest bg-yellow-400 hover:bg-yellow-500 transition-colors">{t.nav.quote}</button>
           </div>
 
           <div className="pointer-events-auto">
@@ -127,7 +324,7 @@ const App = () => {
               onClick={() => scrollToSection('angebot')}
               className="flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-all group"
             >
-              Angebot anfordern
+              {t.nav.getQuote}
               <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>
@@ -147,24 +344,24 @@ const App = () => {
 
           <div className="max-w-5xl mx-auto z-10">
             <div className="fade-in-up inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
-              <span className="text-lg">🇨🇭</span> Makellose Sauberkeit
+              <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
             
             <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-[#1a1a1a] mb-10 tracking-tight">
-              Reinigung ist eine <span className="italic text-blue-600">Kunst</span>, <br />
-              Exzellenz ist unser <span className="italic text-yellow-500">Standard.</span>
+              {t.hero.title1} <span className="italic text-blue-600">{t.hero.title2}</span>, <br />
+              {t.hero.title3} <span className="italic text-yellow-500">{t.hero.title4}</span>
             </h1>
 
             <p className="fade-in-up delay-200 text-stone-600 text-lg max-w-xl mx-auto leading-relaxed font-light mb-12">
-              Wir verwandeln Ihre Räumlichkeiten in makellose Zonen der Ruhe. Schnell, diskret und mit der sprichwörtlichen deutschen Gründlichkeit.
+              {t.hero.description}
             </p>
 
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button onClick={() => scrollToSection('services')} className="px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl">
-                Unsere Leistungen
+                {t.hero.servicesBtn}
               </button>
               <button onClick={() => scrollToSection('angebot')} className="px-10 py-5 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 transition-all">
-                Angebot einholen
+                {t.hero.quoteBtn}
               </button>
             </div>
           </div>
@@ -183,13 +380,13 @@ const App = () => {
           <div className="inline-block animate-marquee relative z-10">
             {[1, 2, 3, 4].map(i => (
               <React.Fragment key={i}>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-yellow-400 font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]">20% RABATT</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-yellow-400 font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]">{t.promo.discount}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">AUF ALLE LEISTUNGEN</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">{t.promo.onAll}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">BIS ENDE FEBRUAR</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">{t.promo.until}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-4xl md:text-6xl mx-12 text-yellow-300 font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">JETZT ANGEBOT ANFORDERN</span>
+                <span className="font-serif-display text-4xl md:text-6xl mx-12 text-yellow-300 font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">{t.promo.requestNow}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
               </React.Fragment>
             ))}
@@ -199,7 +396,7 @@ const App = () => {
         {/* Services Grid */}
         <section id="services" className="py-32 px-6 md:px-12 bg-white">
           <div className="max-w-7xl mx-auto text-center mb-20">
-            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-6 tracking-tight">Unsere Leistungen</h2>
+            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-6 tracking-tight">{t.services.title}</h2>
             <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full"></div>
           </div>
 
@@ -221,7 +418,7 @@ const App = () => {
                   onClick={() => scrollToSection('angebot')}
                   className="w-full py-4 rounded-full border border-stone-200 text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all"
                 >
-                  Angebot anfordern
+                  {t.services.requestQuote}
                 </button>
               </div>
             ))}
@@ -237,43 +434,11 @@ const App = () => {
           </div>
           
           <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="text-center mb-20 relative">
-              {/* Decorative background elements */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
-              
-              {/* Badge above title */}
-              <div className="inline-flex items-center gap-2 mb-6 px-6 py-2 rounded-full bg-gradient-to-r from-blue-50 to-yellow-50 border-2 border-blue-200 shadow-sm">
-                <Star size={14} className="text-yellow-400 fill-current" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-700">Bewertungen</span>
-                <Star size={14} className="text-yellow-400 fill-current" />
-              </div>
-              
-              {/* Main title with gradient text */}
-              <h2 className="text-5xl md:text-7xl font-serif-display mb-6 relative z-10">
-                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-yellow-500 bg-clip-text text-transparent">
-                  Unsere zufriedenen
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-yellow-500 via-blue-500 to-blue-600 bg-clip-text text-transparent italic">
-                  Kunden
-                </span>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-6xl font-serif-display text-[#1a1a1a] mb-4">
+                {t.reviews.title}
               </h2>
-              
-              {/* Decorative underline with multiple elements */}
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="h-1 w-16 bg-gradient-to-r from-transparent to-blue-500 rounded-full"></div>
-                <div className="flex gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                </div>
-                <div className="h-1 w-16 bg-gradient-to-r from-yellow-400 to-transparent rounded-full"></div>
-              </div>
-              
-              {/* Subtitle */}
-              <p className="text-stone-500 text-sm font-light italic max-w-md mx-auto relative z-10">
-                Was unsere Kunden über uns sagen
-              </p>
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
             </div>
 
             <div className="mask-edges overflow-hidden relative">
@@ -308,7 +473,7 @@ const App = () => {
                       </div>
                       <div>
                         <div className="text-sm font-bold text-stone-900">{r.name}</div>
-                        <div className="text-[10px] text-stone-500">Kunde</div>
+                        <div className="text-[10px] text-stone-500">{t.reviews.customer}</div>
                       </div>
                     </div>
                     
@@ -327,8 +492,8 @@ const App = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-blue-400/5 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
           
           <div className="max-w-3xl mx-auto relative z-10">
-            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-4 italic tracking-tight">Bereit zu glänzen?</h2>
-            <p className="text-stone-500 font-light mb-12 max-w-md mx-auto">Schildern Sie uns Ihr Anliegen. Wir erstellen Ihnen innerhalb von 24h ein personalisiertes Angebot.</p>
+            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-4 italic tracking-tight">{t.contact.title}</h2>
+            <p className="text-stone-500 font-light mb-12 max-w-md mx-auto">{t.contact.description}</p>
             
             {/* Big Fancy Text CTA */}
             <div className="mb-16">
@@ -336,7 +501,7 @@ const App = () => {
                 href="mailto:luxcleaning@mail.ch" 
                 className="group relative inline-flex items-center gap-4 text-5xl md:text-8xl font-serif-display text-[#1a1a1a] hover:text-blue-600 transition-colors duration-500"
               >
-                <span>Gratis Angebot</span>
+                <span>{t.contact.freeQuote}</span>
                 <ArrowUpRight size={56} className="text-blue-500 group-hover:translate-x-3 group-hover:-translate-y-3 transition-transform duration-500" />
                 <span className="absolute bottom-[-10px] left-0 w-0 h-[3px] bg-yellow-400 group-hover:w-full transition-all duration-700 rounded-full"></span>
               </a>
@@ -346,12 +511,12 @@ const App = () => {
             <div className="bg-[#Fdfcf8] p-8 md:p-12 rounded-[3.5rem] border border-stone-100 shadow-2xl max-w-xl mx-auto mb-12 hover:scale-[1.01] transition-transform duration-500">
               <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input type="text" className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Name" />
-                  <input type="email" className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Email" />
+                  <input type="text" className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder={t.contact.name} />
+                  <input type="email" className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder={t.contact.email} />
                 </div>
-                <textarea className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm h-32 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-all" placeholder="Ihre Nachricht..."></textarea>
+                <textarea className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm h-32 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-all" placeholder={t.contact.message}></textarea>
                 <button className="w-full py-5 bg-[#1a1a1a] text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-blue-600 transition-all flex items-center justify-center gap-3 group shadow-xl">
-                  Absenden
+                  {t.contact.submit}
                   <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </button>
               </form>
@@ -364,7 +529,7 @@ const App = () => {
                   <Phone size={18} />
                 </div>
                 <div className="text-left">
-                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Anruf / WhatsApp</div>
+                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t.contact.phone}</div>
                   <div className="text-lg font-serif-display font-medium">+41 78 352 57 78</div>
                 </div>
               </div>
@@ -373,7 +538,7 @@ const App = () => {
                   <MapPin size={18} />
                 </div>
                 <div className="text-left">
-                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Standort</div>
+                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t.contact.location}</div>
                   <div className="text-lg font-serif-display font-medium">Baden & Wettingen, CH</div>
                 </div>
               </div>
@@ -386,12 +551,12 @@ const App = () => {
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
             <div>
               <div className="font-serif-display text-4xl mb-2 tracking-tighter">Lux Cleaning</div>
-              <div className="text-[9px] text-stone-500 tracking-[0.5em] font-bold uppercase">Die Kunst der Sauberkeit</div>
+              <div className="text-[9px] text-stone-500 tracking-[0.5em] font-bold uppercase">{t.footer.tagline}</div>
             </div>
-            <div className="text-[10px] text-stone-600 font-bold uppercase tracking-[0.2em]">© 2024 LUX CLEANING. FÜR PERFEKTE SAUBERKEIT.</div>
+            <div className="text-[10px] text-stone-600 font-bold uppercase tracking-[0.2em]">{t.footer.copyright}</div>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-stone-400">
-              <a href="#" className="hover:text-yellow-400 transition-colors">Impressum</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">Datenschutz</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors">{t.footer.imprint}</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors">{t.footer.privacy}</a>
             </div>
           </div>
         </footer>
