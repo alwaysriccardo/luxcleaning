@@ -417,7 +417,6 @@ const App = () => {
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
-  const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
   const [promoModalOpen, setPromoModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -428,7 +427,6 @@ const App = () => {
   const [contactFormSubmitted, setContactFormSubmitted] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const promoModalShown = useRef(false);
   const reviewIntervalRef = useRef<number | null>(null);
   const reviewCarouselRef = useRef<HTMLDivElement>(null);
@@ -505,43 +503,6 @@ const App = () => {
     };
   }, []);
 
-  // Intersection Observer for service reveal animations - disabled on mobile for performance
-  useEffect(() => {
-    const MOBILE_BREAKPOINT = 1024;
-    
-    // Skip on mobile devices for better performance
-    if (window.innerWidth < MOBILE_BREAKPOINT) {
-      // Mark all as visible on mobile immediately
-      setVisibleServices(new Set([0, 1, 2, 3, 4, 5]));
-      return;
-    }
-
-    const observers: IntersectionObserver[] = [];
-    
-    serviceRefs.current.forEach((ref, index) => {
-      if (!ref) return;
-      
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setVisibleServices((prev) => new Set(prev).add(index));
-              // Disconnect once visible to improve performance
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-      
-      observer.observe(ref);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, []);
 
   // Promo Modal - Show after 3 seconds or on scroll
   useEffect(() => {
@@ -670,6 +631,18 @@ const App = () => {
       };
     });
   }, [t.services]);
+
+  // Lock body scroll when service overlay is open
+  useEffect(() => {
+    if (expandedService !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [expandedService]);
 
   return (
     <>
@@ -993,165 +966,187 @@ const App = () => {
           </div>
         </section>
 
-        {/* Services Section - Split Screen Reveal */}
+        {/* Services Section - Horizontal Scroll (Desktop) / Vertical (Mobile) */}
         <section id="services" className="relative bg-white pt-8 md:pt-12 pb-8">
-          <div className="px-6 md:px-12 text-center">
-            <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] mb-8 md:mb-12 tracking-tight italic font-light relative inline-block">
+          <div className="px-6 md:px-12 text-center mb-8 md:mb-12">
+            <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] tracking-tight italic font-light relative inline-block">
               {t.services.title}
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 px-0">
+          {/* Desktop: Horizontal Scroll */}
+          <div className="hidden lg:flex overflow-x-auto scrollbar-hide pb-8 px-6 md:px-12 gap-6">
             {SERVICES.map((s, idx) => {
-              const isVisible = visibleServices.has(idx);
               const isExpanded = expandedService === idx;
               
               return (
                 <div
                   key={idx}
-                  ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-[500px] lg:min-h-[450px] flex items-end justify-center relative overflow-hidden cursor-pointer ${
-                    isVisible ? 'service-visible' : 'service-hidden'
-                  }`}
+                  className="flex-shrink-0 w-[400px] h-[500px] relative overflow-hidden rounded-2xl cursor-pointer group"
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
-                  style={{ aspectRatio: 'auto' }}
-                  onTouchStart={(e) => {
-                    // Prevent double-tap zoom on mobile
-                    if (e.touches.length > 1) {
-                      e.preventDefault();
-                    }
-                  }}
                 >
-                  {/* Background Image with Premium Overlay */}
-                  <div className="absolute inset-0 w-full h-full">
-                  <img 
-                    src={s.img} 
-                    alt={s.title} 
-                      className="w-full h-full object-cover"
+                  {/* Service Card Image */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src={s.img} 
+                      alt={s.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
-                    onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
-                  />
-                    {/* Gradual Gradient Overlay - transparent at top, darker at bottom */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90"></div>
+                      onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
                   </div>
 
-                  {/* Content Overlay - Positioned at bottom */}
-                  <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white min-h-0">
-                    {/* Gradient backdrop box - covers all text when expanded */}
-                    <div className={`bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto transition-all duration-500 ${
-                      isExpanded ? 'opacity-100 relative' : 'opacity-0 pointer-events-none absolute inset-0'
-                    }`}>
-                      {/* Service Number */}
-                      <div className="mb-2 lg:mb-3 opacity-70">
-                        <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
-                      </div>
-
-                      {/* Service Title */}
-                      <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl mb-3 lg:mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] px-2 font-semibold">
-                        {s.title}
-                      </h3>
-
-                      {/* Short Description */}
-                      <p className="text-sm md:text-base lg:text-lg text-white mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] px-2">
-                        {s.desc}
-                      </p>
-
-                      {/* Expandable Details */}
-                      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        isExpanded ? 'max-h-[500px] md:max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
-                      }`}>
-                        <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
-                          <p className="text-sm md:text-base text-white max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                            {s.details}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* CTA Button - Inside backdrop when expanded */}
-                      <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            scrollToSection('angebot');
-                          }}
-                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
-                        >
-                          {t.services.requestQuote}
-                        </button>
-                <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpandedService(isExpanded ? null : idx);
-                          }}
-                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
-                        >
-                          {isExpanded ? t.services.showLess : t.services.showMore}
-                </button>
-              </div>
+                  {/* Card Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+                    <div className="mb-2 opacity-70">
+                      <span className="font-serif-display text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
                     </div>
-
-                    {/* Text content when not expanded (no backdrop) */}
-                    <div className={`transition-all duration-500 relative ${
-                      isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                    }`}>
-                      {/* Service Number */}
-                      <div className="mb-2 lg:mb-3 opacity-70">
-                        <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
-                      </div>
-
-                      {/* Service Title */}
-                      <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl mb-3 lg:mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] px-2 font-semibold">
-                        {s.title}
-                      </h3>
-
-                      {/* Short Description */}
-                      <p className="text-sm md:text-base lg:text-lg text-white mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] px-2">
-                        {s.desc}
-                      </p>
-
-                      {/* CTA Button - Outside backdrop when not expanded */}
-                      <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            scrollToSection('angebot');
-                          }}
-                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
-                        >
-                          {t.services.requestQuote}
-                        </button>
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpandedService(isExpanded ? null : idx);
-                          }}
-                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
-                        >
-                          {isExpanded ? t.services.showLess : t.services.showMore}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Mobile Animated Indicator - Top Left */}
-                    {!isExpanded && (
-                      <div className="lg:hidden absolute top-4 left-4 z-20 pointer-events-none">
-                        <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-[0_0_10px_rgba(59,130,246,0.4)]">
-                          <Hand 
-                            size={18} 
-                            className="text-white animate-pulse"
-                            style={{
-                              animation: 'pulse 1.5s infinite'
-                            }}
-                          />
-                          <span className="text-white text-[10px] font-medium uppercase tracking-wider">Tap</span>
-                        </div>
-                      </div>
-                    )}
+                    <h3 className="font-serif-display text-3xl mb-2 tracking-tight font-semibold drop-shadow-lg">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
+                      {s.desc}
+                    </p>
+                    <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all">
+                      {t.services.showMore}
+                    </button>
                   </div>
-              </div>
+                </div>
               );
             })}
           </div>
+
+          {/* Mobile: Vertical Scroll */}
+          <div className="lg:hidden flex flex-col gap-6 px-6">
+            {SERVICES.map((s, idx) => {
+              const isExpanded = expandedService === idx;
+              
+              return (
+                <div
+                  key={idx}
+                  className="w-full h-[400px] relative overflow-hidden rounded-2xl cursor-pointer group"
+                  onClick={() => setExpandedService(isExpanded ? null : idx)}
+                >
+                  {/* Service Card Image */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src={s.img} 
+                      alt={s.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+                    <div className="mb-2 opacity-70">
+                      <span className="font-serif-display text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
+                    </div>
+                    <h3 className="font-serif-display text-3xl mb-2 tracking-tight font-semibold drop-shadow-lg">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
+                      {s.desc}
+                    </p>
+                    <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all">
+                      {t.services.showMore}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Full-Screen Overlay Modal */}
+          {expandedService !== null && (
+            <div 
+              className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-md animate-fade-in"
+              onClick={() => setExpandedService(null)}
+            >
+              {/* Immersive Backdrop */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black opacity-90"></div>
+              
+              {/* Close Button */}
+              <button
+                onClick={() => setExpandedService(null)}
+                className="absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all"
+                aria-label="Close"
+              >
+                <X size={24} className="text-white" />
+              </button>
+
+              {/* Content Container */}
+              <div 
+                className="relative z-10 flex flex-col h-full overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Top 60% - Large Service Image */}
+                <div className="h-[60vh] relative overflow-hidden">
+                  <img 
+                    src={SERVICES[expandedService].img} 
+                    alt={SERVICES[expandedService].title} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                  />
+                  {/* Subtle overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
+                </div>
+
+                {/* Bottom 40% - Text Content Panel */}
+                <div className="h-[40vh] bg-gradient-to-b from-black via-[#1a1a1a] to-black overflow-y-auto">
+                  <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 md:py-12">
+                    {/* Service Number */}
+                    <div className="mb-4 opacity-60">
+                      <span className="font-serif-display text-5xl md:text-6xl font-light text-white">
+                        {String(expandedService + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+
+                    {/* Service Title */}
+                    <h3 className="font-serif-display text-4xl md:text-5xl lg:text-6xl text-white mb-4 md:mb-6 tracking-tight font-semibold">
+                      {SERVICES[expandedService].title}
+                    </h3>
+
+                    {/* Short Description */}
+                    <p className="text-base md:text-lg text-white/90 mb-6 md:mb-8 leading-relaxed font-light max-w-3xl">
+                      {SERVICES[expandedService].desc}
+                    </p>
+
+                    {/* Full Details */}
+                    <div className="border-t border-white/20 pt-6 md:pt-8 mb-8">
+                      <p className="text-sm md:text-base text-white/80 leading-relaxed font-light max-w-3xl">
+                        {SERVICES[expandedService].details}
+                      </p>
+                    </div>
+
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <button 
+                        onClick={() => {
+                          setExpandedService(null);
+                          scrollToSection('angebot');
+                        }}
+                        className="px-8 py-4 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                      >
+                        {t.services.requestQuote}
+                      </button>
+                      <button 
+                        onClick={() => setExpandedService(null)}
+                        className="px-8 py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 transition-all"
+                      >
+                        {t.services.showLess}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
 
