@@ -347,7 +347,7 @@ const REVIEWS = [
   {
     name: "Sabine K.",
     service: "Fenster- & Glasreinigung",
-    text: "Habe die Fensterreinigung gebucht und war echt überrascht wie sauber die geworden sind. Keine Streifen, keine Flecken. Die Jungs waren auch sehr vorsichtig mit meinen Pflanzen am Fensterbrett. Top Service!",
+    text: "Habe die Fensterreinigung gebucht und war echt überrascht wie sauber die geworden sind. Keine Streifen, keine Flecken. Die Jungs waren auch sehr vorsichtig mit meinen Pflanzen am Fensterbrett. Top Service! :)",
     initials: "SK"
   },
   {
@@ -359,7 +359,7 @@ const REVIEWS = [
   {
     name: "Julia F.",
     service: "Büro- & Gewerbereinigung",
-    text: "Unser Büro wird jetzt regelmäßig von Lux Cleaning gereinigt. Die Mitarbeiter sind sehr diskret und stören nie während der Arbeitszeit. Alles ist immer ordentlich und sauber wenn wir morgens kommen.",
+    text: "Unser Büro wird jetzt regelmäßig von Lux Cleaning gereinigt. Die Mitarbeiter sind sehr diskret und stören nie während der Arbeitszeit. Alles ist immer ordentlich und sauber wenn wir morgens kommen. :)",
     initials: "JF"
   },
   {
@@ -371,7 +371,7 @@ const REVIEWS = [
   {
     name: "Nicole H.",
     service: "Sanitär- & Küchenreinigung",
-    text: "Die Küche und Bäder waren nach der Reinigung wie neu. Besonders das Bad glänzt jetzt richtig. Catalin hat mir auch ein paar Tipps gegeben wie ich es länger sauber halten kann. Sehr freundlich und professionell!",
+    text: "Die Küche und Bäder waren nach der Reinigung wie neu. Besonders das Bad glänzt jetzt richtig. Catalin hat mir auch ein paar Tipps gegeben wie ich es länger sauber halten kann. Sehr freundlich und professionell! :)",
     initials: "NH"
   },
   {
