@@ -262,6 +262,7 @@ const App = () => {
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const languageMenuRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
   // Preloader effect
@@ -303,6 +304,35 @@ const App = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [languageMenuOpen]);
+
+  // Parallax effect for hero image
+  useEffect(() => {
+    let rafId: number;
+    
+    const handleScroll = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      
+      rafId = requestAnimationFrame(() => {
+        if (heroRef.current) {
+          const scrolled = window.scrollY;
+          const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLElement;
+          if (heroImage && scrolled < window.innerHeight) {
+            heroImage.style.transform = `translateY(${scrolled * 0.4}px)`;
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, []);
 
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
@@ -404,11 +434,11 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
+        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <div 
-              className="absolute inset-0 w-full h-full"
+              className="hero-bg-image absolute inset-0 w-full h-full will-change-transform"
               style={{
                 backgroundImage: 'url(/hero-gloves-image.jpg)',
                 backgroundSize: 'cover',
@@ -453,25 +483,25 @@ const App = () => {
         </header>
 
         {/* Marquee Promotion */}
-        <div className="py-12 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 text-white overflow-hidden whitespace-nowrap relative z-30 shadow-2xl border-y-4 border-yellow-400">
+        <div className="py-12 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-[#1a1a1a] overflow-hidden whitespace-nowrap relative z-30 shadow-2xl border-y-4 border-blue-600">
           {/* Decorative pattern overlay */}
           <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)'
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)'
           }}></div>
           
-          {/* Shimmer effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+          {/* Shimmer effect - optimized */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer will-change-transform"></div>
           
-          <div className="inline-block animate-marquee relative z-10">
+          <div className="inline-block animate-marquee-slow relative z-10 will-change-transform">
             {[1, 2, 3, 4].map(i => (
               <React.Fragment key={i}>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-yellow-400 font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]">{t.promo.discount}</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-blue-600 font-bold drop-shadow-[0_2px_4px_rgba(255,255,255,0.5)]">{t.promo.discount}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">{t.promo.onAll}</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]">{t.promo.onAll}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">{t.promo.until}</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]">{t.promo.until}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
-                <span className="font-serif-display text-4xl md:text-6xl mx-12 text-yellow-300 font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">{t.promo.requestNow}</span>
+                <span className="font-serif-display text-4xl md:text-6xl mx-12 text-blue-700 font-semibold drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]">{t.promo.requestNow}</span>
                 <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
               </React.Fragment>
             ))}
