@@ -260,7 +260,9 @@ const REVIEWS = [
 const App = () => {
   const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const languageMenuRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLImageElement>(null);
   const t = translations[language];
 
   const scrollToSection = (id: string) => {
@@ -294,6 +296,16 @@ const App = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [languageMenuOpen]);
+
+  // Parallax effect for hero image
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
@@ -378,12 +390,17 @@ const App = () => {
         {/* Hero Section */}
         <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <img 
+              ref={heroImageRef}
               src="/hero-background.jpg" 
               alt="" 
               className="w-full h-full object-cover"
-              style={{ filter: 'brightness(0.95)' }}
+              style={{ 
+                filter: 'brightness(0.95) blur(2px)',
+                transform: `translateY(${scrollY * 0.5}px)`,
+                transition: 'transform 0.1s ease-out'
+              }}
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 const parent = e.currentTarget.parentElement;
@@ -392,7 +409,7 @@ const App = () => {
                 }
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#Fdfcf8]"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-[#Fdfcf8]/80"></div>
           </div>
 
           {/* Content - In front of background */}
