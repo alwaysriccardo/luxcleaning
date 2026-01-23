@@ -502,13 +502,13 @@ const App = () => {
           <div className="fixed top-8 left-6 md:left-12 z-50" ref={menuRef}>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="menu-btn bg-white/90 backdrop-blur-md p-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex flex-col items-center justify-center gap-1.5 group"
+              className="menu-btn p-3 flex flex-col items-center justify-center gap-1.5 group transition-colors"
               title="Menu"
               aria-label="Toggle menu"
             >
-              <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-              <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+              <span className={`menu-line w-6 h-0.5 rounded-full transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-2 bg-blue-600' : 'bg-stone-700 group-hover:bg-blue-600'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></span>
+              <span className={`menu-line w-6 h-0.5 rounded-full transition-all duration-200 ${menuOpen ? 'opacity-0 bg-blue-600' : 'bg-stone-700 group-hover:bg-blue-600'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></span>
+              <span className={`menu-line w-6 h-0.5 rounded-full transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-2 bg-blue-600' : 'bg-stone-700 group-hover:bg-blue-600'}`} style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></span>
             </button>
 
             {/* Menu Dropdown */}

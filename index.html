@@ -213,22 +213,17 @@
             }
         }
 
-        /* Hamburger Menu Button */
+        /* Hamburger Menu Button - Minimal Icon Only */
         .menu-btn {
-            animation: subtle-pulse 3s ease-in-out infinite;
-            width: 44px;
-            height: 44px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
         }
-        @keyframes subtle-pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
+        .menu-btn:focus {
+            outline: none;
         }
         .menu-line {
-            will-change: transform, opacity;
+            will-change: transform, opacity, background-color;
         }
     </style>
 <script type="importmap">
