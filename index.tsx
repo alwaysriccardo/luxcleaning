@@ -205,22 +205,40 @@ const App = () => {
         </section>
 
         {/* Reviews Section */}
-        <section id="reviews" className="py-32 bg-stone-50 border-y border-stone-100 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl md:text-6xl font-serif-display text-[#1a1a1a] mb-16 text-center">
-              Unsere zufriedenen Kunden
-            </h2>
+        <section id="reviews" className="py-32 bg-gradient-to-b from-stone-50 via-white to-stone-50 border-y border-stone-200 overflow-hidden relative">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 left-0 w-full h-full opacity-5">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-400 rounded-full blur-3xl"></div>
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-6xl font-serif-display text-[#1a1a1a] mb-4">
+                Unsere zufriedenen Kunden
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
+            </div>
 
             <div className="mask-edges overflow-hidden relative">
               <div className="carousel-track flex gap-8 pb-8">
                 {[...REVIEWS, ...REVIEWS].map((r, i) => (
-                  <div key={i} className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[2rem] p-10 border border-stone-100 flex flex-col h-full shadow-sm hover:shadow-xl transition-all">
-                    <div className="flex text-yellow-400 mb-6">
-                      {[1,2,3,4,5].map(star => <Star key={star} size={16} fill="currentColor" />)}
+                  <div key={i} className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[2.5rem] p-10 border-2 border-stone-200 flex flex-col h-full shadow-lg hover:shadow-2xl hover:border-blue-300 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group">
+                    {/* Decorative corner accent */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {/* Quote mark decoration */}
+                    <div className="absolute top-6 left-6 text-blue-100 text-6xl font-serif-display opacity-20">"</div>
+                    
+                    <div className="flex text-yellow-400 mb-6 relative z-10 drop-shadow-sm">
+                      {[1,2,3,4,5].map(star => <Star key={star} size={18} fill="currentColor" className="drop-shadow-sm" />)}
                     </div>
-                    <p className="text-stone-600 mb-8 flex-grow leading-relaxed italic font-light">
+                    <p className="text-stone-600 mb-8 flex-grow leading-relaxed italic font-light text-base relative z-10">
                       "{r.text}"
                     </p>
+                    
+                    {/* Bottom accent line */}
+                    <div className="h-1 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   </div>
                 ))}
               </div>
