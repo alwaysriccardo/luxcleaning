@@ -419,7 +419,7 @@ const App = () => {
             </div>
             
             <h1 className="fade-in-up delay-100 font-serif-display text-6xl md:text-9xl leading-[0.85] text-white mb-10 tracking-tight">
-              {t.hero.title1} <span className="italic text-blue-400">{t.hero.title2}</span>, <br />
+              {t.hero.title1} <span className="italic text-blue-600">{t.hero.title2}</span>, <br />
               {t.hero.title3} <span className="italic text-yellow-300 shiny-text">{t.hero.title4}</span>
             </h1>
 
