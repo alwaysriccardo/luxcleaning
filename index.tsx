@@ -971,7 +971,7 @@ const App = () => {
         </section>
 
         {/* Services Section - Horizontal Scroll (Desktop) / Vertical (Mobile) */}
-        <section id="services" className="relative bg-white pt-8 md:pt-12 pb-8">
+        <section id="services" className="relative bg-white pt-8 md:pt-12 pb-8 overflow-hidden">
           <div className="px-6 md:px-12 text-center mb-8 md:mb-12">
             <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] tracking-tight italic font-light relative inline-block">
               {t.services.title}
@@ -983,7 +983,7 @@ const App = () => {
           </div>
 
           {/* Desktop: Horizontal Scroll */}
-          <div className="hidden lg:flex overflow-x-auto scrollbar-hide pb-8 px-6 md:px-12 gap-6">
+          <div className="hidden lg:flex overflow-x-auto pb-8 px-6 md:px-12 gap-6 min-w-0 w-full">
             {SERVICES.map((s, idx) => {
               const isExpanded = expandedService === idx;
               
@@ -1015,7 +1015,7 @@ const App = () => {
                   </div>
 
                   {/* Card Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10 pointer-events-none">
                     <div className="mb-2 opacity-70">
                       <span className="font-serif-display text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
                     </div>
@@ -1025,7 +1025,13 @@ const App = () => {
                     <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
                       {s.desc}
                     </p>
-                    <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all">
+                    <button 
+                      className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all pointer-events-auto"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedService(isExpanded ? null : idx);
+                      }}
+                    >
                       {t.services.showMore}
                     </button>
                   </div>
