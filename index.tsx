@@ -379,7 +379,7 @@ const App = () => {
         <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center">
           <div className="absolute inset-0 -z-10">
             <img 
-              src="./gil-ribeiro-3hO8igCybds-unsplash.jpg" 
+              src="/gil-ribeiro-3hO8igCybds-unsplash.jpg" 
               alt="Hauptbild" 
               className="w-full h-full object-cover brightness-[0.95]"
               onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1581578731522-745d05cb9724?q=80&w=2000'}
