@@ -394,10 +394,13 @@ const App = () => {
   const [promoModalOpen, setPromoModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [expandedReview, setExpandedReview] = useState<number | null>(null);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const promoModalShown = useRef(false);
+  const reviewIntervalRef = useRef<number | null>(null);
   const t = translations[language];
 
   // Preloader effect
