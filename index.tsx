@@ -980,19 +980,8 @@ const App = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90"></div>
                   </div>
 
-                  {/* Request Quote Button - Top Right */}
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      scrollToSection('angebot');
-                    }}
-                    className="absolute top-4 right-4 z-20 px-4 py-2 rounded-full bg-white text-[#1a1a1a] text-[8px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
-                  >
-                    {t.services.requestQuote}
-                  </button>
-
                   {/* Content Overlay - Positioned at bottom */}
-                  <div className="relative z-10 w-full px-4 md:px-6 pb-4 md:pb-6 text-center text-white">
+                  <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
                     {/* Service Number */}
                     <div className="mb-2 lg:mb-3 opacity-70">
                       <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
@@ -1012,26 +1001,39 @@ const App = () => {
                     <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
                       isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
                     }`}>
-                      <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
-                        <p className="text-sm md:text-base text-white max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                          {s.details}
-                        </p>
+                      {/* Gradient backdrop box - only appears when expanded */}
+                      <div className={`bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto transition-all duration-500 ${
+                        isExpanded ? 'opacity-100' : 'opacity-0'
+                      }`}>
+                        <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
+                          <p className="text-sm md:text-base text-white max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                            {s.details}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Learn More Button - Smaller, at bottom */}
-                    <div className="mt-4 lg:mt-5 flex justify-center px-2">
+                    {/* CTA Button */}
+                    <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToSection('angebot');
+                        }}
+                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                      >
+                        {t.services.requestQuote}
+                      </button>
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           setExpandedService(isExpanded ? null : idx);
                         }}
-                        className="px-4 py-2 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[8px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
                       >
                         {isExpanded ? t.services.showLess : t.services.showMore}
                       </button>
                     </div>
-                  </div>
 
                     {/* Mobile Animated Indicator - Top Left */}
                     <div className="lg:hidden absolute top-4 left-4 z-20">
