@@ -52,7 +52,7 @@ const translations = {
       title2: "Kunst",
       title3: "Exzellenz ist unser",
       title4: "Standard.",
-      description: "Wir verwandeln Ihre Räumlichkeiten in makellose Zonen der Ruhe. Schnell, diskret und mit der sprichwörtlichen deutschen Gründlichkeit.",
+      description: "Erleben Sie makellose Sauberkeit, die Ihre Erwartungen übertrifft. Holen Sie sich noch heute Ihr kostenloses Angebot und lassen Sie uns Ihre Räume in Perfektion verwandeln.",
       servicesBtn: "Unsere Leistungen",
       quoteBtn: "Angebot einholen"
     },
@@ -107,7 +107,7 @@ const translations = {
       title2: "art",
       title3: "excellence is our",
       title4: "standard.",
-      description: "We transform your spaces into flawless zones of tranquility. Fast, discreet, and with proverbial German thoroughness.",
+      description: "Experience flawless cleanliness that exceeds your expectations. Get your free quote today and let us transform your spaces into perfection.",
       servicesBtn: "Our Services",
       quoteBtn: "Get a Quote"
     },
@@ -162,7 +162,7 @@ const translations = {
       title2: "art",
       title3: "l'excellence est notre",
       title4: "standard.",
-      description: "Nous transformons vos espaces en zones de tranquillité impeccables. Rapide, discret et avec la minutie allemande proverbiale.",
+      description: "Découvrez une propreté impeccable qui dépasse vos attentes. Obtenez votre devis gratuit dès aujourd'hui et laissez-nous transformer vos espaces en perfection.",
       servicesBtn: "Nos Services",
       quoteBtn: "Demander un Devis"
     },
@@ -428,11 +428,11 @@ const App = () => {
             </p>
 
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button onClick={() => scrollToSection('services')} className="px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl">
-                {t.hero.servicesBtn}
-              </button>
-              <button onClick={() => scrollToSection('angebot')} className="px-10 py-5 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 transition-all">
+              <button onClick={() => scrollToSection('angebot')} className="px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl">
                 {t.hero.quoteBtn}
+              </button>
+              <button onClick={() => scrollToSection('services')} className="px-10 py-5 rounded-full border-2 border-white text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] transition-all">
+                {t.hero.servicesBtn}
               </button>
             </div>
           </div>
