@@ -455,9 +455,9 @@ const App = () => {
               <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
             
-            <h1 className="fade-in-up delay-100 font-hero-title text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl uppercase">
-              {t.hero.title1} <span className="text-black hero-text-outline">{t.hero.title2}</span>, <br />
-              {t.hero.title3} <span className="text-yellow-400 hero-text-outline">{t.hero.title4}</span>
+            <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl">
+              {t.hero.title1} <span className="italic text-blue-500 drop-shadow-lg">{t.hero.title2}</span>, <br />
+              {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
             </h1>
 
             <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg px-4">
