@@ -585,7 +585,7 @@ const App = () => {
             <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 px-0">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 px-6 lg:px-12 max-w-7xl mx-auto">
             {SERVICES.map((s, idx) => {
               const isVisible = visibleServices.has(idx);
               const isExpanded = expandedService === idx;
@@ -594,65 +594,55 @@ const App = () => {
                 <div
                   key={idx}
                   ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-[600px] lg:min-h-[800px] flex items-center justify-center relative overflow-hidden ${
+                  className={`service-reveal flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 ${
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
-                  onClick={() => setExpandedService(isExpanded ? null : idx)}
                 >
-                  {/* Background Image with Premium Overlay */}
-                  <div className="absolute inset-0 w-full h-full">
+                  {/* Top 60% - Pure Image */}
+                  <div className="relative w-full h-[60%] min-h-[300px] overflow-hidden">
                     <img 
                       src={s.img} 
                       alt={s.title} 
                       className="w-full h-full object-cover"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
-                    {/* Premium Dark Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
-                    {/* Subtle pattern overlay */}
-                    <div className="absolute inset-0 opacity-10" style={{
-                      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)'
-                    }}></div>
+                    {/* Service Number - Overlay on image */}
+                    <div className="absolute top-4 right-4 opacity-70">
+                      <span className="font-serif-display text-5xl md:text-6xl font-light text-white drop-shadow-lg">{String(idx + 1).padStart(2, '0')}</span>
+                    </div>
                   </div>
 
-                  {/* Content Overlay */}
-                  <div className={`relative z-10 w-full px-6 md:px-8 text-center text-white transition-all duration-1000 ${
-                    isExpanded ? 'scale-105' : 'scale-100'
-                  }`}>
-                    {/* Service Number */}
-                    <div className="mb-4 lg:mb-6 opacity-60">
-                      <span className="font-serif-display text-4xl md:text-5xl lg:text-6xl font-light">{String(idx + 1).padStart(2, '0')}</span>
-                    </div>
-
+                  {/* Bottom 40% - White Content Panel */}
+                  <div className="flex-1 bg-white p-6 lg:p-8 flex flex-col">
                     {/* Service Title */}
-                    <h3 className="font-serif-display text-3xl md:text-4xl lg:text-5xl mb-4 lg:mb-6 tracking-tight drop-shadow-2xl px-4">
+                    <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl mb-3 tracking-tight text-[#1a1a1a]">
                       {s.title}
                     </h3>
 
                     {/* Short Description */}
-                    <p className="text-sm md:text-base lg:text-lg text-white/90 mb-6 lg:mb-8 max-w-xl mx-auto leading-relaxed font-light drop-shadow-lg px-4">
+                    <p className="text-sm md:text-base text-stone-600 mb-6 leading-relaxed font-light flex-grow">
                       {s.desc}
                     </p>
 
                     {/* Expandable Details */}
                     <div className={`overflow-hidden transition-all duration-700 ease-in-out ${
-                      isExpanded ? 'max-h-96 opacity-100 mt-6 lg:mt-8' : 'max-h-0 opacity-0'
+                      isExpanded ? 'max-h-96 opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'
                     }`}>
-                      <div className="border-t border-white/20 pt-6 lg:pt-8 px-4">
-                        <p className="text-sm md:text-base text-white/80 max-w-2xl mx-auto leading-relaxed font-light">
+                      <div className="border-t border-stone-200 pt-6">
+                        <p className="text-sm md:text-base text-stone-600 leading-relaxed font-light">
                           {s.details}
                         </p>
                       </div>
                     </div>
 
-                    {/* CTA Button */}
-                    <div className="mt-8 lg:mt-10 flex flex-col items-center justify-center gap-3 lg:gap-4 px-4">
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col gap-3 mt-auto">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           scrollToSection('angebot');
                         }}
-                        className="w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-full bg-white text-[#1a1a1a] text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                        className="w-full px-6 py-4 rounded-full bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:scale-105 transition-all shadow-lg"
                       >
                         {t.services.requestQuote}
                       </button>
@@ -661,7 +651,7 @@ const App = () => {
                           e.stopPropagation();
                           setExpandedService(isExpanded ? null : idx);
                         }}
-                        className="w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                        className="w-full px-6 py-4 rounded-full border-2 border-stone-300 text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-stone-100 hover:scale-105 transition-all"
                       >
                         {isExpanded ? t.services.showLess : t.services.showMore}
                       </button>
