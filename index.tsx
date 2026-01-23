@@ -579,13 +579,13 @@ const App = () => {
         </header>
 
         {/* Services Section - Split Screen Reveal */}
-        <section id="services" className="relative bg-white">
-          <div className="sticky top-0 z-10 py-16 px-6 md:px-12 text-center bg-white/95 backdrop-blur-sm border-b border-stone-200">
+        <section id="services" className="relative bg-white py-32">
+          <div className="py-16 px-6 md:px-12 text-center">
             <h2 className="font-serif-display text-4xl md:text-6xl text-[#1a1a1a] mb-4 tracking-tight">{t.services.title}</h2>
             <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
           </div>
 
-          <div className="relative">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 px-0">
             {SERVICES.map((s, idx) => {
               const isVisible = visibleServices.has(idx);
               const isExpanded = expandedService === idx;
@@ -594,7 +594,7 @@ const App = () => {
                 <div
                   key={idx}
                   ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-screen flex items-center justify-center relative overflow-hidden ${
+                  className={`service-reveal min-h-[600px] lg:min-h-[800px] flex items-center justify-center relative overflow-hidden ${
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
@@ -616,43 +616,43 @@ const App = () => {
                   </div>
 
                   {/* Content Overlay */}
-                  <div className={`relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center text-white transition-all duration-1000 ${
+                  <div className={`relative z-10 w-full px-6 md:px-8 text-center text-white transition-all duration-1000 ${
                     isExpanded ? 'scale-105' : 'scale-100'
                   }`}>
                     {/* Service Number */}
-                    <div className="mb-6 opacity-60">
-                      <span className="font-serif-display text-6xl md:text-8xl font-light">{String(idx + 1).padStart(2, '0')}</span>
+                    <div className="mb-4 lg:mb-6 opacity-60">
+                      <span className="font-serif-display text-4xl md:text-5xl lg:text-6xl font-light">{String(idx + 1).padStart(2, '0')}</span>
                     </div>
 
                     {/* Service Title */}
-                    <h3 className="font-serif-display text-5xl md:text-7xl lg:text-8xl mb-6 tracking-tight drop-shadow-2xl">
+                    <h3 className="font-serif-display text-3xl md:text-4xl lg:text-5xl mb-4 lg:mb-6 tracking-tight drop-shadow-2xl px-4">
                       {s.title}
                     </h3>
 
                     {/* Short Description */}
-                    <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-lg">
+                    <p className="text-sm md:text-base lg:text-lg text-white/90 mb-6 lg:mb-8 max-w-xl mx-auto leading-relaxed font-light drop-shadow-lg px-4">
                       {s.desc}
                     </p>
 
                     {/* Expandable Details */}
                     <div className={`overflow-hidden transition-all duration-700 ease-in-out ${
-                      isExpanded ? 'max-h-96 opacity-100 mt-8' : 'max-h-0 opacity-0'
+                      isExpanded ? 'max-h-96 opacity-100 mt-6 lg:mt-8' : 'max-h-0 opacity-0'
                     }`}>
-                      <div className="border-t border-white/20 pt-8">
-                        <p className="text-base md:text-lg text-white/80 max-w-3xl mx-auto leading-relaxed font-light">
+                      <div className="border-t border-white/20 pt-6 lg:pt-8 px-4">
+                        <p className="text-sm md:text-base text-white/80 max-w-2xl mx-auto leading-relaxed font-light">
                           {s.details}
                         </p>
                       </div>
                     </div>
 
                     {/* CTA Button */}
-                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div className="mt-8 lg:mt-10 flex flex-col items-center justify-center gap-3 lg:gap-4 px-4">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           scrollToSection('angebot');
                         }}
-                        className="px-10 py-5 rounded-full bg-white text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                        className="w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-full bg-white text-[#1a1a1a] text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
                       >
                         {t.services.requestQuote}
                       </button>
@@ -661,20 +661,11 @@ const App = () => {
                           e.stopPropagation();
                           setExpandedService(isExpanded ? null : idx);
                         }}
-                        className="px-10 py-5 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                        className="w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
                       >
                         {isExpanded ? t.services.showLess : t.services.showMore}
                       </button>
                     </div>
-
-                    {/* Scroll Indicator */}
-                    {idx < SERVICES.length - 1 && (
-                      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-                        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-                          <div className="w-1 h-3 bg-white/50 rounded-full"></div>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               );
