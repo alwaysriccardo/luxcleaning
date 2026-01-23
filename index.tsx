@@ -418,10 +418,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [currentServiceIndex, setCurrentServiceIndex] = useState(0);
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [promoModalOpen, setPromoModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -949,7 +945,7 @@ const App = () => {
 
         {/* Services Section - Split Screen Reveal */}
         <section id="services" className="relative bg-white pt-8 md:pt-12 pb-8">
-          <div className="px-6 md:px-12 text-center sticky top-0 bg-white z-30 py-4 md:py-0 md:static">
+          <div className="px-6 md:px-12 text-center">
             <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] mb-8 md:mb-12 tracking-tight italic font-light relative inline-block">
               {t.services.title}
             </h2>
@@ -959,30 +955,6 @@ const App = () => {
             {SERVICES.map((s, idx) => {
               const isVisible = visibleServices.has(idx);
               const isExpanded = expandedService === idx;
-              const isActive = idx === currentServiceIndex;
-              
-              // Swipe handlers
-              const minSwipeDistance = 50;
-              const onTouchStart = (e: React.TouchEvent) => {
-                setTouchEnd(null);
-                setTouchStart(e.targetTouches[0].clientX);
-              };
-              const onTouchMove = (e: React.TouchEvent) => {
-                setTouchEnd(e.targetTouches[0].clientX);
-              };
-              const onTouchEnd = () => {
-                if (!touchStart || !touchEnd) return;
-                const distance = touchStart - touchEnd;
-                const isLeftSwipe = distance > minSwipeDistance;
-                const isRightSwipe = distance < -minSwipeDistance;
-                
-                if (isLeftSwipe && currentServiceIndex < SERVICES.length - 1) {
-                  setCurrentServiceIndex(prev => prev + 1);
-                }
-                if (isRightSwipe && currentServiceIndex > 0) {
-                  setCurrentServiceIndex(prev => prev - 1);
-                }
-              };
               
               return (
                 <div
@@ -990,18 +962,8 @@ const App = () => {
                   ref={(el) => { serviceRefs.current[idx] = el; }}
                   className={`service-reveal min-h-[500px] lg:min-h-[450px] flex items-end justify-center relative overflow-hidden ${
                     isVisible ? 'service-visible' : 'service-hidden'
-                  } lg:block ${isActive ? 'block' : 'hidden'} lg:block`}
-                  onClick={() => {
-                    if (window.innerWidth < 1024) {
-                      setBottomSheetOpen(true);
-                      setExpandedService(idx);
-                    } else {
-                      setExpandedService(isExpanded ? null : idx);
-                    }
-                  }}
-                  onTouchStart={onTouchStart}
-                  onTouchMove={onTouchMove}
-                  onTouchEnd={onTouchEnd}
+                  }`}
+                  onClick={() => setExpandedService(isExpanded ? null : idx)}
                   style={{ aspectRatio: 'auto' }}
                 >
                   {/* Background Image with Premium Overlay */}
@@ -1114,7 +1076,7 @@ const App = () => {
                       </div>
                     </div>
 
-                    {/* Mobile Animated Indicator - Swipe & Tap */}
+                    {/* Mobile Animated Indicator - Top Left */}
                     <div className="lg:hidden absolute top-4 left-4 z-20">
                       <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-[0_0_10px_rgba(59,130,246,0.4)]">
                         <Hand 
@@ -1124,99 +1086,14 @@ const App = () => {
                             animation: 'pulse 1.5s infinite'
                           }}
                         />
-                        <span className="text-white text-[10px] font-medium uppercase tracking-wider">Swipe</span>
+                        <span className="text-white text-[10px] font-medium uppercase tracking-wider">Tap</span>
                       </div>
-                    </div>
-                    
-                    {/* Mobile Service Indicator Dots */}
-                    <div className="lg:hidden absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-                      {SERVICES.map((_, dotIdx) => (
-                        <div
-                          key={dotIdx}
-                          className={`w-2 h-2 rounded-full transition-all ${
-                            dotIdx === currentServiceIndex ? 'bg-white w-6' : 'bg-white/50'
-                          }`}
-                        />
-                      ))}
                     </div>
                   </div>
               </div>
               );
             })}
           </div>
-
-          {/* Mobile Bottom Sheet */}
-          {bottomSheetOpen && expandedService !== null && (
-            <div 
-              className="lg:hidden fixed inset-0 z-50 flex items-end"
-              onClick={() => setBottomSheetOpen(false)}
-            >
-              {/* Backdrop */}
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-              
-              {/* Bottom Sheet */}
-              <div 
-                className="relative w-full bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-y-auto animate-slide-up"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Handle */}
-                <div className="sticky top-0 bg-white pt-4 pb-2 flex justify-center z-10">
-                  <div className="w-12 h-1.5 bg-stone-300 rounded-full"></div>
-                </div>
-                
-                {/* Close Button */}
-                <button
-                  onClick={() => setBottomSheetOpen(false)}
-                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center z-20"
-                >
-                  <X size={20} className="text-stone-600" />
-                </button>
-                
-                {/* Content */}
-                <div className="px-6 pb-8">
-                  {SERVICES[expandedService] && (
-                    <>
-                      {/* Service Number */}
-                      <div className="mb-4 opacity-70">
-                        <span className="font-serif-display text-4xl font-light text-stone-400">
-                          {String(expandedService + 1).padStart(2, '0')}
-                        </span>
-                      </div>
-                      
-                      {/* Service Title */}
-                      <h3 className="font-serif-display text-3xl mb-4 tracking-tight text-[#1a1a1a]">
-                        {SERVICES[expandedService].title}
-                      </h3>
-                      
-                      {/* Short Description */}
-                      <p className="text-stone-600 mb-6 leading-relaxed">
-                        {SERVICES[expandedService].desc}
-                      </p>
-                      
-                      {/* Details */}
-                      <div className="border-t border-stone-200 pt-6 mb-6">
-                        <p className="text-stone-700 leading-relaxed">
-                          {SERVICES[expandedService].details}
-                        </p>
-                      </div>
-                      
-                      {/* CTA Button */}
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setBottomSheetOpen(false);
-                          scrollToSection('angebot');
-                        }}
-                        className="w-full px-8 py-4 rounded-full bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-xl"
-                      >
-                        {t.services.requestQuote}
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </section>
 
 
