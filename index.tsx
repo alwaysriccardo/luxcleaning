@@ -485,6 +485,20 @@ const App = () => {
       <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
         <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
           
+          {/* Hamburger Menu Button */}
+          <div className="fixed top-8 left-6 md:left-12 z-50">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="menu-btn bg-white/90 backdrop-blur-md p-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex flex-col items-center justify-center gap-1.5 group"
+              title="Menu"
+              aria-label="Toggle menu"
+            >
+              <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+              <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`}></span>
+              <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+            </button>
+          </div>
+
           {/* Language Switcher */}
         <div className="fixed bottom-6 right-6 md:right-12 z-50" ref={languageMenuRef}>
           <button
