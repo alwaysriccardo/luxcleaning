@@ -9,7 +9,7 @@ import {
   Send,
   MapPin,
   Languages,
-  ChevronDown
+  Hand
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -666,17 +666,17 @@ const App = () => {
                       </button>
                     </div>
 
-                    {/* Mobile Animated Indicator */}
-                    <div className="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-                      <div className="flex flex-col items-center gap-2">
-                        <span className="text-white/70 text-xs font-light uppercase tracking-wider">Tap for more</span>
-                        <ChevronDown 
-                          size={24} 
-                          className="text-white/70 animate-pulse"
+                    {/* Mobile Animated Indicator - Top Left */}
+                    <div className="lg:hidden absolute top-4 left-4 z-20">
+                      <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30">
+                        <Hand 
+                          size={18} 
+                          className="text-white animate-pulse"
                           style={{
-                            animation: 'bounce 2s infinite, pulse 2s infinite'
+                            animation: 'pulse 1.5s infinite'
                           }}
                         />
+                        <span className="text-white text-[10px] font-medium uppercase tracking-wider">Tap</span>
                       </div>
                     </div>
                   </div>
