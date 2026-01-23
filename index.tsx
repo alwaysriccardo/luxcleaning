@@ -433,7 +433,7 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 text-center overflow-hidden">
+        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <div 
@@ -451,16 +451,16 @@ const App = () => {
 
           {/* Content - In front of background */}
           <div className="max-w-5xl mx-auto relative z-10">
-            <div className="fade-in-up inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
+            <div className="fade-in-up inline-flex items-center gap-2 mb-6 md:mb-8 px-5 py-2 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
               <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
             
-            <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-10 tracking-tight drop-shadow-2xl">
+            <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl">
               {t.hero.title1} <span className="italic text-blue-500 drop-shadow-lg">{t.hero.title2}</span>, <br />
               {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
             </h1>
 
-            <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-12 drop-shadow-lg px-4">
+            <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg px-4">
               {t.hero.description}
             </p>
 
