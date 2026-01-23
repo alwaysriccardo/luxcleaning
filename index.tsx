@@ -486,6 +486,59 @@ const App = () => {
     };
   }, []);
 
+  // Promo Modal - Show after 3 seconds or on scroll
+  useEffect(() => {
+    if (promoModalShown.current) return;
+
+    const showModal = () => {
+      if (!promoModalShown.current) {
+        setPromoModalOpen(true);
+        promoModalShown.current = true;
+      }
+    };
+
+    // Show after 3 seconds
+    const timer = setTimeout(showModal, 3000);
+
+    // Show on scroll (50% down the page)
+    let scrollTriggered = false;
+    const handleScroll = () => {
+      if (!scrollTriggered && window.scrollY > window.innerHeight * 0.5) {
+        scrollTriggered = true;
+        clearTimeout(timer);
+        showModal();
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handlePromoSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Create email content
+    const subject = encodeURIComponent('20% Rabatt Anfrage - Lux Cleaning');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nTelefon: ${formData.phone}\n\nIch interessiere mich für das 20% Rabatt Angebot.`
+    );
+    
+    // Open email client
+    window.location.href = `mailto:luxcleaning@mail.ch?subject=${subject}&body=${body}`;
+    
+    // Show success message
+    setFormSubmitted(true);
+    
+    // Close modal after 3 seconds
+    setTimeout(() => {
+      setPromoModalOpen(false);
+    }, 3000);
+  };
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
@@ -513,6 +566,100 @@ const App = () => {
               </h1>
             </div>
             <div className="preloader-spinner w-8 h-8 border-3 border-stone-200 border-t-blue-600 rounded-full mx-auto"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Promo Modal */}
+      {promoModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setPromoModalOpen(false)}>
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+          
+          {/* Modal */}
+          <div 
+            className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl p-8 animate-modal-in"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setPromoModalOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+            >
+              <X size={18} className="text-white" />
+            </button>
+
+            {/* Content */}
+            {!formSubmitted ? (
+              <>
+                {/* Badge */}
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center gap-2 bg-yellow-400/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-400/30 mb-4">
+                    <span className="text-3xl font-bold text-yellow-400">20%</span>
+                    <span className="text-white/90 text-sm font-bold uppercase">RABATT</span>
+                  </div>
+                  <h3 className="font-serif-display text-3xl md:text-4xl text-white mb-2 drop-shadow-lg">
+                    {t.promoModal.title}
+                  </h3>
+                  <p className="text-white/80 text-sm">
+                    {t.promoModal.subtitle}
+                  </p>
+                </div>
+
+                {/* Form */}
+                <form onSubmit={handlePromoSubmit} className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder={t.promoModal.name}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all"
+                  />
+                  <input
+                    type="email"
+                    placeholder={t.promoModal.email}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all"
+                  />
+                  <input
+                    type="tel"
+                    placeholder={t.promoModal.phone}
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all"
+                  />
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="submit"
+                      className="flex-1 bg-yellow-400 text-[#1a1a1a] px-6 py-3 rounded-xl font-bold uppercase tracking-wider text-sm hover:bg-yellow-500 transition-all shadow-lg"
+                    >
+                      {t.promoModal.submit}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPromoModalOpen(false)}
+                      className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-medium text-sm hover:bg-white/20 transition-all"
+                    >
+                      {t.promoModal.later}
+                    </button>
+                  </div>
+                </form>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Sparkles size={32} className="text-yellow-400" />
+                </div>
+                <h3 className="font-serif-display text-2xl text-white mb-2">{t.promoModal.success}</h3>
+                <p className="text-white/70 text-sm">{t.promoModal.close}</p>
+              </div>
+            )}
           </div>
         </div>
       )}
