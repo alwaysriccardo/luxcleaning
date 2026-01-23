@@ -450,17 +450,19 @@ const App = () => {
           </div>
 
           {/* Content - In front of background */}
-          <div className="max-w-5xl mx-auto relative z-10">
-            <div className="fade-in-up inline-flex items-center gap-2 mb-6 md:mb-8 px-5 py-2 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
+          <div className="max-w-6xl mx-auto relative z-10">
+            <div className="fade-in-up inline-flex items-center gap-2 mb-4 md:mb-6 px-5 py-2 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
               <span className="text-lg">🇨🇭</span> {t.hero.badge}
             </div>
             
-            <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl">
-              {t.hero.title1} <span className="italic text-blue-500 drop-shadow-lg">{t.hero.title2}</span>, <br />
-              {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
+            <h1 className="fade-in-up delay-100 font-serif-display text-4xl sm:text-6xl md:text-7xl leading-[1.1] text-white mb-3 md:mb-4 tracking-tight">
+              <span className="block mb-2 text-white/90 font-light">{t.hero.title1}</span>
+              <span className="hero-highlight-kunst block text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] italic font-bold leading-none mb-3">{t.hero.title2}</span>
+              <span className="block mb-2 text-white/90 font-light">{t.hero.title3}</span>
+              <span className="hero-highlight-standard block text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] italic font-bold leading-none">{t.hero.title4}</span>
             </h1>
 
-            <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg px-4">
+            <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-8 md:mb-10 drop-shadow-lg px-4">
               {t.hero.description}
             </p>
 
