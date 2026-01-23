@@ -609,6 +609,9 @@ const App = () => {
                       src={s.img} 
                       alt={s.title} 
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
                     {/* Gradual Gradient Overlay - transparent at top, darker at bottom */}
