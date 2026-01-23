@@ -47,7 +47,7 @@ const translations = {
       getQuote: "Angebot anfordern"
     },
     hero: {
-      badge: "Makellose Sauberkeit",
+      badge: "Schweizer Standard",
       title1: "Reinigung ist eine",
       title2: "Kunst",
       title3: "Exzellenz ist unser",
@@ -102,7 +102,7 @@ const translations = {
       getQuote: "Get a Quote"
     },
     hero: {
-      badge: "Flawless Cleanliness",
+      badge: "Swiss Standard",
       title1: "Cleaning is an",
       title2: "art",
       title3: "excellence is our",
@@ -157,7 +157,7 @@ const translations = {
       getQuote: "Demander un Devis"
     },
     hero: {
-      badge: "Propreté Impeccable",
+      badge: "Standard Suisse",
       title1: "Le nettoyage est un",
       title2: "art",
       title3: "l'excellence est notre",
