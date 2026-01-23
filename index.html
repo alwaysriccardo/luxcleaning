@@ -175,16 +175,28 @@
             position: relative;
         }
 
-        /* Service Reveal Animations */
+        /* Service Reveal Animations - Optimized */
         .service-reveal {
             opacity: 0;
-            transition: opacity 1s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
         .service-visible {
             opacity: 1;
+            transform: translateY(0);
         }
         .service-hidden {
             opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* Disable animations on mobile for better performance */
+        @media (max-width: 1023px) {
+            .service-reveal {
+                opacity: 1;
+                transform: translateY(0);
+                transition: none;
+            }
         }
     </style>
 <script type="importmap">

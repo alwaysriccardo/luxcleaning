@@ -416,8 +416,15 @@ const App = () => {
     };
   }, []);
 
-  // Intersection Observer for service reveal animations
+  // Intersection Observer for service reveal animations - disabled on mobile for performance
   useEffect(() => {
+    // Skip on mobile devices for better performance
+    if (window.innerWidth < 1024) {
+      // Mark all as visible on mobile immediately
+      setVisibleServices(new Set(SERVICES.map((_, idx) => idx)));
+      return;
+    }
+
     const observers = serviceRefs.current.map((ref, index) => {
       if (!ref) return null;
       
@@ -429,7 +436,7 @@ const App = () => {
             }
           });
         },
-        { threshold: 0.3 }
+        { threshold: 0.1 }
       );
       
       observer.observe(ref);
@@ -598,10 +605,11 @@ const App = () => {
                 <div
                   key={idx}
                   ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-[600px] lg:min-h-[500px] lg:aspect-[16/9] flex items-end justify-center relative overflow-hidden ${
+                  className={`service-reveal min-h-[500px] lg:min-h-[450px] flex items-end justify-center relative overflow-hidden ${
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
+                  style={{ aspectRatio: 'auto' }}
                 >
                   {/* Background Image with Premium Overlay */}
                   <div className="absolute inset-0 w-full h-full">
@@ -610,8 +618,6 @@ const App = () => {
                       alt={s.title} 
                       className="w-full h-full object-cover"
                       loading="lazy"
-                      decoding="async"
-                      fetchPriority="low"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
                     {/* Gradual Gradient Overlay - transparent at top, darker at bottom */}
@@ -619,9 +625,7 @@ const App = () => {
                   </div>
 
                   {/* Content Overlay - Positioned at bottom */}
-                  <div className={`relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white transition-all duration-1000 ${
-                    isExpanded ? 'scale-105' : 'scale-100'
-                  }`}>
+                  <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
                     {/* Service Number */}
                     <div className="mb-2 lg:mb-3 opacity-60">
                       <span className="font-serif-display text-2xl md:text-3xl lg:text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
@@ -638,7 +642,7 @@ const App = () => {
                     </p>
 
                     {/* Expandable Details */}
-                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${
+                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
                       isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
                     }`}>
                       <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
