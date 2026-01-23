@@ -262,7 +262,6 @@ const App = () => {
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const languageMenuRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
   // Preloader effect
@@ -305,34 +304,6 @@ const App = () => {
     };
   }, [languageMenuOpen]);
 
-  // Optimized parallax effect for hero image
-  useEffect(() => {
-    let rafId: number;
-    
-    const handleScroll = () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
-      
-      rafId = requestAnimationFrame(() => {
-        if (heroRef.current) {
-          const scrolled = window.scrollY;
-          const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLElement;
-          if (heroImage && scrolled < window.innerHeight) {
-            heroImage.style.transform = `translateY(${scrolled * 0.4}px)`;
-          }
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
-    };
-  }, []);
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
@@ -433,11 +404,11 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
+        <header className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <div 
-              className="hero-bg-image absolute inset-0 w-full h-full will-change-transform"
+              className="absolute inset-0 w-full h-full"
               style={{
                 backgroundImage: 'url(/hero-gloves-image.jpg)',
                 backgroundSize: 'cover',
