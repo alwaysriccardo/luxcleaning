@@ -855,7 +855,7 @@ const App = () => {
 
             {/* Rotating Featured Reviews */}
             <div className="max-w-4xl mx-auto">
-              <div className="relative">
+              <div className="relative min-h-[400px]">
                 {REVIEWS.slice(0, 12).map((r, idx) => {
                   const isActive = idx === currentReviewIndex;
                   const isExpanded = expandedReview === idx;
@@ -864,11 +864,11 @@ const App = () => {
                   return (
                     <div
                       key={idx}
-                      className={`absolute inset-0 transition-all duration-700 ${
-                        isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+                      className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                        isActive ? 'opacity-100 translate-y-0 z-10' : 'opacity-0 translate-y-4 pointer-events-none z-0'
                       }`}
                     >
-                      <div className="bg-white rounded-2xl p-8 border border-stone-200 shadow-lg">
+                      <div className="bg-white rounded-2xl p-8 border border-stone-200 shadow-lg h-full">
                         {/* Service Badge */}
                         <div className="mb-4">
                           <span className="inline-block px-3 py-1 bg-stone-100 rounded-full text-[10px] font-bold uppercase tracking-wider text-stone-600">
