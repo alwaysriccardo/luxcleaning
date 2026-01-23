@@ -973,11 +973,13 @@ const App = () => {
                   }}
                 >
                   {/* Background Image with Premium Overlay */}
-                  <div className="absolute inset-0 w-full h-full">
+                  <div className="absolute inset-0 w-full h-full overflow-hidden">
                   <img 
                     src={s.img} 
                     alt={s.title} 
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full object-cover transition-transform duration-700 ease-out ${
+                        isExpanded ? 'scale-90' : 'scale-100'
+                      }`}
                       loading="lazy"
                     onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                   />
