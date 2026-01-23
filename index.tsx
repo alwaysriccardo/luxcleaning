@@ -533,16 +533,18 @@ const App = () => {
         {/* Hero Section */}
         <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <div 
-              className="hero-bg-image absolute inset-0 w-full h-full will-change-transform"
+          <div className="absolute inset-0 z-0 overflow-hidden bg-[#Fdfcf8]">
+            <img
+              src="/hero-gloves-image.jpg"
+              alt=""
+              className="hero-bg-image absolute inset-0 w-full h-full object-cover will-change-transform"
               style={{
-                backgroundImage: 'url(/hero-gloves-image.jpg)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
                 filter: 'brightness(0.9) blur(1.5px)',
+                transform: `translateY(${typeof window !== 'undefined' ? window.scrollY * 0.4 : 0}px)`,
               }}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[1]"></div>
           </div>
