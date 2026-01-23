@@ -9,7 +9,8 @@ import {
   Send,
   MapPin,
   Languages,
-  Hand
+  Hand,
+  X
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -119,6 +120,17 @@ const translations = {
       copyright: "© 2024 LUX CLEANING. FÜR PERFEKTE SAUBERKEIT.",
       imprint: "Impressum",
       privacy: "Datenschutz"
+    },
+    promoModal: {
+      title: "20% RABATT FÜR NEUE KUNDEN",
+      subtitle: "Exklusives Angebot - Jetzt sichern!",
+      name: "Name",
+      email: "Email",
+      phone: "Telefon",
+      submit: "Angebot sichern",
+      later: "Später",
+      success: "Vielen Dank! Wir senden Ihnen das Angebot per Email.",
+      close: "Schließen"
     }
   },
   en: {
@@ -200,6 +212,17 @@ const translations = {
       copyright: "© 2024 LUX CLEANING. FOR PERFECT CLEANLINESS.",
       imprint: "Imprint",
       privacy: "Privacy"
+    },
+    promoModal: {
+      title: "20% DISCOUNT FOR NEW CUSTOMERS",
+      subtitle: "Exclusive Offer - Secure Now!",
+      name: "Name",
+      email: "Email",
+      phone: "Phone",
+      submit: "Secure Offer",
+      later: "Later",
+      success: "Thank you! We'll send you the offer via email.",
+      close: "Close"
     }
   },
   fr: {
@@ -281,6 +304,17 @@ const translations = {
       copyright: "© 2024 LUX CLEANING. POUR UNE PROPRETÉ PARFAITE.",
       imprint: "Mentions Légales",
       privacy: "Confidentialité"
+    },
+    promoModal: {
+      title: "20% DE RÉDUCTION POUR NOUVEAUX CLIENTS",
+      subtitle: "Offre Exclusive - Réservez Maintenant!",
+      name: "Nom",
+      email: "Email",
+      phone: "Téléphone",
+      submit: "Réserver l'Offre",
+      later: "Plus Tard",
+      success: "Merci! Nous vous enverrons l'offre par email.",
+      close: "Fermer"
     }
   }
 };
@@ -342,9 +376,13 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
+  const [promoModalOpen, setPromoModalOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const promoModalShown = useRef(false);
   const t = translations[language];
 
   // Preloader effect
