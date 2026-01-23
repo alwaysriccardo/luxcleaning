@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   ArrowUpRight, 
@@ -71,9 +71,37 @@ const REVIEWS = [
 ];
 
 const App = () => {
+  const reviewsScrollRef = useRef<HTMLDivElement>(null);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Auto-scroll reviews every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (reviewsScrollRef.current) {
+        const cardWidth = 320; // Base width in pixels
+        const gap = 32; // gap-8 = 2rem = 32px
+        const scrollAmount = cardWidth + gap;
+        const maxScroll = reviewsScrollRef.current.scrollWidth - reviewsScrollRef.current.clientWidth;
+        const currentScroll = reviewsScrollRef.current.scrollLeft;
+        
+        if (currentScroll + scrollAmount >= maxScroll) {
+          // Reset to beginning
+          reviewsScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+          setCurrentReviewIndex(0);
+        } else {
+          // Scroll to next card
+          reviewsScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+          setCurrentReviewIndex(prev => (prev + 1) % REVIEWS.length);
+        }
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
@@ -220,7 +248,11 @@ const App = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
             </div>
 
-            <div className="overflow-x-auto overflow-y-hidden relative -mx-6 px-6 scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+            <div 
+              ref={reviewsScrollRef}
+              className="overflow-x-auto overflow-y-hidden relative -mx-6 px-6 scrollbar-hide" 
+              style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
+            >
               <div className="flex gap-8 pb-8" style={{width: 'max-content'}}>
                 {REVIEWS.map((r, i) => (
                   <div key={i} className="w-[320px] md:w-[400px] flex-shrink-0 bg-gradient-to-br from-white to-blue-50/30 rounded-[2.5rem] p-10 border-2 border-blue-200/50 flex flex-col h-full shadow-xl hover:shadow-2xl hover:border-blue-400 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group backdrop-blur-sm">
