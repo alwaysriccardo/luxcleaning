@@ -856,10 +856,10 @@ const App = () => {
         </header>
 
         {/* Reviews Section - Right Below Hero */}
-        <section id="reviews" className="py-12 bg-white border-b border-stone-200">
+        <section id="reviews" className="py-6 md:py-12 bg-white border-b border-stone-200">
           <div className="max-w-7xl mx-auto px-6">
             {/* Google Reviews Badge & Stats */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-4 md:mb-8">
               <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-5 py-3 rounded-2xl border border-stone-200 shadow-lg">
                 <div className="flex items-center gap-2">
                   <svg className="w-7 h-7" viewBox="0 0 24 24">
@@ -897,22 +897,22 @@ const App = () => {
                 return (
                   <div
                     key={idx}
-                    className="flex-shrink-0 w-[300px] bg-white rounded-xl p-5 border border-stone-200 shadow-sm hover:shadow-md transition-all"
+                    className="flex-shrink-0 w-[300px] bg-white rounded-xl p-3 md:p-5 border border-stone-200 shadow-sm hover:shadow-md transition-all"
                   >
                     {/* Service Badge */}
-                    <div className="mb-3">
+                    <div className="mb-2 md:mb-3">
                       <span className="inline-block px-2.5 py-1 bg-stone-100 rounded-full text-[9px] font-bold uppercase tracking-wider text-stone-600">
                         {r.service}
                       </span>
                     </div>
 
                     {/* Stars */}
-                    <div className="flex text-yellow-400 mb-3">
+                    <div className="flex text-yellow-400 mb-2 md:mb-3">
                       {[1,2,3,4,5].map(star => <Star key={star} size={14} fill="currentColor" />)}
                     </div>
 
                     {/* Review Text */}
-                    <div className="mb-4">
+                    <div className="mb-3 md:mb-4">
                       <p className="text-stone-700 leading-relaxed text-sm">
                         {isExpanded ? r.text : shortText}
                       </p>
@@ -927,7 +927,7 @@ const App = () => {
                     </div>
 
                     {/* Author */}
-                    <div className="flex items-center gap-2.5 pt-3 border-t border-stone-100">
+                    <div className="flex items-center gap-2.5 pt-2 md:pt-3 border-t border-stone-100">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-xs font-bold text-white">
                         {r.initials}
                       </div>
