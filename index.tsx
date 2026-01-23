@@ -47,7 +47,10 @@ const translations = {
       services: "Leistungen",
       reviews: "Bewertungen",
       quote: "Gratis Angebot",
-      getQuote: "Angebot anfordern"
+      getQuote: "Angebot anfordern",
+      menuServices: "Unsere Leistungen",
+      menuContact: "Kontakt",
+      menuClients: "Unsere Kunden"
     },
     hero: {
       badge: "Schweizer Standard",
@@ -128,7 +131,10 @@ const translations = {
       services: "Services",
       reviews: "Reviews",
       quote: "Free Quote",
-      getQuote: "Get a Quote"
+      getQuote: "Get a Quote",
+      menuServices: "Our Services",
+      menuContact: "Contact Us",
+      menuClients: "Our Clients"
     },
     hero: {
       badge: "Swiss Standard",
@@ -209,7 +215,10 @@ const translations = {
       services: "Services",
       reviews: "Avis",
       quote: "Devis Gratuit",
-      getQuote: "Demander un Devis"
+      getQuote: "Demander un Devis",
+      menuServices: "Nos Services",
+      menuContact: "Nous Contacter",
+      menuClients: "Nos Clients"
     },
     hero: {
       badge: "Standard Suisse",
@@ -497,6 +506,39 @@ const App = () => {
               <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`}></span>
               <span className={`menu-line w-5 h-0.5 bg-stone-700 rounded-full transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
             </button>
+
+            {/* Menu Dropdown */}
+            {menuOpen && (
+              <div className="absolute top-full left-0 mt-3 bg-white/95 backdrop-blur-md rounded-2xl border border-black/10 shadow-xl overflow-hidden min-w-[200px]">
+                <button
+                  onClick={() => {
+                    scrollToSection('services');
+                    setMenuOpen(false);
+                  }}
+                  className="w-full px-6 py-4 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors border-b border-stone-100"
+                >
+                  {t.nav.menuServices}
+                </button>
+                <button
+                  onClick={() => {
+                    scrollToSection('reviews');
+                    setMenuOpen(false);
+                  }}
+                  className="w-full px-6 py-4 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors border-b border-stone-100"
+                >
+                  {t.nav.menuClients}
+                </button>
+                <button
+                  onClick={() => {
+                    scrollToSection('angebot');
+                    setMenuOpen(false);
+                  }}
+                  className="w-full px-6 py-4 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors"
+                >
+                  {t.nav.menuContact}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Language Switcher */}
