@@ -961,8 +961,12 @@ const App = () => {
                 <div
                   key={idx}
                   ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-[500px] lg:min-h-[450px] flex items-end justify-center relative overflow-hidden ${
+                  className={`service-reveal flex items-end justify-center relative overflow-hidden transition-all duration-500 ease-in-out ${
                     isVisible ? 'service-visible' : 'service-hidden'
+                  } ${
+                    isExpanded 
+                      ? 'min-h-[700px] md:min-h-[650px] lg:min-h-[600px]' 
+                      : 'min-h-[500px] lg:min-h-[450px]'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
                   style={{ aspectRatio: 'auto' }}
@@ -972,16 +976,22 @@ const App = () => {
                   <img 
                     src={s.img} 
                     alt={s.title} 
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full object-cover transition-all duration-500 ease-in-out ${
+                        isExpanded ? 'scale-105' : 'scale-100'
+                      }`}
                       loading="lazy"
                     onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                   />
-                    {/* Gradual Gradient Overlay - transparent at top, darker at bottom */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90"></div>
+                    {/* Gradual Gradient Overlay - lighter when expanded to show more image */}
+                    <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-transparent transition-all duration-500 ${
+                      isExpanded ? 'to-black/70' : 'to-black/90'
+                    }`}></div>
                   </div>
 
-                  {/* Content Overlay - Positioned at bottom */}
-                  <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
+                  {/* Content Overlay - Positioned at bottom, moves up when expanded */}
+                  <div className={`relative z-10 w-full px-4 md:px-6 text-center text-white transition-all duration-500 ${
+                    isExpanded ? 'pb-4 md:pb-6' : 'pb-6 md:pb-8'
+                  }`}>
                     {/* Gradient backdrop box - covers all text when expanded */}
                     {isExpanded && (
                       <div className="bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto transition-all duration-500 opacity-100">
