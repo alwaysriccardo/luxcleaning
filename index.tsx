@@ -503,6 +503,28 @@ const App = () => {
     };
   }, []);
 
+  // Intersection Observer for services title fade-in
+  useEffect(() => {
+    if (!servicesTitleRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setServicesTitleVisible(true);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(servicesTitleRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   // Intersection Observer for service reveal animations - disabled on mobile for performance
   useEffect(() => {
     // Skip on mobile devices for better performance
