@@ -1092,7 +1092,7 @@ const App = () => {
             })}
           </div>
 
-          {/* Full-Screen Overlay Modal - Mobile / Centered Popup - Desktop */}
+          {/* Full-Screen Overlay Modal - Mobile / Split-Screen Popup - Desktop */}
           {expandedService !== null && (
             <div 
               className="fixed inset-0 z-[200] flex flex-col lg:items-center lg:justify-center bg-black/95 backdrop-blur-md animate-fade-in overflow-hidden lg:p-8"
@@ -1104,19 +1104,19 @@ const App = () => {
               {/* Close Button */}
               <button
                 onClick={() => setExpandedService(null)}
-                className="absolute top-4 right-4 lg:relative lg:top-auto lg:right-auto lg:ml-auto lg:mb-4 z-50 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all"
+                className="absolute top-4 right-4 lg:top-6 lg:right-6 z-50 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all"
                 aria-label="Close"
               >
                 <X size={20} className="lg:w-6 lg:h-6 text-white" />
               </button>
 
-              {/* Content Container - Full screen on mobile, centered popup on desktop */}
+              {/* Content Container - Full screen on mobile, split-screen popup on desktop */}
               <div 
-                className="relative z-10 flex flex-col h-full w-full lg:h-auto lg:max-h-[85vh] lg:max-w-5xl lg:w-full lg:rounded-3xl overflow-hidden bg-black lg:shadow-2xl"
+                className="relative z-10 flex flex-col lg:flex-row h-full w-full lg:h-auto lg:max-h-[85vh] lg:max-w-6xl lg:w-full lg:rounded-3xl overflow-hidden bg-black lg:shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Top 60% - Large Service Image */}
-                <div className="h-[50vh] lg:h-[350px] relative overflow-hidden flex-shrink-0">
+                {/* Left Side - Image (Mobile: Top, Desktop: Left) */}
+                <div className="h-[50vh] lg:h-auto lg:w-1/2 relative overflow-hidden flex-shrink-0">
                   <img 
                     src={SERVICES[expandedService].img} 
                     alt={SERVICES[expandedService].title} 
@@ -1124,14 +1124,14 @@ const App = () => {
                     onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                   />
                   {/* Subtle overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 lg:bg-gradient-to-r lg:from-black/20 lg:via-transparent lg:to-black/40"></div>
                 </div>
 
-                {/* Bottom 40% - Text Content Panel */}
-                <div className="flex-1 min-h-0 lg:max-h-[calc(85vh-350px)] bg-gradient-to-b from-black via-[#1a1a1a] to-black overflow-y-auto">
-                  <div className="max-w-4xl mx-auto px-6 md:px-8 lg:px-10 py-6 md:py-8 lg:py-10">
+                {/* Right Side - Text Content Panel (Mobile: Bottom, Desktop: Right) */}
+                <div className="flex-1 min-h-0 lg:w-1/2 bg-gradient-to-b from-black via-[#1a1a1a] to-black lg:bg-[#1a1a1a] overflow-y-auto">
+                  <div className="h-full flex flex-col px-6 md:px-8 lg:px-10 py-6 md:py-8 lg:py-10">
                     {/* Service Number */}
-                    <div className="mb-3 lg:mb-3 opacity-60">
+                    <div className="mb-3 lg:mb-4 opacity-60">
                       <span className="font-serif-display text-3xl md:text-4xl lg:text-4xl font-light text-white">
                         {String(expandedService + 1).padStart(2, '0')}
                       </span>
@@ -1148,14 +1148,14 @@ const App = () => {
                     </p>
 
                     {/* Full Details */}
-                    <div className="border-t border-white/20 pt-4 md:pt-5 lg:pt-5 mb-5 lg:mb-6">
+                    <div className="border-t border-white/20 pt-4 md:pt-5 lg:pt-5 mb-5 lg:mb-6 flex-1">
                       <p className="text-xs md:text-sm lg:text-sm text-white/80 leading-relaxed font-light">
                         {SERVICES[expandedService].details}
                       </p>
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
+                    <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 mt-auto">
                       <button 
                         onClick={() => {
                           setExpandedService(null);
