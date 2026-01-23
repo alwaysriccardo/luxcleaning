@@ -982,55 +982,52 @@ const App = () => {
 
                   {/* Content Overlay - Positioned at bottom */}
                   <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
-                    {/* Gradient backdrop box behind text only - darker at bottom, lighter at top */}
-                    <div className="bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto">
-                      {/* Service Number */}
-                      <div className="mb-2 lg:mb-3 opacity-70">
-                        <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
+                    {/* Service Number */}
+                    <div className="mb-2 lg:mb-3 opacity-70">
+                      <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
+                    </div>
+
+                    {/* Service Title */}
+                    <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl mb-3 lg:mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] px-2 font-semibold">
+                      {s.title}
+                    </h3>
+
+                    {/* Short Description */}
+                    <p className="text-sm md:text-base lg:text-lg text-white mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] px-2">
+                      {s.desc}
+                    </p>
+
+                    {/* Expandable Details */}
+                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
+                    }`}>
+                      <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
+                        <p className="text-sm md:text-base text-white max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                          {s.details}
+                        </p>
                       </div>
+                    </div>
 
-                      {/* Service Title */}
-                      <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl mb-3 lg:mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] px-2 font-semibold">
-                        {s.title}
-                      </h3>
-
-                      {/* Short Description */}
-                      <p className="text-sm md:text-base lg:text-lg text-white mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] px-2">
-                        {s.desc}
-                      </p>
-
-                      {/* Expandable Details */}
-                      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
-                      }`}>
-                        <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
-                          <p className="text-sm md:text-base text-white max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                            {s.details}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* CTA Button */}
-                      <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            scrollToSection('angebot');
-                          }}
-                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
-                        >
-                          {t.services.requestQuote}
-                        </button>
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpandedService(isExpanded ? null : idx);
-                          }}
-                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
-                        >
-                          {isExpanded ? t.services.showLess : t.services.showMore}
-                        </button>
-                      </div>
+                    {/* CTA Button */}
+                    <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToSection('angebot');
+                        }}
+                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                      >
+                        {t.services.requestQuote}
+                      </button>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedService(isExpanded ? null : idx);
+                        }}
+                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                      >
+                        {isExpanded ? t.services.showLess : t.services.showMore}
+                      </button>
                     </div>
 
                     {/* Mobile Animated Indicator - Top Left */}
