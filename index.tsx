@@ -105,6 +105,7 @@ const translations = {
       customer: "Kunde",
       googleReviews: "70+ Google Bewertungen",
       rating: "4.9",
+      percentage: "98% 5-Sterne Bewertungen",
       viewAll: "Alle Bewertungen anzeigen",
       readMore: "Mehr lesen",
       readLess: "Weniger"
@@ -202,6 +203,7 @@ const translations = {
       customer: "Customer",
       googleReviews: "70+ Google Reviews",
       rating: "4.9",
+      percentage: "98% 5-Star Reviews",
       viewAll: "View All Reviews",
       readMore: "Read More",
       readLess: "Show Less"
@@ -299,6 +301,7 @@ const translations = {
       customer: "Client",
       googleReviews: "70+ Avis Google",
       rating: "4.9",
+      percentage: "98% Avis 5 Étoiles",
       viewAll: "Voir Tous les Avis",
       readMore: "Lire Plus",
       readLess: "Moins"
@@ -821,7 +824,7 @@ const App = () => {
                 <div className="h-12 w-px bg-stone-300 mx-2"></div>
                 <div className="text-left">
                   <div className="text-lg font-bold text-[#1a1a1a]">{t.reviews.googleReviews}</div>
-                  <div className="text-xs text-stone-500">98% 5-Sterne Bewertungen</div>
+                  <div className="text-xs text-stone-500">{t.reviews.percentage}</div>
                 </div>
               </div>
             </div>
