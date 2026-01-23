@@ -944,7 +944,7 @@ const App = () => {
         </section>
 
         {/* Services Section - Split Screen Reveal */}
-        <section id="services" className="relative bg-white pt-16 pb-8">
+        <section id="services" className="relative bg-white pt-8 md:pt-12 pb-8">
           <div className="px-6 md:px-12 text-center">
             <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] mb-0 tracking-tight italic font-light relative inline-block">
               {t.services.title}
