@@ -52,7 +52,7 @@ const translations = {
       title2: "Kunst",
       title3: "Exzellenz ist unser",
       title4: "Standard.",
-      description: "Erleben Sie makellose Sauberkeit, die Ihre Erwartungen übertrifft. Holen Sie sich noch heute Ihr kostenloses Angebot und lassen Sie uns Ihre Räume in Perfektion verwandeln.",
+      description: "Zuverlässig, gründlich und zu fairen Preisen. Fordern Sie jetzt Ihr kostenloses Angebot an – wir melden uns innerhalb von 24 Stunden.",
       servicesBtn: "Unsere Leistungen",
       quoteBtn: "Angebot einholen"
     },
@@ -107,7 +107,7 @@ const translations = {
       title2: "art",
       title3: "excellence is our",
       title4: "standard.",
-      description: "Experience flawless cleanliness that exceeds your expectations. Get your free quote today and let us transform your spaces into perfection.",
+      description: "Reliable, thorough, and fairly priced. Request your free quote now – we'll get back to you within 24 hours.",
       servicesBtn: "Our Services",
       quoteBtn: "Get a Quote"
     },
@@ -162,7 +162,7 @@ const translations = {
       title2: "art",
       title3: "l'excellence est notre",
       title4: "standard.",
-      description: "Découvrez une propreté impeccable qui dépasse vos attentes. Obtenez votre devis gratuit dès aujourd'hui et laissez-nous transformer vos espaces en perfection.",
+      description: "Fiable, minutieux et à prix équitable. Demandez votre devis gratuit – nous vous répondons sous 24 heures.",
       servicesBtn: "Nos Services",
       quoteBtn: "Demander un Devis"
     },
