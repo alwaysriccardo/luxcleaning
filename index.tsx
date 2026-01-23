@@ -147,14 +147,26 @@ const App = () => {
         </header>
 
         {/* Marquee Promotion */}
-        <div className="py-12 bg-blue-600 text-white overflow-hidden whitespace-nowrap relative z-30 shadow-2xl">
-          <div className="inline-block animate-marquee">
+        <div className="py-12 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 text-white overflow-hidden whitespace-nowrap relative z-30 shadow-2xl border-y-4 border-yellow-400">
+          {/* Decorative pattern overlay */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)'
+          }}></div>
+          
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+          
+          <div className="inline-block animate-marquee relative z-10">
             {[1, 2, 3, 4].map(i => (
               <React.Fragment key={i}>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-yellow-400 font-bold">20% RABATT</span>
-                <span className="text-2xl uppercase tracking-[0.5em] mx-8 opacity-40">•</span>
-                <span className="font-serif-display text-5xl md:text-7xl mx-12">BIS ENDE FEBRUAR</span>
-                <span className="text-2xl uppercase tracking-[0.5em] mx-8 opacity-40">•</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 italic text-yellow-400 font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]">20% RABATT</span>
+                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">AUF ALLE LEISTUNGEN</span>
+                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
+                <span className="font-serif-display text-5xl md:text-7xl mx-12 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">BIS ENDE FEBRUAR</span>
+                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
+                <span className="font-serif-display text-4xl md:text-6xl mx-12 text-yellow-300 font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">JETZT ANGEBOT ANFORDERN</span>
+                <span className="text-3xl uppercase tracking-[0.5em] mx-8 opacity-60">✨</span>
               </React.Fragment>
             ))}
           </div>
