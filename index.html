@@ -70,34 +70,28 @@
         
         @keyframes gleam {
             0% { 
-                background-position: 200% center;
-            }
-            40% { 
                 background-position: -100% center;
             }
             100% { 
-                background-position: -100% center;
+                background-position: 200% center;
             }
         }
         .shiny-text {
-            color: #fbbf24;
             background: linear-gradient(
-                120deg,
+                90deg,
                 #fbbf24 0%,
-                #fbbf24 35%,
-                rgba(255,255,255,0.9) 45%,
-                rgba(255,255,255,1) 50%,
-                rgba(255,255,255,0.9) 55%,
-                #fbbf24 65%,
+                #fbbf24 40%,
+                #ffffff 48%,
+                #ffffff 52%,
+                #fbbf24 60%,
                 #fbbf24 100%
             );
-            background-size: 250% 100%;
+            background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gleam 4s ease-in-out infinite;
+            animation: gleam 3s linear infinite;
             position: relative;
-            filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.3));
         }
     </style>
 <script type="importmap">
