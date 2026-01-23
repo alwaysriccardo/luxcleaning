@@ -15,27 +15,27 @@ import {
 const SERVICES_DATA = [
   {
     id: 'maintenance',
-    img: "./input_file_2.png"
+    img: "/01cleaning.jpg"
   },
   {
     id: 'deep',
-    img: "./input_file_3.png"
+    img: "/02cleaning.jpg"
   },
   {
     id: 'office',
-    img: "./input_file_5.png"
+    img: "/03cleaning.jpg"
   },
   {
     id: 'windows',
-    img: "./input_file_4.png"
+    img: "/04cleaning.jpg"
   },
   {
     id: 'moving',
-    img: "https://images.unsplash.com/photo-1603712726238-bf1375b651b1?q=80&w=800&auto=format&fit=crop"
+    img: "/05cleaning.jpg"
   },
   {
     id: 'kitchen',
-    img: "./input_file_1.png"
+    img: "/06cleaning.jpg"
   }
 ];
 
