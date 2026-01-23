@@ -585,6 +585,20 @@ const App = () => {
     }, 3000);
   };
 
+  // Rotating reviews - auto-rotate every 5 seconds
+  useEffect(() => {
+    const maxReviews = Math.min(REVIEWS.length, 12);
+    reviewIntervalRef.current = window.setInterval(() => {
+      setCurrentReviewIndex((prev) => (prev + 1) % maxReviews);
+    }, 5000);
+
+    return () => {
+      if (reviewIntervalRef.current) {
+        clearInterval(reviewIntervalRef.current);
+      }
+    };
+  }, []);
+
   const SERVICES = SERVICES_DATA.map((s, idx) => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
     const key = serviceKeys[idx];
