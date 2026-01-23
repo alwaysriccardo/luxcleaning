@@ -8,7 +8,8 @@ import {
   Star, 
   Send,
   MapPin,
-  Languages
+  Languages,
+  ChevronDown
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -596,7 +597,7 @@ const App = () => {
                 <div
                   key={idx}
                   ref={(el) => { serviceRefs.current[idx] = el; }}
-                  className={`service-reveal min-h-[600px] lg:min-h-[800px] flex items-center justify-center relative overflow-hidden ${
+                  className={`service-reveal min-h-[600px] lg:min-h-[500px] lg:aspect-[16/9] flex items-center justify-center relative overflow-hidden ${
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
@@ -667,6 +668,20 @@ const App = () => {
                       >
                         {isExpanded ? t.services.showLess : t.services.showMore}
                       </button>
+                    </div>
+
+                    {/* Mobile Animated Indicator */}
+                    <div className="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+                      <div className="flex flex-col items-center gap-2">
+                        <span className="text-white/70 text-xs font-light uppercase tracking-wider">Tap for more</span>
+                        <ChevronDown 
+                          size={24} 
+                          className="text-white/70 animate-pulse"
+                          style={{
+                            animation: 'bounce 2s infinite, pulse 2s infinite'
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
