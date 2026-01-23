@@ -196,7 +196,7 @@ const App = () => {
         <section id="reviews" className="py-32 bg-stone-50 border-y border-stone-100 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl md:text-6xl font-serif-display text-[#1a1a1a] mb-16 text-center">
-              Zufriedene Kunden aus <span className="text-blue-600 italic">D & CH</span>
+              Unsere zufriedenen Kunden
             </h2>
 
             <div className="mask-edges overflow-hidden relative">
@@ -209,15 +209,6 @@ const App = () => {
                     <p className="text-stone-600 mb-8 flex-grow leading-relaxed italic font-light">
                       "{r.text}"
                     </p>
-                    <div className="flex items-center gap-4 mt-auto">
-                      <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-xs font-bold text-blue-600">
-                        {r.initials}
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold text-stone-900">{r.name}</div>
-                        <div className="text-[10px] text-stone-400 uppercase tracking-widest">{r.location}</div>
-                      </div>
-                    </div>
                   </div>
                 ))}
               </div>
