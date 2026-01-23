@@ -394,7 +394,8 @@ const App = () => {
             <img 
               ref={heroImageRef}
               src="/hero-gloves-image.jpg" 
-              alt="" 
+              alt="Professional cleaning equipment" 
+              loading="eager"
               className="w-full h-full object-cover"
               style={{ 
                 filter: 'brightness(0.95) blur(2px)',
