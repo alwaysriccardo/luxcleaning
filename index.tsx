@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   ArrowUpRight, 
@@ -424,6 +424,8 @@ const App = () => {
   const [expandedReview, setExpandedReview] = useState<number | null>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [isReviewPaused, setIsReviewPaused] = useState(false);
+  const [contactFormData, setContactFormData] = useState({ name: '', email: '', message: '' });
+  const [contactFormSubmitted, setContactFormSubmitted] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -472,12 +474,13 @@ const App = () => {
     };
   }, [languageMenuOpen]);
 
-  // Parallax effect for hero image
+  // Parallax effect for hero image - optimized
   useEffect(() => {
-    let rafId: number;
+    let rafId: number | null = null;
+    const PARALLAX_SPEED = 0.4;
     
     const handleScroll = () => {
-      if (rafId) {
+      if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
       
@@ -486,16 +489,17 @@ const App = () => {
           const scrolled = window.scrollY;
           const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLImageElement;
           if (heroImage && scrolled < window.innerHeight) {
-            heroImage.style.transform = `translateY(${scrolled * 0.4}px)`;
+            heroImage.style.transform = `translateY(${scrolled * PARALLAX_SPEED}px)`;
           }
         }
+        rafId = null;
       });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (rafId) {
+      if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
     };
@@ -503,21 +507,27 @@ const App = () => {
 
   // Intersection Observer for service reveal animations - disabled on mobile for performance
   useEffect(() => {
+    const MOBILE_BREAKPOINT = 1024;
+    
     // Skip on mobile devices for better performance
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
       // Mark all as visible on mobile immediately
       setVisibleServices(new Set([0, 1, 2, 3, 4, 5]));
       return;
     }
 
-    const observers = serviceRefs.current.map((ref, index) => {
-      if (!ref) return null;
+    const observers: IntersectionObserver[] = [];
+    
+    serviceRefs.current.forEach((ref, index) => {
+      if (!ref) return;
       
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               setVisibleServices((prev) => new Set(prev).add(index));
+              // Disconnect once visible to improve performance
+              observer.disconnect();
             }
           });
         },
@@ -525,11 +535,11 @@ const App = () => {
       );
       
       observer.observe(ref);
-      return observer;
+      observers.push(observer);
     });
 
     return () => {
-      observers.forEach((observer) => observer?.disconnect());
+      observers.forEach((observer) => observer.disconnect());
     };
   }, []);
 
@@ -569,6 +579,8 @@ const App = () => {
   const handlePromoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!formData.email.trim()) return;
+    
     // Create email content
     const subject = encodeURIComponent('20% Rabatt Anfrage - Lux Cleaning');
     const body = encodeURIComponent(
@@ -584,47 +596,80 @@ const App = () => {
     // Close modal after 3 seconds
     setTimeout(() => {
       setPromoModalOpen(false);
+      setFormSubmitted(false);
+      setFormData({ name: '', email: '', phone: '' });
     }, 3000);
   };
 
-  // Horizontal carousel auto-scroll
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!contactFormData.email.trim() || !contactFormData.name.trim()) return;
+    
+    // Create email content
+    const subject = encodeURIComponent('Anfrage von Website - Lux Cleaning');
+    const body = encodeURIComponent(
+      `Name: ${contactFormData.name}\nEmail: ${contactFormData.email}\n\nNachricht:\n${contactFormData.message}`
+    );
+    
+    // Open email client
+    window.location.href = `mailto:luxcleaning@mail.ch?subject=${subject}&body=${body}`;
+    
+    // Show success and reset form
+    setContactFormSubmitted(true);
+    setContactFormData({ name: '', email: '', message: '' });
+    
+    // Reset success message after 5 seconds
+    setTimeout(() => {
+      setContactFormSubmitted(false);
+    }, 5000);
+  };
+
+  // Horizontal carousel auto-scroll - optimized
   useEffect(() => {
-    if (isReviewPaused) return;
+    if (isReviewPaused || !reviewCarouselRef.current) return;
+
+    const CARD_WIDTH = 320; // Approximate card width with gap
+    const SCROLL_INTERVAL = 4000; // 4 seconds
 
     const scrollCarousel = () => {
-      if (reviewCarouselRef.current) {
-        const maxScroll = reviewCarouselRef.current.scrollWidth - reviewCarouselRef.current.clientWidth;
-        const currentScroll = reviewCarouselRef.current.scrollLeft;
-        const cardWidth = 320; // Approximate card width with gap
-        
-        if (currentScroll >= maxScroll - 10) {
-          // Reset to start for infinite loop
-          reviewCarouselRef.current.scrollTo({ left: 0, behavior: 'auto' });
-        } else {
-          reviewCarouselRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        }
+      const carousel = reviewCarouselRef.current;
+      if (!carousel) return;
+
+      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      const currentScroll = carousel.scrollLeft;
+      
+      // Reset to start for infinite loop when near the end
+      if (currentScroll >= maxScroll - 10) {
+        carousel.scrollTo({ left: 0, behavior: 'auto' });
+      } else {
+        carousel.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
       }
     };
 
-    reviewIntervalRef.current = window.setInterval(scrollCarousel, 4000);
+    reviewIntervalRef.current = window.setInterval(scrollCarousel, SCROLL_INTERVAL);
 
     return () => {
-      if (reviewIntervalRef.current) {
+      if (reviewIntervalRef.current !== null) {
         clearInterval(reviewIntervalRef.current);
+        reviewIntervalRef.current = null;
       }
     };
   }, [isReviewPaused]);
 
-  const SERVICES = SERVICES_DATA.map((s, idx) => {
+  // Memoize SERVICES to prevent recalculation on every render
+  const SERVICES = useMemo(() => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
-    const key = serviceKeys[idx];
-    return {
-      ...s,
-      title: t.services[key].title,
-      desc: t.services[key].desc,
-      details: t.services[key].details
-    };
-  });
+    return SERVICES_DATA.map((s, idx) => {
+      const key = serviceKeys[idx];
+      return {
+        ...s,
+        title: t.services[key].title,
+        desc: t.services[key].desc,
+        details: t.services[key].details
+      };
+    });
+  }, [t.services]);
 
   return (
     <>
@@ -664,6 +709,7 @@ const App = () => {
             <button
               onClick={() => setPromoModalOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              aria-label="Close modal"
             >
               <X size={18} className="text-white" />
             </button>
@@ -748,6 +794,9 @@ const App = () => {
             onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
             className="bg-white/90 backdrop-blur-md px-3 py-2 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex items-center gap-1.5 group"
             title="Change Language"
+            aria-label="Change Language"
+            aria-expanded={languageMenuOpen}
+            aria-haspopup="true"
           >
             <Languages size={14} className="text-stone-700" />
             <span className="text-[10px] font-bold uppercase tracking-wider text-stone-700">
@@ -795,6 +844,7 @@ const App = () => {
                 backdropFilter: 'blur(12px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(12px) saturate(180%)'
               }}
+              aria-label="Angebot anfordern"
             >
               <span className="relative z-10">ANGEBOT</span>
             </button>
@@ -811,7 +861,7 @@ const App = () => {
           <div className="absolute inset-0 z-0 overflow-hidden bg-[#Fdfcf8]">
             <img
               src="/hero-gloves-image.jpg"
-              alt=""
+              alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
               className="hero-bg-image absolute inset-0 w-full h-full object-cover will-change-transform"
               style={{
                 filter: 'brightness(0.9) blur(1.5px)',
@@ -1128,17 +1178,66 @@ const App = () => {
 
             {/* Minimalist Form */}
             <div className="bg-[#Fdfcf8] p-8 md:p-12 rounded-[3.5rem] border border-stone-100 shadow-2xl max-w-xl mx-auto mb-12 hover:scale-[1.01] transition-transform duration-500">
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input type="text" className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder={t.contact.name} />
-                  <input type="email" className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder={t.contact.email} />
+              {contactFormSubmitted ? (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Send size={32} className="text-green-600" />
+                  </div>
+                  <h3 className="font-serif-display text-2xl text-[#1a1a1a] mb-2">Vielen Dank!</h3>
+                  <p className="text-stone-600">Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
                 </div>
-                <textarea className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm h-32 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-all" placeholder={t.contact.message}></textarea>
-                <button className="w-full py-5 bg-[#1a1a1a] text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-blue-600 transition-all flex items-center justify-center gap-3 group shadow-xl">
-                  {t.contact.submit}
-                  <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
-              </form>
+              ) : (
+                <form className="space-y-5" onSubmit={handleContactSubmit}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="contact-name" className="sr-only">{t.contact.name}</label>
+                      <input 
+                        id="contact-name"
+                        type="text" 
+                        value={contactFormData.name}
+                        onChange={(e) => setContactFormData({ ...contactFormData, name: e.target.value })}
+                        className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                        placeholder={t.contact.name}
+                        required
+                        aria-label={t.contact.name}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-email" className="sr-only">{t.contact.email}</label>
+                      <input 
+                        id="contact-email"
+                        type="email" 
+                        value={contactFormData.email}
+                        onChange={(e) => setContactFormData({ ...contactFormData, email: e.target.value })}
+                        className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                        placeholder={t.contact.email}
+                        required
+                        aria-label={t.contact.email}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" className="sr-only">{t.contact.message}</label>
+                    <textarea 
+                      id="contact-message"
+                      value={contactFormData.message}
+                      onChange={(e) => setContactFormData({ ...contactFormData, message: e.target.value })}
+                      className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm h-32 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-all" 
+                      placeholder={t.contact.message}
+                      required
+                      aria-label={t.contact.message}
+                    ></textarea>
+                  </div>
+                  <button 
+                    type="submit"
+                    className="w-full py-5 bg-[#1a1a1a] text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-blue-600 transition-all flex items-center justify-center gap-3 group shadow-xl"
+                    aria-label={t.contact.submit}
+                  >
+                    {t.contact.submit}
+                    <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </button>
+                </form>
+              )}
             </div>
 
             {/* Contact Details with reduced padding */}
