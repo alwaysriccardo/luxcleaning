@@ -220,25 +220,39 @@ const App = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
             </div>
 
-            <div className="mask-edges overflow-hidden relative">
-              <div className="carousel-track flex gap-8 pb-8">
-                {[...REVIEWS, ...REVIEWS].map((r, i) => (
-                  <div key={i} className="w-[320px] md:w-[400px] flex-shrink-0 bg-white rounded-[2.5rem] p-10 border-2 border-stone-200 flex flex-col h-full shadow-lg hover:shadow-2xl hover:border-blue-300 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group">
-                    {/* Decorative corner accent */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="overflow-x-auto overflow-y-hidden relative -mx-6 px-6 scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+              <div className="flex gap-8 pb-8" style={{width: 'max-content'}}>
+                {REVIEWS.map((r, i) => (
+                  <div key={i} className="w-[320px] md:w-[400px] flex-shrink-0 bg-gradient-to-br from-white to-blue-50/30 rounded-[2.5rem] p-10 border-2 border-blue-200/50 flex flex-col h-full shadow-xl hover:shadow-2xl hover:border-blue-400 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group backdrop-blur-sm">
+                    {/* Decorative corner accents - always visible */}
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-100/60 to-yellow-100/40 rounded-bl-full"></div>
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-yellow-100/50 to-blue-100/30 rounded-tr-full"></div>
                     
-                    {/* Quote mark decoration */}
-                    <div className="absolute top-6 left-6 text-blue-100 text-6xl font-serif-display opacity-20">"</div>
+                    {/* Decorative pattern overlay */}
+                    <div className="absolute inset-0 opacity-5" style={{
+                      backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
+                      backgroundSize: '20px 20px'
+                    }}></div>
                     
-                    <div className="flex text-yellow-400 mb-6 relative z-10 drop-shadow-sm">
-                      {[1,2,3,4,5].map(star => <Star key={star} size={18} fill="currentColor" className="drop-shadow-sm" />)}
+                    {/* Quote mark decoration - enhanced */}
+                    <div className="absolute top-4 left-4 text-blue-200 text-7xl font-serif-display opacity-30">"</div>
+                    <div className="absolute top-6 left-6 text-yellow-200 text-5xl font-serif-display opacity-20">"</div>
+                    
+                    {/* Top accent border */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400"></div>
+                    
+                    <div className="flex text-yellow-400 mb-6 relative z-10 drop-shadow-md">
+                      {[1,2,3,4,5].map(star => <Star key={star} size={20} fill="currentColor" className="drop-shadow-md" />)}
                     </div>
-                    <p className="text-stone-600 mb-8 flex-grow leading-relaxed italic font-light text-base relative z-10">
+                    <p className="text-stone-700 mb-8 flex-grow leading-relaxed italic font-light text-base relative z-10">
                       "{r.text}"
                     </p>
                     
-                    {/* Bottom accent line */}
-                    <div className="h-1 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    {/* Bottom accent line - always visible */}
+                    <div className="h-1.5 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400 rounded-full mt-auto"></div>
+                    
+                    {/* Side accent lines */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-20 bg-gradient-to-b from-blue-400 via-yellow-400 to-blue-400 rounded-full opacity-60"></div>
                   </div>
                 ))}
               </div>
