@@ -418,6 +418,10 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [currentServiceIndex, setCurrentServiceIndex] = useState(0);
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [promoModalOpen, setPromoModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -501,10 +505,15 @@ const App = () => {
     };
   }, []);
 
-  // Intersection Observer for service reveal animations with 3D tilt on mobile
+  // Intersection Observer for service reveal animations - disabled on mobile for performance
   useEffect(() => {
-    const isMobile = window.innerWidth < 1024;
-    
+    // Skip on mobile devices for better performance
+    if (window.innerWidth < 1024) {
+      // Mark all as visible on mobile immediately
+      setVisibleServices(new Set([0, 1, 2, 3, 4, 5]));
+      return;
+    }
+
     const observers = serviceRefs.current.map((ref, index) => {
       if (!ref) return null;
       
@@ -513,29 +522,6 @@ const App = () => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               setVisibleServices((prev) => new Set(prev).add(index));
-              // Add data attribute for 3D tilt effect on mobile
-              if (isMobile) {
-                ref.setAttribute('data-visible', 'true');
-                // Add 3D tilt based on scroll position
-                const handleScroll = () => {
-                  const rect = ref.getBoundingClientRect();
-                  const centerY = window.innerHeight / 2;
-                  const cardCenter = rect.top + rect.height / 2;
-                  const distance = cardCenter - centerY;
-                  const maxDistance = window.innerHeight / 2;
-                  const tiltY = Math.max(-5, Math.min(5, (distance / maxDistance) * 5));
-                  const tiltX = Math.max(-2, Math.min(2, (distance / maxDistance) * 2));
-                  ref.style.transform = `translateY(${-8 * Math.sin(Date.now() / 1000 + index)}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-                };
-                window.addEventListener('scroll', handleScroll, { passive: true });
-                handleScroll(); // Initial call
-                // Store cleanup function
-                (ref as any).__scrollCleanup = () => window.removeEventListener('scroll', handleScroll);
-              }
-            } else {
-              if (isMobile) {
-                ref.removeAttribute('data-visible');
-              }
             }
           });
         },
@@ -548,12 +534,6 @@ const App = () => {
 
     return () => {
       observers.forEach((observer) => observer?.disconnect());
-      // Cleanup scroll listeners
-      serviceRefs.current.forEach((ref) => {
-        if (ref && (ref as any).__scrollCleanup) {
-          (ref as any).__scrollCleanup();
-        }
-      });
     };
   }, []);
 
@@ -988,10 +968,7 @@ const App = () => {
                     isVisible ? 'service-visible' : 'service-hidden'
                   }`}
                   onClick={() => setExpandedService(isExpanded ? null : idx)}
-                  style={{ 
-                    aspectRatio: 'auto',
-                    animationDelay: `${idx * 0.1}s`
-                  }}
+                  style={{ aspectRatio: 'auto' }}
                 >
                   {/* Background Image with Premium Overlay */}
                   <div className="absolute inset-0 w-full h-full">
