@@ -977,39 +977,41 @@ const App = () => {
                     onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                   />
                     {/* Gradual Gradient Overlay - transparent at top, darker at bottom */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/75"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90"></div>
                   </div>
 
                   {/* Content Overlay - Positioned at bottom */}
                   <div className="relative z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
-                    {/* Service Number */}
-                    <div className="mb-2 lg:mb-3 opacity-60">
-                      <span className="font-serif-display text-2xl md:text-3xl lg:text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
-                    </div>
-
-                    {/* Service Title */}
-                    <h3 className="font-serif-display text-xl md:text-2xl lg:text-3xl mb-2 lg:mb-3 tracking-tight drop-shadow-2xl px-2">
-                      {s.title}
-                    </h3>
-
-                    {/* Short Description */}
-                    <p className="text-xs md:text-sm lg:text-base text-white/95 mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-lg px-2">
-                      {s.desc}
-                    </p>
-
-                    {/* Expandable Details */}
-                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                      isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
-                    }`}>
-                      <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
-                        <p className="text-xs md:text-sm text-white/90 max-w-2xl mx-auto leading-relaxed font-light">
-                          {s.details}
-                        </p>
+                    {/* Semi-transparent dark box behind text with backdrop blur */}
+                    <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10">
+                      {/* Service Number */}
+                      <div className="mb-2 lg:mb-3 opacity-70">
+                        <span className="font-serif-display text-3xl md:text-4xl lg:text-5xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">{String(idx + 1).padStart(2, '0')}</span>
                       </div>
-                </div>
 
-                    {/* CTA Button */}
-                    <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
+                      {/* Service Title */}
+                      <h3 className="font-serif-display text-2xl md:text-3xl lg:text-4xl mb-3 lg:mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] px-2 font-semibold">
+                        {s.title}
+                      </h3>
+
+                      {/* Short Description */}
+                      <p className="text-sm md:text-base lg:text-lg text-white mb-4 lg:mb-5 max-w-xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] px-2">
+                        {s.desc}
+                      </p>
+
+                      {/* Expandable Details */}
+                      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                        isExpanded ? 'max-h-96 opacity-100 mt-4 lg:mt-5' : 'max-h-0 opacity-0'
+                      }`}>
+                        <div className="border-t border-white/30 pt-4 lg:pt-5 px-2">
+                          <p className="text-sm md:text-base text-white max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                            {s.details}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* CTA Button */}
+                      <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
