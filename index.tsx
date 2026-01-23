@@ -1079,7 +1079,7 @@ const App = () => {
 
                     {/* Mobile Animated Indicator - Top Left */}
                     <div className="lg:hidden absolute top-4 left-4 z-20">
-                      <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30">
+                      <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-[0_0_10px_rgba(59,130,246,0.4)]">
                         <Hand 
                           size={18} 
                           className="text-white animate-pulse"
