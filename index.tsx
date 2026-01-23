@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   ArrowUpRight, 
@@ -259,17 +259,41 @@ const REVIEWS = [
 
 const App = () => {
   const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const cycleLanguage = () => {
-    if (language === 'de') setLanguage('en');
-    else if (language === 'en') setLanguage('fr');
-    else setLanguage('de');
+  const changeLanguage = (lang: 'de' | 'en' | 'fr') => {
+    setLanguage(lang);
+    setLanguageMenuOpen(false);
   };
+
+  const languageNames = {
+    de: 'Deutsch',
+    en: 'English',
+    fr: 'Français'
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
+        setLanguageMenuOpen(false);
+      }
+    };
+
+    if (languageMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [languageMenuOpen]);
 
   const SERVICES = SERVICES_DATA.map((s, idx) => {
     const serviceKeys = ['maintenance', 'deep', 'office', 'windows', 'moving', 'kitchen'] as const;
@@ -286,19 +310,40 @@ const App = () => {
       <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
         
         {/* Language Switcher */}
-        <button
-          onClick={cycleLanguage}
-          className="fixed top-24 right-6 md:right-12 z-50 bg-white/90 backdrop-blur-md px-4 py-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
-          title={`Switch to ${language === 'de' ? 'English' : language === 'en' ? 'Français' : 'Deutsch'}`}
-        >
-          <Languages size={18} className="text-stone-700" />
-          <span className="text-xs font-bold uppercase tracking-wider text-stone-700 hidden sm:inline">
-            {language.toUpperCase()}
-          </span>
-          <span className="text-xs text-stone-500 group-hover:text-blue-600 transition-colors">
-            {language === 'de' ? 'EN' : language === 'en' ? 'FR' : 'DE'}
-          </span>
-        </button>
+        <div className="fixed top-24 right-6 md:right-12 z-50" ref={languageMenuRef}>
+          <button
+            onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+            className="bg-white/90 backdrop-blur-md px-4 py-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+            title="Change Language"
+          >
+            <Languages size={18} className="text-stone-700" />
+            <span className="text-xs font-bold uppercase tracking-wider text-stone-700">
+              {language.toUpperCase()}
+            </span>
+          </button>
+          
+          {/* Dropdown Menu */}
+          {languageMenuOpen && (
+            <div className="absolute top-full right-0 mt-2 bg-white rounded-2xl border border-black/10 shadow-xl overflow-hidden min-w-[140px]">
+              {(['de', 'en', 'fr'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => changeLanguage(lang)}
+                  className={`w-full px-4 py-3 text-left text-sm font-medium transition-colors flex items-center justify-between ${
+                    language === lang
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-stone-700 hover:bg-stone-50'
+                  }`}
+                >
+                  <span>{languageNames[lang]}</span>
+                  {language === lang && (
+                    <span className="text-blue-600">✓</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         
         {/* Navigation */}
         <nav className="fixed top-8 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
