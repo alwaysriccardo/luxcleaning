@@ -1012,25 +1012,26 @@ const App = () => {
 
                       {/* CTA Button */}
                       <div className="mt-4 lg:mt-5 flex flex-col items-center justify-center gap-2 lg:gap-3 px-2">
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          scrollToSection('angebot');
-                        }}
-                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
-                      >
-                        {t.services.requestQuote}
-                      </button>
-                <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setExpandedService(isExpanded ? null : idx);
-                        }}
-                        className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
-                      >
-                        {isExpanded ? t.services.showLess : t.services.showMore}
-                </button>
-              </div>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            scrollToSection('angebot');
+                          }}
+                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full bg-white text-[#1a1a1a] text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all shadow-2xl"
+                        >
+                          {t.services.requestQuote}
+                        </button>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedService(isExpanded ? null : idx);
+                          }}
+                          className="w-full lg:w-auto px-6 lg:px-8 py-3 lg:py-4 rounded-full border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/20 hover:scale-105 transition-all"
+                        >
+                          {isExpanded ? t.services.showLess : t.services.showMore}
+                        </button>
+                      </div>
+                    </div>
 
                     {/* Mobile Animated Indicator - Top Left */}
                     <div className="lg:hidden absolute top-4 left-4 z-20">
