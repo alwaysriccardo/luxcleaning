@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
   ArrowUpRight, 
@@ -45,63 +45,59 @@ const SERVICES = [
 
 const REVIEWS = [
   {
-    name: "Hans Müller",
-    location: "München, Deutschland",
-    text: "Lux Cleaning war super pünktlich und hat echt gute Arbeit gemacht. Catalin war sehr freundlich und hat alles genau erklärt. Kann ich nur weiterempfehlen!",
-    initials: "HM"
+    name: "Thomas B.",
+    service: "Unterhaltsreinigung",
+    text: "Seit 3 Monaten kommt Lux Cleaning wöchentlich zu uns. Catalin und sein Team sind immer pünktlich und machen wirklich gründliche Arbeit. Besonders die Küche und Bäder sind immer perfekt sauber. Kann ich nur empfehlen!",
+    initials: "TB"
   },
   {
-    name: "Elena Vogt",
-    location: "Zürich, Schweiz",
-    text: "Bin total zufrieden mit Lux Cleaning. Die waren schnell und diskret, meine Kanzlei war in 2 Stunden fertig. Service war top!",
-    initials: "EV"
+    name: "Sabine K.",
+    service: "Fenster- & Glasreinigung",
+    text: "Habe die Fensterreinigung gebucht und war echt überrascht wie sauber die geworden sind. Keine Streifen, keine Flecken. Die Jungs waren auch sehr vorsichtig mit meinen Pflanzen am Fensterbrett. Top Service!",
+    initials: "SK"
   },
   {
-    name: "Stephan Weber",
-    location: "Basel, Schweiz",
-    text: "Die Umzugsreinigung von Lux Cleaning hat mir echt viel Stress erspart. Catalin und sein Team waren sehr zuverlässig und alles war perfekt sauber. Würde ich wieder buchen!",
-    initials: "SW"
+    name: "Michael S.",
+    service: "Umzugsreinigung",
+    text: "Nach unserem Umzug war die Wohnung ein Chaos. Lux Cleaning hat alles wieder auf Vordermann gebracht. Catalin hat sogar noch ein paar Ecken gereinigt die ich gar nicht gesehen hatte. Sehr zuverlässig und gründlich.",
+    initials: "MS"
   },
   {
-    name: "Karin Schmid",
-    location: "Berlin, Deutschland",
-    text: "Die Fensterreinigung war klasse, keine Streifen überhaupt. Lux Cleaning macht das wirklich professionell, merkt man sofort.",
-    initials: "KS"
+    name: "Julia F.",
+    service: "Büro- & Gewerbereinigung",
+    text: "Unser Büro wird jetzt regelmäßig von Lux Cleaning gereinigt. Die Mitarbeiter sind sehr diskret und stören nie während der Arbeitszeit. Alles ist immer ordentlich und sauber wenn wir morgens kommen.",
+    initials: "JF"
+  },
+  {
+    name: "Andreas W.",
+    service: "Grundreinigung",
+    text: "Habe eine Grundreinigung für meine neue Wohnung gebucht. War echt beeindruckt wie gründlich die waren. Sogar hinter den Möbeln wurde alles sauber gemacht. Preis-Leistung ist super fair.",
+    initials: "AW"
+  },
+  {
+    name: "Nicole H.",
+    service: "Sanitär- & Küchenreinigung",
+    text: "Die Küche und Bäder waren nach der Reinigung wie neu. Besonders das Bad glänzt jetzt richtig. Catalin hat mir auch ein paar Tipps gegeben wie ich es länger sauber halten kann. Sehr freundlich und professionell!",
+    initials: "NH"
+  },
+  {
+    name: "Daniel B.",
+    service: "Fenster- & Glasreinigung",
+    text: "Habe die Fenster vor dem Winter reinigen lassen. War echt zufrieden, alles streifenfrei und die Rahmen wurden auch mitgereinigt. Kommt nächstes Jahr wieder.",
+    initials: "DB"
+  },
+  {
+    name: "Martina Z.",
+    service: "Unterhaltsreinigung",
+    text: "Bin berufstätig und habe keine Zeit für die Hausreinigung. Lux Cleaning übernimmt das jetzt für mich. Die Wohnung sieht immer top aus und ich muss mir keine Sorgen mehr machen. Absolut empfehlenswert!",
+    initials: "MZ"
   }
 ];
 
 const App = () => {
-  const reviewsScrollRef = useRef<HTMLDivElement>(null);
-  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
-
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // Auto-scroll reviews every 2 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (reviewsScrollRef.current) {
-        const cardWidth = 320; // Base width in pixels
-        const gap = 32; // gap-8 = 2rem = 32px
-        const scrollAmount = cardWidth + gap;
-        const maxScroll = reviewsScrollRef.current.scrollWidth - reviewsScrollRef.current.clientWidth;
-        const currentScroll = reviewsScrollRef.current.scrollLeft;
-        
-        if (currentScroll + scrollAmount >= maxScroll) {
-          // Reset to beginning
-          reviewsScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-          setCurrentReviewIndex(0);
-        } else {
-          // Scroll to next card
-          reviewsScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-          setCurrentReviewIndex(prev => (prev + 1) % REVIEWS.length);
-        }
-      }
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="p-2 md:p-4 lg:p-6 w-full max-w-[1800px] mx-auto min-h-screen bg-[#Fdfcf8]">
@@ -248,43 +244,44 @@ const App = () => {
               <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 mx-auto rounded-full"></div>
             </div>
 
-            <div 
-              ref={reviewsScrollRef}
-              className="overflow-x-auto overflow-y-hidden relative -mx-6 px-6 scrollbar-hide" 
-              style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
-            >
-              <div className="flex gap-8 pb-8" style={{width: 'max-content'}}>
-                {REVIEWS.map((r, i) => (
-                  <div key={i} className="w-[320px] md:w-[400px] flex-shrink-0 bg-gradient-to-br from-white to-blue-50/30 rounded-[2.5rem] p-10 border-2 border-blue-200/50 flex flex-col h-full shadow-xl hover:shadow-2xl hover:border-blue-400 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group backdrop-blur-sm">
-                    {/* Decorative corner accents - always visible */}
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-100/60 to-yellow-100/40 rounded-bl-full"></div>
-                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-yellow-100/50 to-blue-100/30 rounded-tr-full"></div>
+            <div className="mask-edges overflow-hidden relative">
+              <div className="carousel-track flex gap-8 pb-8">
+                {[...REVIEWS, ...REVIEWS].map((r, i) => (
+                  <div key={i} className="w-[340px] md:w-[420px] flex-shrink-0 bg-white rounded-[2.5rem] p-10 border-2 border-stone-200 flex flex-col h-full shadow-lg hover:shadow-2xl hover:border-blue-300 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group">
+                    {/* Decorative corner accent */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    {/* Decorative pattern overlay */}
-                    <div className="absolute inset-0 opacity-5" style={{
-                      backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
-                      backgroundSize: '20px 20px'
-                    }}></div>
+                    {/* Quote mark decoration */}
+                    <div className="absolute top-6 left-6 text-blue-100 text-6xl font-serif-display opacity-20">"</div>
                     
-                    {/* Quote mark decoration - enhanced */}
-                    <div className="absolute top-4 left-4 text-blue-200 text-7xl font-serif-display opacity-30">"</div>
-                    <div className="absolute top-6 left-6 text-yellow-200 text-5xl font-serif-display opacity-20">"</div>
-                    
-                    {/* Top accent border */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400"></div>
-                    
-                    <div className="flex text-yellow-400 mb-6 relative z-10 drop-shadow-md">
-                      {[1,2,3,4,5].map(star => <Star key={star} size={20} fill="currentColor" className="drop-shadow-md" />)}
+                    {/* Service badge */}
+                    <div className="mb-4 relative z-10">
+                      <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-50 to-yellow-50 border border-blue-200 rounded-full text-[10px] font-bold uppercase tracking-widest text-blue-700">
+                        {r.service}
+                      </span>
                     </div>
-                    <p className="text-stone-700 mb-8 flex-grow leading-relaxed italic font-light text-base relative z-10">
+                    
+                    <div className="flex text-yellow-400 mb-6 relative z-10 drop-shadow-sm">
+                      {[1,2,3,4,5].map(star => <Star key={star} size={18} fill="currentColor" className="drop-shadow-sm" />)}
+                    </div>
+                    
+                    <p className="text-stone-600 mb-6 flex-grow leading-relaxed italic font-light text-base relative z-10">
                       "{r.text}"
                     </p>
                     
-                    {/* Bottom accent line - always visible */}
-                    <div className="h-1.5 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400 rounded-full mt-auto"></div>
+                    {/* Name section */}
+                    <div className="flex items-center gap-3 mt-auto pt-4 border-t border-stone-100 relative z-10">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-sm font-bold text-white shadow-md">
+                        {r.initials}
+                      </div>
+                      <div>
+                        <div className="text-sm font-bold text-stone-900">{r.name}</div>
+                        <div className="text-[10px] text-stone-500">Kunde</div>
+                      </div>
+                    </div>
                     
-                    {/* Side accent lines */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-20 bg-gradient-to-b from-blue-400 via-yellow-400 to-blue-400 rounded-full opacity-60"></div>
+                    {/* Bottom accent line */}
+                    <div className="h-1 bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-4"></div>
                   </div>
                 ))}
               </div>
