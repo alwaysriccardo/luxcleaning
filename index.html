@@ -280,22 +280,27 @@
             }
         }
 
-        /* Promo Modal Animation */
-        @keyframes modal-in {
+        /* Promo Modal Animation - Optimized for performance */
+        @keyframes modal-in-smooth {
             from {
                 opacity: 0;
-                -webkit-transform: scale(0.9) translateY(20px);
-                transform: scale(0.9) translateY(20px);
+                -webkit-transform: translateY(10px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
-                -webkit-transform: scale(1) translateY(0);
-                transform: scale(1) translateY(0);
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
             }
         }
-        .animate-modal-in {
-            -webkit-animation: modal-in 0.4s ease-out;
-            animation: modal-in 0.4s ease-out;
+        .animate-modal-in-smooth {
+            -webkit-animation: modal-in-smooth 0.25s ease-out;
+            animation: modal-in-smooth 0.25s ease-out;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
+            will-change: transform, opacity;
         }
 
         /* Service Overlay Animation */
