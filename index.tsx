@@ -678,7 +678,7 @@ const App = () => {
           
           {/* Modal */}
           <div 
-            className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl p-8 animate-modal-in"
+            className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl p-8"
             onClick={(e) => e.stopPropagation()}
             style={{
               backdropFilter: 'blur(20px) saturate(180%)',
