@@ -986,7 +986,10 @@ const App = () => {
                   </div>
 
                   {/* Content Overlay - Always positioned at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white">
+                  <div 
+                    className="absolute bottom-0 left-0 right-0 z-10 w-full px-4 md:px-6 pb-6 md:pb-8 text-center text-white"
+                    onClick={() => setExpandedService(isExpanded ? null : idx)}
+                  >
                     {/* Gradient backdrop box - covers all text when expanded */}
                     {isExpanded && (
                       <div className="bg-gradient-to-b from-black/10 via-black/20 to-black/40 backdrop-blur-sm rounded-2xl p-4 md:p-6 lg:p-8 border border-white/10 max-w-2xl mx-auto transition-all duration-500">
