@@ -889,11 +889,6 @@ const App = () => {
               className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
               onMouseEnter={() => setIsReviewPaused(true)}
               onMouseLeave={() => setIsReviewPaused(false)}
-              style={{
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none',
-                WebkitScrollbar: { display: 'none' }
-              }}
             >
               {[...REVIEWS.slice(0, 12), ...REVIEWS.slice(0, 12)].map((r, idx) => {
                 const isExpanded = expandedReview === idx;
