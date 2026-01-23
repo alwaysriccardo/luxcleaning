@@ -65,7 +65,7 @@ const translations = {
       requestNow: "JETZT ANGEBOT ANFORDERN"
     },
     services: {
-      title: "Unsere Leistungen",
+      title: "Unsere Premium-Leistungen",
       maintenance: { 
         title: "Unterhaltsreinigung", 
         desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume.",
@@ -163,7 +163,7 @@ const translations = {
       requestNow: "REQUEST QUOTE NOW"
     },
     services: {
-      title: "Our Services",
+      title: "Our Premium Services",
       maintenance: { 
         title: "Maintenance Cleaning", 
         desc: "Regular, high-quality cleaning for private and commercial spaces.",
@@ -261,7 +261,7 @@ const translations = {
       requestNow: "DEMANDER UN DEVIS MAINTENANT"
     },
     services: {
-      title: "Nos Services",
+      title: "Nos Services Premium",
       maintenance: { 
         title: "Nettoyage Régulier", 
         desc: "Nettoyage régulier et de haute qualité pour espaces privés et commerciaux.",
@@ -943,10 +943,22 @@ const App = () => {
           </div>
         </section>
 
+        {/* Curved Divider Transition */}
+        <div className="relative w-full h-12 md:h-16 bg-white overflow-hidden">
+          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none" fill="white">
+            <path d="M0,0 Q300,60 600,40 T1200,0 L1200,120 L0,120 Z" />
+          </svg>
+        </div>
+
         {/* Services Section - Split Screen Reveal */}
-        <section id="services" className="relative bg-white pt-16 pb-8">
-          <div className="py-8 px-6 md:px-12 text-center">
-            <h2 className="font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] mb-0 tracking-tight italic font-light relative inline-block">
+        <section id="services" className="relative bg-white pt-8 md:pt-12 pb-8">
+          <div className="px-6 md:px-12 text-center">
+            <h2 
+              ref={servicesTitleRef}
+              className={`font-serif-display text-5xl md:text-7xl lg:text-8xl text-[#1a1a1a] mb-0 tracking-tight italic font-light relative inline-block transition-opacity duration-1000 ${
+                servicesTitleVisible ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
               <span className="relative z-10">{t.services.title}</span>
               <div className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-blue-500/20 via-yellow-400/30 to-blue-500/20 blur-sm"></div>
             </h2>
