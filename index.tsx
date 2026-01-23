@@ -355,6 +355,7 @@ const App = () => {
   const [visibleServices, setVisibleServices] = useState<Set<number>>(new Set());
   const [menuOpen, setMenuOpen] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const t = translations[language];
@@ -388,16 +389,19 @@ const App = () => {
       if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
         setLanguageMenuOpen(false);
       }
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
     };
 
-    if (languageMenuOpen) {
+    if (languageMenuOpen || menuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [languageMenuOpen]);
+  }, [languageMenuOpen, menuOpen]);
 
   // Parallax effect for hero image
   useEffect(() => {
@@ -495,7 +499,7 @@ const App = () => {
         <div className="bg-[#Fdfcf8] rounded-[2.5rem] w-full relative flex flex-col border border-[#e5e2dd] shadow-sm overflow-hidden">
           
           {/* Hamburger Menu Button */}
-          <div className="fixed top-8 left-6 md:left-12 z-50">
+          <div className="fixed top-8 left-6 md:left-12 z-50" ref={menuRef}>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="menu-btn bg-white/90 backdrop-blur-md p-3 rounded-full border border-black/10 shadow-lg hover:shadow-xl transition-all flex flex-col items-center justify-center gap-1.5 group"
