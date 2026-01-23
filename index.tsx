@@ -424,12 +424,14 @@ const App = () => {
   const [expandedReview, setExpandedReview] = useState<number | null>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [isReviewPaused, setIsReviewPaused] = useState(false);
+  const [servicesTitleVisible, setServicesTitleVisible] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const promoModalShown = useRef(false);
   const reviewIntervalRef = useRef<number | null>(null);
   const reviewCarouselRef = useRef<HTMLDivElement>(null);
+  const servicesTitleRef = useRef<HTMLHeadingElement>(null);
   const t = translations[language];
 
   // Preloader effect
