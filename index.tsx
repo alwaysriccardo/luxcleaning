@@ -71,33 +71,33 @@ const translations = {
       title: "Entdecken Sie Unsere Leistungen",
       subtitle: "Tippen Sie auf eine Karte, um sie zu erweitern",
       maintenance: { 
-        title: "Unterhaltsreinigung", 
-        desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume.",
+    title: "Unterhaltsreinigung",
+    desc: "Regelmäßige, hochwertige Reinigung für Privat- und Geschäftsräume.",
         details: "Wöchentliche oder monatliche Reinigung mit Premium-Produkten. Inklusive Staubsaugen, Wischen, Oberflächenreinigung und Müllentsorgung. Flexible Terminvereinbarung nach Ihren Bedürfnissen."
-      },
+  },
       deep: { 
-        title: "Grundreinigung", 
-        desc: "Gründliche Tiefenreinigung für höchste Ansprüche.",
+    title: "Grundreinigung",
+    desc: "Gründliche Tiefenreinigung für höchste Ansprüche.",
         details: "Umfassende Reinigung aller Bereiche inklusive schwer zugänglicher Stellen. Reinigung von Möbeln, Lampen, Heizkörpern und Fensterbänken. Perfekt für Einzüge oder saisonale Tiefenreinigung."
-      },
+  },
       office: { 
-        title: "Büro- & Gewerbereinigung", 
-        desc: "Sauberkeit auf Premium-Niveau für Arbeits- und Geschäftsräume.",
+    title: "Büro- & Gewerbereinigung",
+    desc: "Sauberkeit auf Premium-Niveau für Arbeits- und Geschäftsräume.",
         details: "Diskrete Reinigung außerhalb der Geschäftszeiten. Sanitärbereiche, Küchen, Arbeitsplätze und Gemeinschaftsräume. Regelmäßige Wartung für ein professionelles Arbeitsumfeld."
-      },
+  },
       windows: { 
-        title: "Fenster- & Glasreinigung", 
-        desc: "Streifenfreie Reinigung von Fenstern, Glasflächen und Rahmen.",
+    title: "Fenster- & Glasreinigung",
+    desc: "Streifenfreie Reinigung von Fenstern, Glasflächen und Rahmen.",
         details: "Innen- und Außenreinigung mit professionellen Werkzeugen. Auch schwer erreichbare Fenster und Wintergärten. Rahmen, Dichtungen und Fensterbänke inklusive."
-      },
+  },
       moving: { 
-        title: "Umzugsreinigung", 
-        desc: "Professionelle Endreinigung mit Abnahmegarantie.",
+    title: "Umzugsreinigung",
+    desc: "Professionelle Endreinigung mit Abnahmegarantie.",
         details: "Komplette Reinigung der alten Wohnung für die Übergabe. Küche, Badezimmer, alle Räume und Böden. Garantiert abnahmefähig für einen reibungslosen Umzug."
-      },
+  },
       kitchen: { 
-        title: "Sanitär- & Küchenreinigung", 
-        desc: "Hygienische Reinigung mit Blick fürs Detail.",
+    title: "Sanitär- & Küchenreinigung",
+    desc: "Hygienische Reinigung mit Blick fürs Detail.",
         details: "Gründliche Reinigung von Küchengeräten, Kühlschrank, Herd und Backofen. Sanitärbereiche mit Desinfektion. Entkalkung und Entfernung hartnäckiger Verschmutzungen."
       },
       requestQuote: "Angebot anfordern",
@@ -841,9 +841,9 @@ const App = () => {
           <div className="pointer-events-auto relative">
             <button 
               onClick={() => scrollToSection('angebot')}
-              className="nav-quote-btn flex items-center gap-2 bg-black/60 backdrop-blur-md text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-black/80 transition-all group relative border-2 border-yellow-400/50 shadow-[0_0_25px_rgba(251,191,36,0.6),0_4px_15px_rgba(0,0,0,0.3)]"
+              className="nav-quote-btn flex items-center gap-2 bg-[#1a1a1a]/80 backdrop-blur-md text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a1a1a]/90 transition-all group relative border border-[#1a1a1a]/50 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
               style={{
-                textShadow: '0 2px 8px rgba(0,0,0,0.8), 0 0 10px rgba(251,191,36,0.5)',
+                textShadow: '0 2px 10px rgba(0,0,0,0.5)',
                 backdropFilter: 'blur(12px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(12px) saturate(180%)'
               }}
@@ -852,7 +852,7 @@ const App = () => {
               <span className="relative z-10">ANGEBOT</span>
             </button>
             {/* Badge with text */}
-            <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border-2 border-yellow-300">
+            <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
               20% OFF
             </div>
           </div>
@@ -958,7 +958,7 @@ const App = () => {
                       <span className="inline-block px-2.5 py-1 bg-stone-100 rounded-full text-[9px] font-bold uppercase tracking-wider text-stone-600">
                         {r.service}
                       </span>
-                    </div>
+          </div>
 
                     {/* Stars */}
                     <div className="flex text-yellow-400 mb-2 md:mb-3">
@@ -1084,17 +1084,17 @@ const App = () => {
                   >
                     {/* Service Card Image */}
                     <div className="absolute inset-0">
-                    <img 
-                      src={s.img} 
-                      alt={s.title} 
+                  <img 
+                    src={s.img} 
+                    alt={s.title} 
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="eager"
                       decoding="async"
-                      onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
-                    />
+                    onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                  />
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
-                    </div>
+                </div>
 
                     {/* Expand Icon - Top Right Corner */}
                     <div className="absolute top-4 right-4 z-20 pointer-events-none">
@@ -1115,7 +1115,7 @@ const App = () => {
                       <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
                         {s.desc}
                       </p>
-                      <button 
+                <button 
                         className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors duration-200 pointer-events-auto"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -1123,9 +1123,9 @@ const App = () => {
                         }}
                       >
                         {t.services.showMore}
-                      </button>
-                    </div>
-                  </div>
+                </button>
+              </div>
+          </div>
                 );
               })}
             </div>
@@ -1154,7 +1154,7 @@ const App = () => {
                     />
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
-                  </div>
+                    </div>
 
                   {/* Expand Icon - Top Right Corner */}
                   <div className="absolute top-4 right-4 z-20 pointer-events-none">
@@ -1178,11 +1178,11 @@ const App = () => {
                     <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors duration-200">
                       {t.services.showMore}
                 </button>
-              </div>
-                </div>
+                      </div>
+                      </div>
               );
             })}
-          </div>
+                    </div>
 
           {/* Full-Screen Overlay Modal - Mobile / Split-Screen Popup - Desktop */}
           {expandedService !== null && (
@@ -1219,7 +1219,7 @@ const App = () => {
                   />
                   {/* Subtle overlay for text readability */}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 lg:bg-gradient-to-r lg:from-black/20 lg:via-transparent lg:to-black/40"></div>
-                </div>
+                  </div>
 
                 {/* Right Side - Text Content Panel (Mobile: Bottom, Desktop: Right) */}
                 <div className="flex-1 min-h-0 lg:w-1/2 bg-gradient-to-b from-black via-[#1a1a1a] to-black lg:bg-[#1a1a1a] overflow-y-auto">
@@ -1229,7 +1229,7 @@ const App = () => {
                       <span className="font-serif-display text-3xl md:text-4xl lg:text-4xl font-light text-white">
                         {String(expandedService + 1).padStart(2, '0')}
                       </span>
-                    </div>
+              </div>
 
                     {/* Service Title */}
                     <h3 className="font-serif-display text-2xl md:text-3xl lg:text-3xl text-white mb-3 md:mb-4 lg:mb-4 tracking-tight font-semibold">
@@ -1246,7 +1246,7 @@ const App = () => {
                       <p className="text-xs md:text-sm lg:text-sm text-white/80 leading-relaxed font-light">
                         {SERVICES[expandedService].details}
                       </p>
-                    </div>
+            </div>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 mt-auto">
@@ -1265,7 +1265,7 @@ const App = () => {
                       >
                         {t.services.showLess}
                       </button>
-                    </div>
+          </div>
                   </div>
                 </div>
               </div>
@@ -1307,7 +1307,7 @@ const App = () => {
                 </div>
               ) : (
                 <form className="space-y-5" onSubmit={handleContactSubmit}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="contact-name" className="sr-only">{t.contact.name}</label>
                       <input 
@@ -1320,7 +1320,7 @@ const App = () => {
                         required
                         aria-label={t.contact.name}
                       />
-                    </div>
+                </div>
                     <div>
                       <label htmlFor="contact-email" className="sr-only">{t.contact.email}</label>
                       <input 
