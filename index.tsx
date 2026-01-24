@@ -841,9 +841,9 @@ const App = () => {
           <div className="pointer-events-auto relative">
             <button 
               onClick={() => scrollToSection('angebot')}
-              className="nav-quote-btn flex items-center gap-2 bg-white/20 backdrop-blur-md text-white/95 px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/30 transition-all group relative border border-white/30 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
+              className="nav-quote-btn flex items-center gap-2 bg-black/60 backdrop-blur-md text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-black/80 transition-all group relative border-2 border-yellow-400/50 shadow-[0_0_25px_rgba(251,191,36,0.6),0_4px_15px_rgba(0,0,0,0.3)]"
               style={{
-                textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+                textShadow: '0 2px 8px rgba(0,0,0,0.8), 0 0 10px rgba(251,191,36,0.5)',
                 backdropFilter: 'blur(12px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(12px) saturate(180%)'
               }}
@@ -852,7 +852,7 @@ const App = () => {
               <span className="relative z-10">ANGEBOT</span>
             </button>
             {/* Badge with text */}
-            <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
+            <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border-2 border-yellow-300">
               20% OFF
             </div>
           </div>
