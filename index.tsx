@@ -1288,25 +1288,6 @@ const App = () => {
 
         {/* Painting Service Section */}
         <section className="relative bg-gradient-to-b from-white via-stone-50 to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
-          {/* Subtle background accent */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-stone-100/30 to-white opacity-50"></div>
-          
-          {/* Paint Splatter Effect */}
-          <div className="absolute inset-0 pointer-events-none opacity-20">
-            {/* Splatter 1 - Top Left */}
-            <div className="absolute top-10 left-10 w-24 h-32 bg-white rounded-full blur-sm" style={{ transform: 'rotate(-15deg) scale(1.2)', clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}></div>
-            {/* Splatter 2 - Top Right */}
-            <div className="absolute top-16 right-20 w-20 h-28 bg-white rounded-full blur-sm" style={{ transform: 'rotate(25deg) scale(0.9)', clipPath: 'polygon(40% 0%, 60% 0%, 100% 40%, 100% 60%, 60% 100%, 40% 100%, 0% 60%, 0% 40%)' }}></div>
-            {/* Splatter 3 - Bottom Left */}
-            <div className="absolute bottom-20 left-16 w-28 h-24 bg-white rounded-full blur-sm" style={{ transform: 'rotate(10deg) scale(1.1)', clipPath: 'polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%)' }}></div>
-            {/* Splatter 4 - Bottom Right */}
-            <div className="absolute bottom-16 right-12 w-22 h-30 bg-white rounded-full blur-sm" style={{ transform: 'rotate(-20deg) scale(0.8)', clipPath: 'polygon(35% 0%, 65% 0%, 100% 35%, 100% 65%, 65% 100%, 35% 100%, 0% 65%, 0% 35%)' }}></div>
-            {/* Splatter 5 - Center Left */}
-            <div className="absolute top-1/2 left-8 w-18 h-26 bg-white rounded-full blur-sm" style={{ transform: 'translateY(-50%) rotate(5deg) scale(0.7)', clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }}></div>
-            {/* Splatter 6 - Center Right */}
-            <div className="absolute top-1/2 right-10 w-26 h-20 bg-white rounded-full blur-sm" style={{ transform: 'translateY(-50%) rotate(-10deg) scale(0.9)', clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)' }}></div>
-          </div>
-          
           <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
             <div className="text-center">
               {/* Service Number */}
@@ -1506,9 +1487,9 @@ const App = () => {
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
             </svg>
           </a>
-        </div>
-
       </div>
+
+    </div>
     </div>
     </>
   );
