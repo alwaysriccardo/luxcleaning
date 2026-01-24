@@ -693,63 +693,19 @@ const App = () => {
 
   return (
     <>
-      {/* Preloader - Spray Bottle */}
+      {/* Preloader */}
       {isLoading && (
-        <div className="preloader-spray fixed inset-0 bg-gradient-to-b from-blue-50 to-white z-[9999] flex items-center justify-center overflow-hidden">
-          {/* Spray Mist Particles */}
-          <div className="spray-mist absolute inset-0 pointer-events-none">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="spray-particle absolute"
-                style={{
-                  left: `${50 + (Math.random() * 40 - 20)}%`,
-                  top: `${30 + (Math.random() * 20)}%`,
-                  animationDelay: `${i * 0.1}s`,
-                  animationDuration: `${1.5 + Math.random() * 0.5}s`
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Spray Bottle Container */}
-          <div className="spray-bottle-container relative z-10">
-            {/* Spray Bottle SVG */}
-            <svg
-              className="spray-bottle-svg w-32 h-40 md:w-40 md:h-48"
-              viewBox="0 0 200 240"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Bottle Body */}
-              <rect x="60" y="80" width="80" height="140" rx="8" fill="#3B82F6" className="bottle-body" />
-              <rect x="65" y="85" width="70" height="130" rx="6" fill="#60A5FA" />
-              
-              {/* Bottle Label */}
-              <rect x="70" y="120" width="60" height="40" rx="4" fill="#FFFFFF" opacity="0.9" />
-              <text x="100" y="145" textAnchor="middle" className="text-[8px] font-bold fill-blue-600">LUX</text>
-              
-              {/* Spray Nozzle */}
-              <rect x="85" y="60" width="30" height="25" rx="4" fill="#1E40AF" className="spray-nozzle" />
-              <circle cx="100" cy="50" r="8" fill="#1E40AF" className="spray-trigger" />
-              
-              {/* Spray Stream */}
-              <path
-                d="M 100 50 Q 100 30 100 10"
-                stroke="#93C5FD"
-                strokeWidth="3"
-                fill="none"
-                className="spray-stream"
-                opacity="0.6"
-              />
-            </svg>
-
-            {/* Company Name - Appears as mist clears */}
-            <div className="spray-logo mt-8">
-              <h1 className="font-serif-display text-2xl md:text-3xl tracking-tight spray-logo-text">
+        <div className="preloader fixed inset-0 bg-white z-[9999] flex items-center justify-center">
+          <div className="text-center">
+            <div className="preloader-logo mb-6">
+              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-2xl mb-4 preloader-icon">
+                <Sparkles className="text-white w-10 h-10" />
+              </div>
+              <h1 className="font-serif-display text-3xl md:text-4xl tracking-tight preloader-text">
                 <span className="text-blue-600">LUX</span> CLEANING <span className="text-yellow-500">&</span> HAUSWARTUNG
               </h1>
             </div>
+            <div className="preloader-spinner w-8 h-8 border-3 border-stone-200 border-t-blue-600 rounded-full mx-auto"></div>
           </div>
         </div>
       )}
@@ -1532,9 +1488,9 @@ const App = () => {
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
             </svg>
           </a>
-        </div>
-
       </div>
+
+    </div>
     </div>
     </>
   );
