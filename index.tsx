@@ -942,12 +942,9 @@ const App = () => {
             </button>
 
             {/* Brand Name - Center */}
-            <div className="text-center flex-1">
-              <div className="font-serif-display text-base font-semibold text-[#1a1a1a] tracking-tight">
-                Lux Cleaning
-              </div>
-              <div className="font-serif-display text-xs text-stone-600 tracking-tight">
-                & Hauswartung
+            <div className="text-center flex-1 px-2">
+              <div className="font-serif-display text-sm font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap">
+                Lux Cleaning & Hauswartung
               </div>
             </div>
 
