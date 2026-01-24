@@ -881,10 +881,6 @@ const App = () => {
 
           {/* Content - In front of background */}
           <div className="max-w-5xl mx-auto relative z-10">
-            <div className="fade-in-up inline-flex items-center gap-2 mb-6 md:mb-8 px-5 py-2 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 shadow-xl">
-              <span className="text-lg">🇨🇭</span> {t.hero.badge}
-            </div>
-            
             <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl">
               {t.hero.title1} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title2}</span>, <br />
               {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
