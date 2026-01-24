@@ -942,8 +942,14 @@ const App = () => {
             </button>
 
             {/* Brand Name - Center */}
-            <div className="text-center flex-1 px-2">
-              <div className="font-serif-display text-sm font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap">
+            <div className="flex items-center justify-center flex-1 px-2 gap-2">
+              <img 
+                src="/transparent-man.png" 
+                alt="Lux Cleaning Logo" 
+                className="h-6 w-auto"
+                loading="eager"
+              />
+              <div className="font-serif-display text-base font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap">
                 Lux Cleaning & Hauswartung
               </div>
             </div>
