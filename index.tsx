@@ -700,12 +700,12 @@ const App = () => {
         <div className="preloader fixed inset-0 bg-white z-[9999] flex items-center justify-center">
           <div className="text-center">
             <div className="preloader-logo mb-6">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-2xl mb-4 preloader-icon">
-                <Sparkles className="text-white w-10 h-10" />
-              </div>
-              <h1 className="font-serif-display text-3xl md:text-4xl tracking-tight preloader-text">
-                <span className="text-blue-600">LUX</span> CLEANING <span className="text-yellow-500">&</span> HAUSWARTUNG
-              </h1>
+              <img 
+                src="/preloader-logo.png" 
+                alt="Lux Cleaning & Hauswartung" 
+                className="mx-auto max-w-[280px] md:max-w-[350px] h-auto preloader-icon"
+                loading="eager"
+              />
             </div>
             <div className="preloader-spinner w-8 h-8 border-3 border-stone-200 border-t-blue-600 rounded-full mx-auto"></div>
           </div>
