@@ -847,9 +847,8 @@ const App = () => {
           <div className="pointer-events-auto relative">
             <button 
               onClick={() => scrollToSection('angebot')}
-              className="nav-quote-btn flex items-center gap-2 bg-[#1a1a1a]/80 backdrop-blur-md text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a1a1a]/90 transition-all group relative border border-[#1a1a1a]/50 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
+              className="nav-quote-btn flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#1a1a1a] px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all group relative border border-white/50 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
               style={{
-                textShadow: '0 2px 10px rgba(0,0,0,0.5)',
                 backdropFilter: 'blur(12px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(12px) saturate(180%)'
               }}
@@ -897,7 +896,7 @@ const App = () => {
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-[280px] sm:max-w-none mx-auto">
               <button 
                 onClick={() => scrollToSection('angebot')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:scale-105 transition-transform duration-200 shadow-2xl"
+                className="w-full sm:w-auto px-10 py-5 rounded-full bg-white text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all duration-200 shadow-2xl"
               >
                 {t.hero.quoteBtn}
               </button>
