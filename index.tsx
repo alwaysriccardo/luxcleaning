@@ -1309,111 +1309,32 @@ const App = () => {
           {/* Bottom gradient blending into section below */}
           <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/90 to-[#e8dcc4] pointer-events-none z-0"></div>
           
-          {/* White Paint Stroke - Full Height */}
+          {/* Zig-Zag White Paint Stroke */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]">
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
-              <defs>
-                <mask id="paintMask">
-                  <rect width="1200" height="600" fill="black"/>
-                  <rect
-                    width="1200"
-                    height="600"
-                    fill="white"
-                    className="paint-stroke"
-                    style={{
-                      clipPath: 'polygon(0% 0%, var(--paint-width, 0%) 0%, var(--paint-width, 0%) 100%, 0% 100%)',
-                      animation: 'paintStroke 5s ease-in-out infinite'
-                    }}
-                  />
-                </mask>
-              </defs>
-              <rect
-                width="1200"
-                height="600"
-                fill="white"
-                mask="url(#paintMask)"
-                opacity="0.95"
-                style={{
-                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-                }}
+              <path
+                d="M 0 80 L 1200 80 L 1200 200 L 0 200 L 0 320 L 1200 320 L 1200 440 L 0 440 L 0 560 L 1200 560"
+                className="paint-zigzag"
               />
             </svg>
           </div>
           
-          {/* Detailed Paint Roller (Trafalet) */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
-            <svg className="absolute w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
-              <g className="paint-roller-group" style={{ animation: 'rollerMove 5s ease-in-out infinite' }}>
-                {/* Main Handle - Orange */}
-                <line
-                  x1="0"
-                  y1="300"
-                  x2="0"
-                  y2="100"
-                  stroke="#ff6b35"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                />
-                {/* Handle Grip Section */}
-                <rect
-                  x="-8"
-                  y="100"
-                  width="16"
-                  height="40"
-                  rx="8"
-                  fill="#ff6b35"
-                />
-                {/* Handle Connector */}
-                <line
-                  x1="0"
-                  y1="140"
-                  x2="0"
-                  y2="200"
-                  stroke="#ff6b35"
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                />
-                {/* Frame - Metal U-shape */}
-                <path
-                  d="M -30 200 L -30 250 L -20 260 L 20 260 L 30 250 L 30 200 Z"
-                  fill="#a0a0a0"
-                  stroke="#808080"
-                  strokeWidth="2"
-                />
-                {/* Roller Axle */}
-                <line
-                  x1="-25"
-                  y1="255"
-                  x2="25"
-                  y2="255"
-                  stroke="#606060"
-                  strokeWidth="3"
-                />
-                {/* Paint Roller Sleeve - White with texture */}
-                <ellipse
-                  cx="0"
-                  cy="255"
-                  rx="25"
-                  ry="20"
-                  fill="white"
-                  opacity="0.9"
-                />
-                {/* Roller Texture Lines */}
-                <line x1="-20" y1="245" x2="-20" y2="265" stroke="#e0e0e0" strokeWidth="1" opacity="0.5"/>
-                <line x1="-10" y1="245" x2="-10" y2="265" stroke="#e0e0e0" strokeWidth="1" opacity="0.5"/>
-                <line x1="0" y1="245" x2="0" y2="265" stroke="#e0e0e0" strokeWidth="1" opacity="0.5"/>
-                <line x1="10" y1="245" x2="10" y2="265" stroke="#e0e0e0" strokeWidth="1" opacity="0.5"/>
-                <line x1="20" y1="245" x2="20" y2="265" stroke="#e0e0e0" strokeWidth="1" opacity="0.5"/>
-                {/* Roller Shadow/Depth */}
-                <ellipse
-                  cx="0"
-                  cy="260"
-                  rx="25"
-                  ry="15"
-                  fill="#d0d0d0"
-                  opacity="0.3"
-                />
-              </g>
+          {/* Paint Roller (Lightweight) */}
+          <div className="paint-roller z-[2]" aria-hidden="true">
+            <svg viewBox="0 0 120 80" className="w-full h-full">
+              {/* Handle */}
+              <line x1="60" y1="10" x2="60" y2="45" stroke="#ff6b35" strokeWidth="8" strokeLinecap="round" />
+              <rect x="52" y="10" width="16" height="24" rx="8" fill="#ff6b35" />
+              {/* Frame */}
+              <path d="M 45 45 L 45 55 L 75 55 L 75 45" fill="none" stroke="#7a7a7a" strokeWidth="4" />
+              {/* Roller */}
+              <rect x="20" y="55" width="80" height="18" rx="9" fill="#efefef" stroke="#d6d6d6" strokeWidth="2" />
+              <line x1="28" y1="57" x2="28" y2="71" stroke="#d0d0d0" strokeWidth="1" />
+              <line x1="40" y1="57" x2="40" y2="71" stroke="#d0d0d0" strokeWidth="1" />
+              <line x1="52" y1="57" x2="52" y2="71" stroke="#d0d0d0" strokeWidth="1" />
+              <line x1="64" y1="57" x2="64" y2="71" stroke="#d0d0d0" strokeWidth="1" />
+              <line x1="76" y1="57" x2="76" y2="71" stroke="#d0d0d0" strokeWidth="1" />
+              <line x1="88" y1="57" x2="88" y2="71" stroke="#d0d0d0" strokeWidth="1" />
             </svg>
           </div>
           
