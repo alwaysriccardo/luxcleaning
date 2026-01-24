@@ -106,6 +106,11 @@ const translations = {
       showMore: "Mehr erfahren",
       showLess: "Weniger anzeigen"
     },
+    painting: {
+      title: "Zusätzlich: Malerarbeiten",
+      subtitle: "nur Weiß",
+      description: "Saubere, präzise Malerarbeiten in Weiß – ideal für Auszüge, Renovationen und Auffrischungen"
+    },
     reviews: {
       title: "Unsere zufriedenen Kunden",
       customer: "Kunde",
@@ -205,6 +210,11 @@ const translations = {
       showMore: "Learn More",
       showLess: "Show Less"
     },
+    painting: {
+      title: "Additionally: Painting Services",
+      subtitle: "White Only",
+      description: "Clean, precise white painting work – ideal for move-outs, renovations, and touch-ups"
+    },
     reviews: {
       title: "Our Satisfied Customers",
       customer: "Customer",
@@ -303,6 +313,11 @@ const translations = {
       requestQuote: "Demander un Devis",
       showMore: "En savoir plus",
       showLess: "Afficher moins"
+    },
+    painting: {
+      title: "En Plus: Travaux de Peinture",
+      subtitle: "Uniquement Blanc",
+      description: "Travaux de peinture blancs propres et précis – idéal pour les déménagements, rénovations et retouches"
     },
     reviews: {
       title: "Nos Clients Satisfaits",
@@ -1271,6 +1286,35 @@ const App = () => {
           )}
         </section>
 
+        {/* Painting Service Section */}
+        <section className="relative bg-gradient-to-b from-white via-stone-50 to-white py-20 md:py-28 overflow-hidden">
+          {/* Subtle background accent */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-stone-100/30 to-white opacity-50"></div>
+          
+          <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
+            <div className="text-center">
+              {/* Title with emphasis on "nur Weiß" */}
+              <div className="mb-6">
+                <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light mb-3">
+                  {t.painting.title}
+                </h2>
+                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-[#1a1a1a] rounded-full shadow-lg">
+                  <span className="text-2xl md:text-3xl font-serif-display text-[#1a1a1a] font-semibold italic">
+                    {t.painting.subtitle}
+                  </span>
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-[#1a1a1a] rounded-full flex items-center justify-center">
+                    <span className="text-white text-lg md:text-xl font-bold">✓</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Description */}
+              <p className="text-stone-600 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mt-8">
+                {t.painting.description}
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* Redesigned Footer Section */}
         <section id="angebot" className="relative py-32 px-6 bg-white overflow-hidden text-center">
