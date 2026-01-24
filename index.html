@@ -406,6 +406,25 @@
                 box-shadow: 0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(251, 191, 36, 0.4);
             }
         }
+        @keyframes paintStroke {
+            0% {
+                stroke-dashoffset: 1200;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                stroke-dashoffset: 0;
+                opacity: 0.3;
+            }
+        }
+        .paint-stroke {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
     </style>
 <script type="importmap">
 {

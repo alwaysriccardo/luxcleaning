@@ -1287,7 +1287,32 @@ const App = () => {
         </section>
 
         {/* Painting Service Section */}
-        <section className="relative bg-gradient-to-b from-white via-stone-50 to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
+        <section className="relative bg-gradient-to-b from-white via-amber-50/50 via-stone-100/70 to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
+          {/* Top gradient blending into section above */}
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white via-white/90 to-amber-50/50 pointer-events-none z-0"></div>
+          
+          {/* Bottom gradient blending into section below */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/90 to-amber-50/50 pointer-events-none z-0"></div>
+          
+          {/* Animated Paint Brush Stroke */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]">
+            <svg className="absolute top-1/3 left-0 w-full h-40 opacity-40" viewBox="0 0 1200 200" preserveAspectRatio="none">
+              <path
+                d="M 0 100 Q 200 80 400 100 T 800 100 T 1200 100"
+                stroke="white"
+                strokeWidth="10"
+                fill="none"
+                strokeLinecap="round"
+                className="paint-stroke"
+                style={{
+                  strokeDasharray: '1200',
+                  strokeDashoffset: '1200',
+                  animation: 'paintStroke 4s ease-in-out infinite'
+                }}
+              />
+            </svg>
+          </div>
+          
           <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
             <div className="text-center">
               {/* Service Number */}
