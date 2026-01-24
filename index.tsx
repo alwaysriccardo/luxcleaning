@@ -850,7 +850,19 @@ const App = () => {
           </div>
 
         {/* Navigation */}
-        <nav className="fixed top-8 left-0 right-0 z-50 flex justify-end items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
+        <nav className="fixed top-8 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
+          {/* Company Name - Top Left */}
+          <div className="pointer-events-auto">
+            <div className="text-left">
+              <div className="font-serif-display text-lg md:text-xl font-semibold text-[#1a1a1a] tracking-tight">
+                Lux Cleaning
+              </div>
+              <div className="font-serif-display text-sm md:text-base text-stone-600 tracking-tight">
+                & Hauswartung
+              </div>
+            </div>
+          </div>
+
           <div className="pointer-events-auto hidden md:flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
             <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
             <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.reviews}</button>
