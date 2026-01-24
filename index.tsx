@@ -617,50 +617,39 @@ const App = () => {
     }, 5000);
   };
 
-  // Horizontal carousel auto-scroll - optimized
+  // Horizontal carousel seamless infinite scroll
   useEffect(() => {
     if (isReviewPaused || !reviewCarouselRef.current) return;
 
-    const CARD_WIDTH = 320; // Approximate card width with gap
-    const SCROLL_INTERVAL = 4000; // 4 seconds
+    const carousel = reviewCarouselRef.current;
+    if (!carousel) return;
+
+    const SCROLL_SPEED = 0.5; // pixels per frame (adjust for speed)
+    let animationFrameId: number | null = null;
 
     const scrollCarousel = () => {
-      const carousel = reviewCarouselRef.current;
-      if (!carousel) return;
+      if (!carousel || isReviewPaused) return;
 
       const maxScroll = carousel.scrollWidth - carousel.clientWidth;
       const currentScroll = carousel.scrollLeft;
       
-      // Reset to start for infinite loop when near the end
-      if (currentScroll >= maxScroll - 10) {
-        carousel.scrollTo({ left: 0, behavior: 'auto' });
+      // Seamless infinite loop: when we reach halfway (first set of reviews),
+      // reset to the equivalent position in the first half (invisible to user)
+      const halfPoint = maxScroll / 2;
+      if (currentScroll >= halfPoint) {
+        carousel.scrollLeft = currentScroll - halfPoint;
       } else {
-        // Use requestAnimationFrame for smoother scrolling
-        const startScroll = carousel.scrollLeft;
-        const targetScroll = startScroll + CARD_WIDTH;
-        const duration = 500;
-        const startTime = performance.now();
-        
-        const animateScroll = (currentTime: number) => {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const ease = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
-          carousel.scrollLeft = startScroll + (targetScroll - startScroll) * ease;
-          
-          if (progress < 1) {
-            requestAnimationFrame(animateScroll);
-          }
-        };
-        requestAnimationFrame(animateScroll);
+        carousel.scrollLeft = currentScroll + SCROLL_SPEED;
       }
+
+      animationFrameId = requestAnimationFrame(scrollCarousel);
     };
 
-    reviewIntervalRef.current = window.setInterval(scrollCarousel, SCROLL_INTERVAL);
+    animationFrameId = requestAnimationFrame(scrollCarousel);
 
     return () => {
-      if (reviewIntervalRef.current !== null) {
-        clearInterval(reviewIntervalRef.current);
-        reviewIntervalRef.current = null;
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
       }
     };
   }, [isReviewPaused]);
