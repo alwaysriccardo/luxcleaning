@@ -909,13 +909,13 @@ const App = () => {
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-[280px] sm:max-w-none mx-auto">
               <button 
                 onClick={() => scrollToSection('angebot')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:scale-105 transition-all duration-200 shadow-2xl"
+                className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-white md:hover:scale-105 transition-all duration-200 shadow-2xl"
               >
                 {t.hero.quoteBtn}
               </button>
               <button 
                 onClick={() => scrollToSection('services')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] hover:scale-105 transition-colors duration-200 shadow-xl"
+                className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-yellow-400 md:hover:border-yellow-400 md:hover:text-[#1a1a1a] md:hover:scale-105 transition-colors duration-200 shadow-xl"
               >
                 {t.hero.servicesBtn}
               </button>
