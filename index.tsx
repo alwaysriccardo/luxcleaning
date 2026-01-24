@@ -15,7 +15,8 @@ import {
   ChevronLeft,
   ChevronRight,
   MessageCircle,
-  Mail
+  Mail,
+  Menu
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -438,6 +439,7 @@ const REVIEWS = [
 const App = () => {
   const [language, setLanguage] = useState<'de' | 'en' | 'fr'>('de');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [promoModalOpen, setPromoModalOpen] = useState(false);
@@ -882,52 +884,139 @@ const App = () => {
             </div>
           )}
           </div>
-
+        
         {/* Navigation */}
-        <nav className="fixed top-8 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pointer-events-none">
-          {/* Company Name - Top Left */}
-          <div className="pointer-events-auto">
-            <div className="text-left">
-              <div className={`font-serif-display text-lg md:text-xl font-semibold tracking-tight transition-colors duration-300 ${
-                navTextColor === 'light' ? 'text-white drop-shadow-lg' : 'text-[#1a1a1a]'
-              }`}>
+        <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pt-8 pointer-events-none">
+            {/* Company Name - Top Left */}
+            <div className="pointer-events-auto">
+              <div className="text-left">
+                <div className={`font-serif-display text-lg md:text-xl font-semibold tracking-tight transition-colors duration-300 ${
+                  navTextColor === 'light' ? 'text-white drop-shadow-lg' : 'text-[#1a1a1a]'
+                }`}>
+                  Lux Cleaning
+                </div>
+                <div className={`font-serif-display text-sm md:text-base tracking-tight transition-colors duration-300 ${
+                  navTextColor === 'light' ? 'text-white/90 drop-shadow-lg' : 'text-stone-600'
+                }`}>
+                  & Hauswartung
+                </div>
+              </div>
+            </div>
+
+            <div className="pointer-events-auto flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
+              <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
+              <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.reviews}</button>
+              <button onClick={() => scrollToSection('angebot')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest bg-yellow-400 hover:bg-yellow-500 transition-colors">{t.nav.quote}</button>
+            </div>
+
+            <div className="pointer-events-auto relative">
+              <button 
+                onClick={() => scrollToSection('angebot')}
+                className="nav-quote-btn flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#1a1a1a] px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all group relative border border-white/50 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
+                style={{
+                  backdropFilter: 'blur(12px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(180%)'
+                }}
+                aria-label="Angebot anfordern"
+              >
+                <span className="relative z-10">ANGEBOT</span>
+              </button>
+              {/* Badge with text */}
+              <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
+                20% OFF
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Header */}
+          <div className="md:hidden w-full bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm px-4 py-3 flex items-center justify-between pointer-events-auto">
+            {/* Menu Button - Left */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 -ml-2"
+              aria-label="Toggle menu"
+            >
+              <Menu size={24} className="text-[#1a1a1a]" />
+            </button>
+
+            {/* Brand Name - Center */}
+            <div className="text-center flex-1">
+              <div className="font-serif-display text-base font-semibold text-[#1a1a1a] tracking-tight">
                 Lux Cleaning
               </div>
-              <div className={`font-serif-display text-sm md:text-base tracking-tight transition-colors duration-300 ${
-                navTextColor === 'light' ? 'text-white/90 drop-shadow-lg' : 'text-stone-600'
-              }`}>
+              <div className="font-serif-display text-xs text-stone-600 tracking-tight">
                 & Hauswartung
               </div>
             </div>
-          </div>
 
-          <div className="pointer-events-auto hidden md:flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
-            <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
-            <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.reviews}</button>
-            <button onClick={() => scrollToSection('angebot')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest bg-yellow-400 hover:bg-yellow-500 transition-colors">{t.nav.quote}</button>
-          </div>
-
-          <div className="pointer-events-auto relative">
-            <button 
-              onClick={() => scrollToSection('angebot')}
-              className="nav-quote-btn flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#1a1a1a] px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all group relative border border-white/50 shadow-[0_0_20px_rgba(251,191,36,0.5)]"
-              style={{
-                backdropFilter: 'blur(12px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(12px) saturate(180%)'
-              }}
-              aria-label="Angebot anfordern"
-            >
-              <span className="relative z-10">ANGEBOT</span>
-            </button>
-            {/* Badge with text */}
-            <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
-              20% OFF
+            {/* Angebot Button - Right */}
+            <div className="relative">
+              <button 
+                onClick={() => scrollToSection('angebot')}
+                className="flex items-center gap-1.5 bg-yellow-400 text-[#1a1a1a] px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all"
+                aria-label="Angebot anfordern"
+              >
+                <span>ANGEBOT</span>
+              </button>
+              {/* Badge with text */}
+              <div className="absolute -top-1 -right-1 bg-yellow-500 text-[#1a1a1a] text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full border border-yellow-400">
+                20%
+              </div>
             </div>
           </div>
+
+          {/* Mobile Menu Overlay */}
+          {mobileMenuOpen && (
+            <div className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm pointer-events-auto" onClick={() => setMobileMenuOpen(false)}>
+              <div className="bg-white w-64 h-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+                <div className="p-6 border-b border-stone-200 flex items-center justify-between">
+                  <div className="font-serif-display text-lg font-semibold text-[#1a1a1a]">Menu</div>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2 -mr-2"
+                    aria-label="Close menu"
+                  >
+                    <X size={20} className="text-[#1a1a1a]" />
+                  </button>
+                </div>
+                <div className="py-4">
+                  <button
+                    onClick={() => {
+                      scrollToSection('services');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
+                  >
+                    SERVICES
+                  </button>
+                  <button
+                    onClick={() => {
+                      scrollToSection('angebot');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
+                  >
+                    GET A QUOTE
+                  </button>
+                  <button
+                    onClick={() => {
+                      scrollToSection('angebot');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
+                  >
+                    CONTACT
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </nav>
 
         {/* Hero Section */}
-        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-20 md:pt-32 pb-20 px-6 text-center overflow-hidden">
+        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-24 md:pt-32 pb-20 px-6 text-center overflow-hidden">
           {/* Background Image - Behind everything */}
           <div className="absolute inset-0 z-0 overflow-hidden bg-[#Fdfcf8]">
             <img
