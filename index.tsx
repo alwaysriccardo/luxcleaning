@@ -896,7 +896,7 @@ const App = () => {
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-[280px] sm:max-w-none mx-auto">
               <button 
                 onClick={() => scrollToSection('angebot')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full bg-white text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-105 transition-all duration-200 shadow-2xl"
+                className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:scale-105 transition-all duration-200 shadow-2xl"
               >
                 {t.hero.quoteBtn}
               </button>
