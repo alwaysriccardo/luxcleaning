@@ -1287,49 +1287,54 @@ const App = () => {
         </section>
 
         {/* Painting Service Section */}
-        <section className="relative bg-gradient-to-b from-white via-amber-50/50 via-stone-100/70 to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
-          {/* Textured Beige Wall Background */}
+        <section className="relative bg-gradient-to-b from-white via-[#e8dcc4] to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
+          {/* Dirty Cream Wall Background with Texture */}
           <div 
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0"
             style={{
+              background: '#e8dcc4',
               backgroundImage: `
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 115, 85, 0.03) 2px, rgba(139, 115, 85, 0.03) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 115, 85, 0.03) 2px, rgba(139, 115, 85, 0.03) 4px),
-                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.05) 0%, transparent 50%)
+                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(139, 115, 85, 0.05) 1px, rgba(139, 115, 85, 0.05) 2px),
+                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(139, 115, 85, 0.05) 1px, rgba(139, 115, 85, 0.05) 2px),
+                radial-gradient(circle at 30% 40%, rgba(139, 115, 85, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(139, 115, 85, 0.08) 0%, transparent 40%)
               `,
-              backgroundSize: '100% 100%, 100% 100%, 200px 200px, 200px 200px',
-              backgroundPosition: '0 0, 0 0, 0 0, 100% 100%'
+              backgroundSize: '100% 100%, 100% 100%, 300px 300px, 300px 300px'
             }}
           ></div>
           
           {/* Top gradient blending into section above */}
-          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white via-white/90 to-amber-50/50 pointer-events-none z-0"></div>
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white via-white/90 to-[#e8dcc4] pointer-events-none z-0"></div>
           
           {/* Bottom gradient blending into section below */}
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/90 to-amber-50/50 pointer-events-none z-0"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/90 to-[#e8dcc4] pointer-events-none z-0"></div>
           
-          {/* Zig-Zag White Paint Pattern */}
+          {/* White Paint Stroke */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]">
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 400" preserveAspectRatio="none">
               <defs>
-                <clipPath id="zigzagClip">
-                  <path
-                    d="M 0 100 L 150 50 L 300 100 L 450 50 L 600 100 L 750 50 L 900 100 L 1050 50 L 1200 100 L 1200 200 L 1050 150 L 900 200 L 750 150 L 600 200 L 450 150 L 300 200 L 150 150 L 0 200 L 0 300 L 150 250 L 300 300 L 450 250 L 600 300 L 750 250 L 900 300 L 1050 250 L 1200 300 L 1200 400 L 1050 350 L 900 400 L 750 350 L 600 400 L 450 350 L 300 400 L 150 350 L 0 400 L 0 500 L 150 450 L 300 500 L 450 450 L 600 500 L 750 450 L 900 500 L 1050 450 L 1200 500 L 1200 600 L 0 600 Z"
-                    className="paint-path"
+                <mask id="paintMask">
+                  <rect width="1200" height="400" fill="black"/>
+                  <rect
+                    width="1200"
+                    height="120"
+                    fill="white"
+                    className="paint-stroke"
+                    style={{
+                      clipPath: 'polygon(0% 0%, var(--paint-width, 0%) 0%, var(--paint-width, 0%) 100%, 0% 100%)',
+                      animation: 'paintStroke 5s ease-in-out infinite'
+                    }}
                   />
-                </clipPath>
+                </mask>
               </defs>
               <rect
                 width="1200"
-                height="600"
+                height="400"
                 fill="white"
-                clipPath="url(#zigzagClip)"
-                opacity="0.5"
-                className="paint-fill"
+                mask="url(#paintMask)"
+                opacity="0.95"
                 style={{
-                  clipPath: 'polygon(0% 0%, var(--paint-progress, 0%) 0%, var(--paint-progress, 0%) 100%, 0% 100%)',
-                  animation: 'paintReveal 6s ease-in-out infinite'
+                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
                 }}
               />
             </svg>
@@ -1337,34 +1342,39 @@ const App = () => {
           
           {/* Animated Paint Roller */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
-            <svg className="absolute w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
-              <g className="paint-roller-group">
-                {/* Paint Roller */}
-                <rect
-                  x="-40"
-                  y="0"
-                  width="80"
-                  height="50"
-                  rx="25"
-                  fill="#1a1a1a"
-                  opacity="0.7"
-                  className="paint-roller"
-                  style={{
-                    animation: 'rollerZigZag 6s ease-in-out infinite'
-                  }}
-                />
+            <svg className="absolute w-full h-full" viewBox="0 0 1200 400" preserveAspectRatio="none">
+              <g className="paint-roller-group" style={{ animation: 'rollerMove 5s ease-in-out infinite' }}>
                 {/* Roller Handle */}
                 <line
                   x1="0"
-                  y1="0"
+                  y1="60"
                   x2="0"
-                  y2="-40"
-                  stroke="#1a1a1a"
-                  strokeWidth="4"
-                  opacity="0.7"
-                  className="paint-roller-handle"
+                  y2="20"
+                  stroke="#ff6b35"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+                {/* Paint Roller */}
+                <rect
+                  x="-50"
+                  y="50"
+                  width="100"
+                  height="30"
+                  rx="15"
+                  fill="#c0c0c0"
+                  opacity="0.9"
+                />
+                {/* Roller Texture */}
+                <rect
+                  x="-50"
+                  y="50"
+                  width="100"
+                  height="30"
+                  rx="15"
+                  fill="white"
+                  opacity="0.3"
                   style={{
-                    animation: 'rollerZigZag 6s ease-in-out infinite'
+                    backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)'
                   }}
                 />
               </g>
