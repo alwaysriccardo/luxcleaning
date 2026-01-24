@@ -1287,48 +1287,17 @@ const App = () => {
         </section>
 
         {/* Painting Service Section */}
-        <section className="relative bg-[#E8E0D5] py-16 md:py-20 overflow-hidden">
-          {/* Zig Zag Pattern - Painted Effect */}
-          <div className="absolute inset-0 opacity-100">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
-              <path 
-                d="M0,100 Q150,20 300,100 T600,100 T900,100 T1200,100 L1200,200 L0,200 Z" 
-                fill="white" 
-                stroke="white" 
-                strokeWidth="8"
-              />
-              <path 
-                d="M0,100 Q150,180 300,100 T600,100 T900,100 T1200,100 L1200,0 L0,0 Z" 
-                fill="white" 
-                stroke="white" 
-                strokeWidth="8"
-              />
-            </svg>
-          </div>
-
-          {/* Paint Roller Icon */}
-          <div className="absolute top-8 right-8 md:top-12 md:right-12 z-20 opacity-90">
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Paint Roller Handle */}
-              <rect x="25" y="5" width="10" height="25" rx="2" fill="#1a1a1a"/>
-              {/* Paint Roller Body */}
-              <rect x="15" y="30" width="30" height="20" rx="3" fill="#1a1a1a"/>
-              {/* Paint on Roller */}
-              <rect x="18" y="33" width="24" height="14" rx="2" fill="white"/>
-              {/* Paint Drip */}
-              <path d="M30 50 L28 55 L32 55 Z" fill="white"/>
-            </svg>
-          </div>
+        <section className="relative bg-gradient-to-b from-white via-stone-50 to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
+          {/* Subtle background accent */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-stone-100/30 to-white opacity-50"></div>
           
           <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
             <div className="text-center">
-              {/* Service Number */}
-              <div className="mb-4 opacity-60">
-                <span className="font-serif-display text-5xl md:text-6xl font-light text-[#1a1a1a]">07</span>
-              </div>
-
               {/* Title with emphasis on "nur Weiß" */}
               <div className="mb-6">
+                <div className="mb-4 opacity-60">
+                  <span className="font-serif-display text-4xl md:text-5xl font-light text-[#1a1a1a]">07</span>
+                </div>
                 <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light mb-3">
                   {t.painting.title}
                 </h2>
@@ -1343,7 +1312,7 @@ const App = () => {
               </div>
               
               {/* Description */}
-              <p className="text-stone-700 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mt-8">
+              <p className="text-stone-600 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mt-8">
                 {t.painting.description}
               </p>
             </div>
