@@ -1087,8 +1087,9 @@ const App = () => {
                     <img 
                       src={s.img} 
                       alt={s.title} 
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="eager"
+                      decoding="async"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
                       {/* Gradient Overlay */}
@@ -1147,7 +1148,8 @@ const App = () => {
                       src={s.img} 
                       alt={s.title} 
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
+                      loading="eager"
+                      decoding="async"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
                     {/* Gradient Overlay */}
@@ -1211,6 +1213,8 @@ const App = () => {
                     src={SERVICES[expandedService].img} 
                     alt={SERVICES[expandedService].title} 
                     className="w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
                     onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                   />
                   {/* Subtle overlay for text readability */}
