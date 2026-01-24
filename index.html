@@ -156,15 +156,10 @@
 
         /* Preloader Animations */
         .preloader {
-            animation: diagonalWipe 1.5s ease-in-out 1s forwards;
-            overflow: hidden;
+            animation: fadeOut 0.5s ease-out 1s forwards;
         }
-        @keyframes diagonalWipe {
-            0% {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-            100% {
-                clip-path: polygon(100% 0, 200% 0, 100% 100%, 0 200%);
+        @keyframes fadeOut {
+            to {
                 opacity: 0;
                 visibility: hidden;
             }
@@ -228,6 +223,127 @@
             to {
                 -webkit-transform: rotate(360deg);
                 transform: rotate(360deg);
+            }
+        }
+        
+        /* Spray Bottle Preloader Animations */
+        .preloader-spray {
+            -webkit-animation: sprayFadeOut 0.6s ease-out 1.2s forwards;
+            animation: sprayFadeOut 0.6s ease-out 1.2s forwards;
+        }
+        @keyframes sprayFadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        
+        .spray-bottle-container {
+            -webkit-animation: bottleAppear 0.5s ease-out;
+            animation: bottleAppear 0.5s ease-out;
+        }
+        @keyframes bottleAppear {
+            from {
+                opacity: 0;
+                -webkit-transform: translateY(20px) scale(0.9);
+                transform: translateY(20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                -webkit-transform: translateY(0) scale(1);
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .bottle-body {
+            -webkit-animation: bottlePulse 1.5s ease-in-out infinite 0.5s;
+            animation: bottlePulse 1.5s ease-in-out infinite 0.5s;
+        }
+        @keyframes bottlePulse {
+            0%, 100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+            50% {
+                -webkit-transform: scale(1.02);
+                transform: scale(1.02);
+            }
+        }
+        
+        .spray-nozzle {
+            -webkit-animation: nozzleSpray 0.3s ease-out 0.7s;
+            animation: nozzleSpray 0.3s ease-out 0.7s;
+        }
+        @keyframes nozzleSpray {
+            0% {
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+            }
+            50% {
+                -webkit-transform: translateY(-3px);
+                transform: translateY(-3px);
+            }
+            100% {
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+            }
+        }
+        
+        .spray-stream {
+            -webkit-animation: streamFlow 0.8s ease-out 0.7s both;
+            animation: streamFlow 0.8s ease-out 0.7s both;
+        }
+        @keyframes streamFlow {
+            from {
+                opacity: 0;
+                stroke-dasharray: 0 100;
+            }
+            to {
+                opacity: 0.6;
+                stroke-dasharray: 100 0;
+            }
+        }
+        
+        .spray-particle {
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 0.8) 0%, rgba(147, 197, 253, 0) 70%);
+            border-radius: 50%;
+            -webkit-animation: particleFloat 1.5s ease-out infinite;
+            animation: particleFloat 1.5s ease-out infinite;
+        }
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                -webkit-transform: translateY(0) translateX(0) scale(0);
+                transform: translateY(0) translateX(0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                -webkit-transform: translateY(-60px) translateX(20px) scale(1);
+                transform: translateY(-60px) translateX(20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                -webkit-transform: translateY(-120px) translateX(40px) scale(0.5);
+                transform: translateY(-120px) translateX(40px) scale(0.5);
+            }
+        }
+        
+        .spray-logo-text {
+            -webkit-animation: logoReveal 0.6s ease-out 0.9s both;
+            animation: logoReveal 0.6s ease-out 0.9s both;
+        }
+        @keyframes logoReveal {
+            from {
+                opacity: 0;
+                -webkit-transform: translateY(10px);
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
             }
         }
         
