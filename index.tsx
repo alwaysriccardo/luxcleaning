@@ -619,7 +619,7 @@ const App = () => {
 
   // Horizontal carousel seamless infinite scroll
   useEffect(() => {
-    if (isReviewPaused || !reviewCarouselRef.current) return;
+    if (!reviewCarouselRef.current) return;
 
     const carousel = reviewCarouselRef.current;
     if (!carousel) return;
@@ -628,23 +628,36 @@ const App = () => {
     let animationFrameId: number | null = null;
 
     const scrollCarousel = () => {
-      if (!carousel || isReviewPaused) return;
+      if (!carousel) {
+        if (animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId);
+        }
+        return;
+      }
 
-      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-      const currentScroll = carousel.scrollLeft;
-      
-      // Seamless infinite loop: when we reach halfway (first set of reviews),
-      // reset to the equivalent position in the first half (invisible to user)
-      const halfPoint = maxScroll / 2;
-      if (currentScroll >= halfPoint) {
-        carousel.scrollLeft = currentScroll - halfPoint;
-      } else {
-        carousel.scrollLeft = currentScroll + SCROLL_SPEED;
+      // Only scroll if not paused
+      if (!isReviewPaused) {
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        
+        // Only proceed if carousel is ready
+        if (maxScroll > 0) {
+          const currentScroll = carousel.scrollLeft;
+          
+          // Seamless infinite loop: when we reach halfway (first set of reviews),
+          // reset to the equivalent position in the first half (invisible to user)
+          const halfPoint = maxScroll / 2;
+          if (currentScroll >= halfPoint) {
+            carousel.scrollLeft = currentScroll - halfPoint;
+          } else {
+            carousel.scrollLeft = currentScroll + SCROLL_SPEED;
+          }
+        }
       }
 
       animationFrameId = requestAnimationFrame(scrollCarousel);
     };
 
+    // Start the animation
     animationFrameId = requestAnimationFrame(scrollCarousel);
 
     return () => {
