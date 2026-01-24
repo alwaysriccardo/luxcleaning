@@ -454,6 +454,7 @@ const App = () => {
   const reviewIntervalRef = useRef<number | null>(null);
   const reviewCarouselRef = useRef<HTMLDivElement>(null);
   const servicesScrollRef = useRef<HTMLDivElement>(null);
+  const [navTextColor, setNavTextColor] = useState<'light' | 'dark'>('dark');
   const t = translations[language];
 
   // Preloader effect
@@ -462,6 +463,39 @@ const App = () => {
       setIsLoading(false);
     }, 1200);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Detect background color for nav text
+  useEffect(() => {
+    const handleScroll = () => {
+      const nav = document.querySelector('nav');
+      if (!nav) return;
+
+      const navRect = nav.getBoundingClientRect();
+      const navCenterY = navRect.top + navRect.height / 2;
+      const elementBelow = document.elementFromPoint(window.innerWidth / 2, navCenterY);
+      
+      if (elementBelow) {
+        // Get computed background color
+        const bgColor = window.getComputedStyle(elementBelow).backgroundColor;
+        const rgb = bgColor.match(/\d+/g);
+        
+        if (rgb && rgb.length >= 3) {
+          const r = parseInt(rgb[0]);
+          const g = parseInt(rgb[1]);
+          const b = parseInt(rgb[2]);
+          // Calculate luminance
+          const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+          // Use light text on dark backgrounds, dark text on light backgrounds
+          setNavTextColor(luminance < 0.5 ? 'light' : 'dark');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial state
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -854,10 +888,14 @@ const App = () => {
           {/* Company Name - Top Left */}
           <div className="pointer-events-auto">
             <div className="text-left">
-              <div className="font-serif-display text-lg md:text-xl font-semibold text-[#1a1a1a] tracking-tight">
+              <div className={`font-serif-display text-lg md:text-xl font-semibold tracking-tight transition-colors duration-300 ${
+                navTextColor === 'light' ? 'text-white drop-shadow-lg' : 'text-[#1a1a1a]'
+              }`}>
                 Lux Cleaning
               </div>
-              <div className="font-serif-display text-sm md:text-base text-stone-600 tracking-tight">
+              <div className={`font-serif-display text-sm md:text-base tracking-tight transition-colors duration-300 ${
+                navTextColor === 'light' ? 'text-white/90 drop-shadow-lg' : 'text-stone-600'
+              }`}>
                 & Hauswartung
               </div>
             </div>
