@@ -439,6 +439,8 @@ const App = () => {
   const reviewIntervalRef = useRef<number | null>(null);
   const reviewCarouselRef = useRef<HTMLDivElement>(null);
   const servicesScrollRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
+  const [footerVisible, setFooterVisible] = useState(false);
   const t = translations[language];
 
   // Preloader effect
@@ -649,6 +651,32 @@ const App = () => {
       }
     };
   }, [isReviewPaused]);
+
+  // Footer scroll reveal
+  useEffect(() => {
+    if (!footerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setFooterVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    observer.observe(footerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   // Memoize SERVICES to prevent recalculation on every render
   const SERVICES = useMemo(() => {
@@ -1382,7 +1410,12 @@ const App = () => {
         </section>
 
         {/* Minimal Bottom Bar */}
-        <footer className="bg-[#1a1a1a] text-white py-12 px-12 border-t border-white/5">
+        <footer 
+          ref={footerRef}
+          className={`bg-[#1a1a1a] text-white py-12 px-12 border-t border-white/5 transition-opacity duration-1000 ${
+            footerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
             <div>
               <div className="font-serif-display text-4xl mb-2 tracking-tighter">Lux Cleaning</div>
