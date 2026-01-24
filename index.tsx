@@ -1287,54 +1287,36 @@ const App = () => {
         </section>
 
         {/* Painting Service Section */}
-        <section className="relative bg-gradient-to-b from-white via-[#e8dcc4] to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
-          {/* Dirty Cream Wall Background with Texture */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              background: '#e8dcc4',
-              backgroundImage: `
-                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(139, 115, 85, 0.05) 1px, rgba(139, 115, 85, 0.05) 2px),
-                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(139, 115, 85, 0.05) 1px, rgba(139, 115, 85, 0.05) 2px),
-                radial-gradient(circle at 30% 40%, rgba(139, 115, 85, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 70% 60%, rgba(139, 115, 85, 0.08) 0%, transparent 40%)
-              `,
-              backgroundSize: '100% 100%, 100% 100%, 300px 300px, 300px 300px'
-            }}
-          ></div>
-          
-          {/* Top gradient blending into section above */}
-          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white via-white/90 to-[#e8dcc4] pointer-events-none z-0"></div>
-          
-          {/* Bottom gradient blending into section below */}
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/90 to-[#e8dcc4] pointer-events-none z-0"></div>
-          
-          {/* Zig-Zag White Paint Stroke */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]">
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
-              <path
-                d="M 0 80 L 1200 80 L 1200 200 L 0 200 L 0 320 L 1200 320 L 1200 440 L 0 440 L 0 560 L 1200 560"
-                className="paint-zigzag"
+        <section className="relative bg-[#E8E0D5] py-16 md:py-20 overflow-hidden">
+          {/* Zig Zag Pattern - Painted Effect */}
+          <div className="absolute inset-0 opacity-100">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+              <path 
+                d="M0,100 Q150,20 300,100 T600,100 T900,100 T1200,100 L1200,200 L0,200 Z" 
+                fill="white" 
+                stroke="white" 
+                strokeWidth="8"
+              />
+              <path 
+                d="M0,100 Q150,180 300,100 T600,100 T900,100 T1200,100 L1200,0 L0,0 Z" 
+                fill="white" 
+                stroke="white" 
+                strokeWidth="8"
               />
             </svg>
           </div>
-          
-          {/* Paint Roller (Lightweight) */}
-          <div className="paint-roller z-[2]" aria-hidden="true">
-            <svg viewBox="0 0 120 80" className="w-full h-full">
-              {/* Handle */}
-              <line x1="60" y1="10" x2="60" y2="45" stroke="#ff6b35" strokeWidth="8" strokeLinecap="round" />
-              <rect x="52" y="10" width="16" height="24" rx="8" fill="#ff6b35" />
-              {/* Frame */}
-              <path d="M 45 45 L 45 55 L 75 55 L 75 45" fill="none" stroke="#7a7a7a" strokeWidth="4" />
-              {/* Roller */}
-              <rect x="20" y="55" width="80" height="18" rx="9" fill="#efefef" stroke="#d6d6d6" strokeWidth="2" />
-              <line x1="28" y1="57" x2="28" y2="71" stroke="#d0d0d0" strokeWidth="1" />
-              <line x1="40" y1="57" x2="40" y2="71" stroke="#d0d0d0" strokeWidth="1" />
-              <line x1="52" y1="57" x2="52" y2="71" stroke="#d0d0d0" strokeWidth="1" />
-              <line x1="64" y1="57" x2="64" y2="71" stroke="#d0d0d0" strokeWidth="1" />
-              <line x1="76" y1="57" x2="76" y2="71" stroke="#d0d0d0" strokeWidth="1" />
-              <line x1="88" y1="57" x2="88" y2="71" stroke="#d0d0d0" strokeWidth="1" />
+
+          {/* Paint Roller Icon */}
+          <div className="absolute top-8 right-8 md:top-12 md:right-12 z-20 opacity-90">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Paint Roller Handle */}
+              <rect x="25" y="5" width="10" height="25" rx="2" fill="#1a1a1a"/>
+              {/* Paint Roller Body */}
+              <rect x="15" y="30" width="30" height="20" rx="3" fill="#1a1a1a"/>
+              {/* Paint on Roller */}
+              <rect x="18" y="33" width="24" height="14" rx="2" fill="white"/>
+              {/* Paint Drip */}
+              <path d="M30 50 L28 55 L32 55 Z" fill="white"/>
             </svg>
           </div>
           
@@ -1342,9 +1324,9 @@ const App = () => {
             <div className="text-center">
               {/* Service Number */}
               <div className="mb-4 opacity-60">
-                <span className="font-serif-display text-4xl font-light text-[#1a1a1a]">07</span>
+                <span className="font-serif-display text-5xl md:text-6xl font-light text-[#1a1a1a]">07</span>
               </div>
-              
+
               {/* Title with emphasis on "nur Weiß" */}
               <div className="mb-6">
                 <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light mb-3">
@@ -1361,7 +1343,7 @@ const App = () => {
               </div>
               
               {/* Description */}
-              <p className="text-stone-600 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mt-8">
+              <p className="text-stone-700 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mt-8">
                 {t.painting.description}
               </p>
             </div>
@@ -1537,9 +1519,9 @@ const App = () => {
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
             </svg>
           </a>
-      </div>
+        </div>
 
-    </div>
+      </div>
     </div>
     </>
   );

@@ -406,44 +406,6 @@
                 box-shadow: 0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(251, 191, 36, 0.4);
             }
         }
-        .paint-zigzag {
-            fill: none;
-            stroke: #ffffff;
-            stroke-width: 140;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 2400;
-            stroke-dashoffset: 2400;
-            animation: paintZigzag 6s ease-in-out infinite;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.08));
-        }
-        .paint-roller {
-            position: absolute;
-            width: 90px;
-            height: 70px;
-            top: 0;
-            left: 0;
-            offset-path: path("M 0 80 L 1200 80 L 1200 200 L 0 200 L 0 320 L 1200 320 L 1200 440 L 0 440 L 0 560 L 1200 560");
-            offset-rotate: 0deg;
-            animation: rollerPath 6s ease-in-out infinite;
-            will-change: transform;
-        }
-        @keyframes paintZigzag {
-            0% {
-                stroke-dashoffset: 2400;
-            }
-            100% {
-                stroke-dashoffset: 0;
-            }
-        }
-        @keyframes rollerPath {
-            0% {
-                offset-distance: 0%;
-            }
-            100% {
-                offset-distance: 100%;
-            }
-        }
     </style>
 <script type="importmap">
 {
