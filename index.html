@@ -156,10 +156,15 @@
 
         /* Preloader Animations */
         .preloader {
-            animation: fadeOut 0.5s ease-out 1s forwards;
+            animation: diagonalWipe 1.5s ease-in-out 1s forwards;
+            overflow: hidden;
         }
-        @keyframes fadeOut {
-            to {
+        @keyframes diagonalWipe {
+            0% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            100% {
+                clip-path: polygon(100% 0, 200% 0, 100% 100%, 0 200%);
                 opacity: 0;
                 visibility: hidden;
             }
