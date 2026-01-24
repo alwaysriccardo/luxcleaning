@@ -1288,28 +1288,86 @@ const App = () => {
 
         {/* Painting Service Section */}
         <section className="relative bg-gradient-to-b from-white via-amber-50/50 via-stone-100/70 to-white pt-20 md:pt-28 pb-12 md:pb-16 overflow-hidden">
+          {/* Textured Beige Wall Background */}
+          <div 
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage: `
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 115, 85, 0.03) 2px, rgba(139, 115, 85, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 115, 85, 0.03) 2px, rgba(139, 115, 85, 0.03) 4px),
+                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.05) 0%, transparent 50%)
+              `,
+              backgroundSize: '100% 100%, 100% 100%, 200px 200px, 200px 200px',
+              backgroundPosition: '0 0, 0 0, 0 0, 100% 100%'
+            }}
+          ></div>
+          
           {/* Top gradient blending into section above */}
           <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white via-white/90 to-amber-50/50 pointer-events-none z-0"></div>
           
           {/* Bottom gradient blending into section below */}
           <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white via-white/90 to-amber-50/50 pointer-events-none z-0"></div>
           
-          {/* Animated Paint Brush Stroke */}
+          {/* Zig-Zag White Paint Pattern */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-[1]">
-            <svg className="absolute top-1/3 left-0 w-full h-40 opacity-40" viewBox="0 0 1200 200" preserveAspectRatio="none">
-              <path
-                d="M 0 100 Q 200 80 400 100 T 800 100 T 1200 100"
-                stroke="white"
-                strokeWidth="10"
-                fill="none"
-                strokeLinecap="round"
-                className="paint-stroke"
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
+              <defs>
+                <clipPath id="zigzagClip">
+                  <path
+                    d="M 0 100 L 150 50 L 300 100 L 450 50 L 600 100 L 750 50 L 900 100 L 1050 50 L 1200 100 L 1200 200 L 1050 150 L 900 200 L 750 150 L 600 200 L 450 150 L 300 200 L 150 150 L 0 200 L 0 300 L 150 250 L 300 300 L 450 250 L 600 300 L 750 250 L 900 300 L 1050 250 L 1200 300 L 1200 400 L 1050 350 L 900 400 L 750 350 L 600 400 L 450 350 L 300 400 L 150 350 L 0 400 L 0 500 L 150 450 L 300 500 L 450 450 L 600 500 L 750 450 L 900 500 L 1050 450 L 1200 500 L 1200 600 L 0 600 Z"
+                    className="paint-path"
+                  />
+                </clipPath>
+              </defs>
+              <rect
+                width="1200"
+                height="600"
+                fill="white"
+                clipPath="url(#zigzagClip)"
+                opacity="0.5"
+                className="paint-fill"
                 style={{
-                  strokeDasharray: '1200',
-                  strokeDashoffset: '1200',
-                  animation: 'paintStroke 4s ease-in-out infinite'
+                  clipPath: 'polygon(0% 0%, var(--paint-progress, 0%) 0%, var(--paint-progress, 0%) 100%, 0% 100%)',
+                  animation: 'paintReveal 6s ease-in-out infinite'
                 }}
               />
+            </svg>
+          </div>
+          
+          {/* Animated Paint Roller */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
+            <svg className="absolute w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="none">
+              <g className="paint-roller-group">
+                {/* Paint Roller */}
+                <rect
+                  x="-40"
+                  y="0"
+                  width="80"
+                  height="50"
+                  rx="25"
+                  fill="#1a1a1a"
+                  opacity="0.7"
+                  className="paint-roller"
+                  style={{
+                    animation: 'rollerZigZag 6s ease-in-out infinite'
+                  }}
+                />
+                {/* Roller Handle */}
+                <line
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="-40"
+                  stroke="#1a1a1a"
+                  strokeWidth="4"
+                  opacity="0.7"
+                  className="paint-roller-handle"
+                  style={{
+                    animation: 'rollerZigZag 6s ease-in-out infinite'
+                  }}
+                />
+              </g>
             </svg>
           </div>
           
