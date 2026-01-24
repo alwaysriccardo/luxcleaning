@@ -894,7 +894,7 @@ const App = () => {
               {t.hero.description}
             </p>
 
-            <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-[280px] sm:max-w-none mx-auto">
               <button 
                 onClick={() => scrollToSection('angebot')} 
                 className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:scale-105 transition-transform duration-200 shadow-2xl"
