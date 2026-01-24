@@ -140,7 +140,7 @@ const translations = {
     },
     promoModal: {
       title: "20% RABATT FÜR NEUE KUNDEN",
-      subtitle: "Exklusives Angebot - Jetzt sichern!",
+      subtitle: "Exklusives Angebot - Gültig bis Ende Februar",
       name: "Name",
       email: "Email",
       phone: "Telefon",
@@ -244,7 +244,7 @@ const translations = {
     },
     promoModal: {
       title: "20% DISCOUNT FOR NEW CUSTOMERS",
-      subtitle: "Exclusive Offer - Secure Now!",
+      subtitle: "Exclusive Offer - Valid Until End of February",
       name: "Name",
       email: "Email",
       phone: "Phone",
@@ -348,7 +348,7 @@ const translations = {
     },
     promoModal: {
       title: "20% DE RÉDUCTION POUR NOUVEAUX CLIENTS",
-      subtitle: "Offre Exclusive - Réservez Maintenant!",
+      subtitle: "Offre Exclusive - Valable Jusqu'à la Fin Février",
       name: "Nom",
       email: "Email",
       phone: "Téléphone",
