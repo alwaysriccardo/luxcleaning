@@ -479,22 +479,29 @@ const App = () => {
     };
   }, [languageMenuOpen]);
 
-  // Parallax effect for hero image - optimized
+  // Parallax effect for hero image - optimized with throttling
   useEffect(() => {
     let rafId: number | null = null;
+    let lastScrollY = 0;
     const PARALLAX_SPEED = 0.4;
+    const SCROLL_THROTTLE = 16; // ~60fps
     
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Throttle scroll updates
+      if (Math.abs(currentScrollY - lastScrollY) < 5) return;
+      lastScrollY = currentScrollY;
+      
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
       
       rafId = requestAnimationFrame(() => {
         if (heroRef.current) {
-          const scrolled = window.scrollY;
           const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLImageElement;
-          if (heroImage && scrolled < window.innerHeight) {
-            heroImage.style.transform = `translateY(${scrolled * PARALLAX_SPEED}px)`;
+          if (heroImage && currentScrollY < window.innerHeight) {
+            heroImage.style.transform = `translate3d(0, ${currentScrollY * PARALLAX_SPEED}px, 0)`;
           }
         }
         rafId = null;
@@ -611,7 +618,23 @@ const App = () => {
       if (currentScroll >= maxScroll - 10) {
         carousel.scrollTo({ left: 0, behavior: 'auto' });
       } else {
-        carousel.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
+        // Use requestAnimationFrame for smoother scrolling
+        const startScroll = carousel.scrollLeft;
+        const targetScroll = startScroll + CARD_WIDTH;
+        const duration = 500;
+        const startTime = performance.now();
+        
+        const animateScroll = (currentTime: number) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
+          carousel.scrollLeft = startScroll + (targetScroll - startScroll) * ease;
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+          }
+        };
+        requestAnimationFrame(animateScroll);
       }
     };
 
@@ -842,9 +865,10 @@ const App = () => {
             <img
               src="/hero-gloves-image.jpg"
               alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
-              className="hero-bg-image absolute inset-0 w-full h-full object-cover will-change-transform"
+              className="hero-bg-image absolute inset-0 w-full h-full object-cover"
               style={{
                 filter: 'brightness(0.9) blur(1.5px)',
+                willChange: 'transform'
               }}
               loading="eager"
               fetchPriority="high"
@@ -871,13 +895,13 @@ const App = () => {
             <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={() => scrollToSection('angebot')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:scale-105 transition-all shadow-2xl"
+                className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:scale-105 transition-transform duration-200 shadow-2xl"
               >
                 {t.hero.quoteBtn}
               </button>
               <button 
                 onClick={() => scrollToSection('services')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] hover:scale-105 transition-all shadow-xl"
+                className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-400 hover:border-yellow-400 hover:text-[#1a1a1a] hover:scale-105 transition-colors duration-200 shadow-xl"
               >
                 {t.hero.servicesBtn}
               </button>
@@ -927,7 +951,7 @@ const App = () => {
                 return (
                   <div
                     key={idx}
-                    className="flex-shrink-0 w-[300px] bg-white rounded-xl p-3 md:p-5 border border-stone-200 shadow-sm hover:shadow-md transition-all"
+                    className="flex-shrink-0 w-[300px] bg-white rounded-xl p-3 md:p-5 border border-stone-200 shadow-sm hover:shadow-md transition-shadow duration-200"
                   >
                     {/* Service Badge */}
                     <div className="mb-2 md:mb-3">
@@ -991,10 +1015,25 @@ const App = () => {
             <button
               onClick={() => {
                 if (servicesScrollRef.current) {
-                  servicesScrollRef.current.scrollBy({ left: -450, behavior: 'smooth' });
+                  const startScroll = servicesScrollRef.current.scrollLeft;
+                  const targetScroll = Math.max(0, startScroll - 450);
+                  const duration = 300;
+                  const startTime = performance.now();
+                  
+                  const animateScroll = (currentTime: number) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    servicesScrollRef.current!.scrollLeft = startScroll + (targetScroll - startScroll) * ease;
+                    
+                    if (progress < 1) {
+                      requestAnimationFrame(animateScroll);
+                    }
+                  };
+                  requestAnimationFrame(animateScroll);
                 }
               }}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white hover:scale-110 transition-all"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white hover:scale-110 transition-transform duration-200"
               aria-label="Scroll left"
             >
               <ChevronLeft size={24} className="text-[#1a1a1a]" />
@@ -1004,10 +1043,26 @@ const App = () => {
             <button
               onClick={() => {
                 if (servicesScrollRef.current) {
-                  servicesScrollRef.current.scrollBy({ left: 450, behavior: 'smooth' });
+                  const startScroll = servicesScrollRef.current.scrollLeft;
+                  const maxScroll = servicesScrollRef.current.scrollWidth - servicesScrollRef.current.clientWidth;
+                  const targetScroll = Math.min(maxScroll, startScroll + 450);
+                  const duration = 300;
+                  const startTime = performance.now();
+                  
+                  const animateScroll = (currentTime: number) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    servicesScrollRef.current!.scrollLeft = startScroll + (targetScroll - startScroll) * ease;
+                    
+                    if (progress < 1) {
+                      requestAnimationFrame(animateScroll);
+                    }
+                  };
+                  requestAnimationFrame(animateScroll);
                 }
               }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white hover:scale-110 transition-all"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white hover:scale-110 transition-transform duration-200"
               aria-label="Scroll right"
             >
               <ChevronRight size={24} className="text-[#1a1a1a]" />
@@ -1032,7 +1087,7 @@ const App = () => {
                     <img 
                       src={s.img} 
                       alt={s.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
@@ -1042,7 +1097,7 @@ const App = () => {
 
                     {/* Expand Icon - Top Right Corner */}
                     <div className="absolute top-4 right-4 z-20 pointer-events-none">
-                      <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-all">
+                      <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-colors duration-200">
                         <Maximize2 size={16} className="text-white" />
                         <span className="text-white text-[10px] font-medium uppercase tracking-wider hidden sm:inline">Tap</span>
                       </div>
@@ -1060,7 +1115,7 @@ const App = () => {
                         {s.desc}
                       </p>
                       <button 
-                        className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all pointer-events-auto"
+                        className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors duration-200 pointer-events-auto"
                         onClick={(e) => {
                           e.stopPropagation();
                           setExpandedService(isExpanded ? null : idx);
@@ -1091,7 +1146,7 @@ const App = () => {
                     <img 
                       src={s.img} 
                       alt={s.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                       onError={(e) => e.currentTarget.src = 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
                     />
@@ -1101,7 +1156,7 @@ const App = () => {
 
                   {/* Expand Icon - Top Right Corner */}
                   <div className="absolute top-4 right-4 z-20 pointer-events-none">
-                    <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-all">
+                    <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full border border-white/30 shadow-lg group-hover:bg-white/30 transition-colors duration-200">
                       <Maximize2 size={16} className="text-white" />
                       <span className="text-white text-[10px] font-medium uppercase tracking-wider">Tap</span>
                     </div>
@@ -1118,7 +1173,7 @@ const App = () => {
                     <p className="text-sm leading-relaxed font-light mb-4 line-clamp-2 drop-shadow-md">
                       {s.desc}
                     </p>
-                    <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-all">
+                    <button className="px-6 py-2.5 rounded-full bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors duration-200">
                       {t.services.showMore}
                 </button>
               </div>

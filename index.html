@@ -65,6 +65,18 @@
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
         }
         
+        /* Performance optimizations */
+        img {
+            image-rendering: -webkit-optimize-contrast;
+            -ms-interpolation-mode: bicubic;
+        }
+        
+        /* Optimize hero image for parallax */
+        .hero-bg-image {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+        
         @keyframes fadeInUp {
             from { opacity: 0; -webkit-transform: translateY(30px); transform: translateY(30px); }
             to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
@@ -92,8 +104,6 @@
         .animate-marquee-slow {
             -webkit-animation: marquee-slow 35s linear infinite;
             animation: marquee-slow 35s linear infinite;
-            -webkit-will-change: transform;
-            will-change: transform;
         }
         @keyframes shimmer {
             0% { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
@@ -102,8 +112,6 @@
         .animate-shimmer {
             -webkit-animation: shimmer 4s ease-in-out infinite;
             animation: shimmer 4s ease-in-out infinite;
-            -webkit-will-change: transform;
-            will-change: transform;
         }
 
         @keyframes scroll-reviews {
@@ -298,9 +306,6 @@
             animation: modal-in-smooth 0.25s ease-out;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            -webkit-perspective: 1000px;
-            perspective: 1000px;
-            will-change: transform, opacity;
         }
 
         /* Service Overlay Animation */
