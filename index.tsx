@@ -552,10 +552,12 @@ const App = () => {
       
       rafId = requestAnimationFrame(() => {
         if (heroRef.current) {
-          const heroImage = heroRef.current.querySelector('.hero-bg-image') as HTMLImageElement;
-          if (heroImage && currentScrollY < window.innerHeight) {
-            heroImage.style.transform = `translate3d(0, ${currentScrollY * PARALLAX_SPEED}px, 0)`;
-          }
+          const heroImages = heroRef.current.querySelectorAll('.hero-bg-image') as NodeListOf<HTMLImageElement>;
+          heroImages.forEach((heroImage) => {
+            if (heroImage && currentScrollY < window.innerHeight) {
+              heroImage.style.transform = `translate3d(0, ${currentScrollY * PARALLAX_SPEED}px, 0)`;
+            }
+          });
         }
         rafId = null;
       });
@@ -737,7 +739,7 @@ const App = () => {
           <div className="text-center">
             <div className="preloader-logo mb-6">
               <img 
-                src="/logo.png" 
+                src="/luxlogofinal.png" 
                 alt="Lux Cleaning & Hauswartung" 
                 className="mx-auto max-w-[280px] md:max-w-[350px] h-auto preloader-icon"
                 loading="eager"
@@ -944,7 +946,7 @@ const App = () => {
             {/* Logo - Center */}
             <div className="flex items-center justify-center flex-1 px-2">
             <img 
-                src="/logo.png" 
+                src="/luxlogofinal.png" 
                 alt="Lux Cleaning Logo" 
                 className="h-8 w-auto"
                 loading="eager"
@@ -1016,48 +1018,75 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-24 md:pt-32 pb-20 px-6 text-center overflow-hidden">
-          {/* Background Image - Behind everything */}
-          <div className="absolute inset-0 z-0 overflow-hidden bg-[#Fdfcf8]">
-            <img
-              src="/hero-gloves-image.jpg"
-              alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
-              className="hero-bg-image absolute inset-0 w-full h-full object-cover"
-              style={{
-                filter: 'brightness(0.9) blur(1.5px)',
-                willChange: 'transform'
-              }}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[1]"></div>
+        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-24 md:pt-32 pb-20 px-6 overflow-hidden">
+          {/* Background Images - 60/40 Split with Fade Edge */}
+          <div className="absolute inset-0 z-0 overflow-hidden bg-[#Fdfcf8] flex flex-col md:flex-row">
+            {/* Left Image - 60% on desktop, full width on mobile */}
+            <div className="w-full md:w-[60%] h-[50vh] md:h-full relative overflow-hidden">
+              <img
+                src="/hero-1.jpg"
+                alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
+                className="hero-bg-image absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: 'brightness(0.9) blur(1.5px)',
+                  willChange: 'transform'
+                }}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              {/* Fade edge to right (desktop) / bottom (mobile) */}
+              <div className="absolute inset-0 md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-black/20 bg-gradient-to-b from-transparent via-transparent to-black/10 z-[1]"></div>
+            </div>
+            
+            {/* Right Image - 40% on desktop, full width on mobile */}
+            <div className="w-full md:w-[40%] h-[50vh] md:h-full relative overflow-hidden">
+              <img
+                src="/hero-02.jpg"
+                alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
+                className="hero-bg-image absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: 'brightness(0.9) blur(1.5px)',
+                  willChange: 'transform'
+                }}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              {/* Fade edge from left (desktop) / top (mobile) */}
+              <div className="absolute inset-0 md:bg-gradient-to-r md:from-black/20 md:via-transparent md:to-transparent bg-gradient-to-b from-black/10 via-transparent to-transparent z-[1]"></div>
+            </div>
+            
+            {/* Overall gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[2]"></div>
           </div>
 
-          {/* Content - In front of background */}
-          <div className="max-w-5xl mx-auto relative z-10">
-            <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl">
-              {t.hero.title1} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title2}</span>, <br />
-              {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
-            </h1>
+          {/* Content - Positioned on left side (60% area) on desktop, centered on mobile */}
+          <div className="max-w-5xl mx-auto relative z-10 w-full px-4">
+            <div className="w-full md:w-[60%] max-w-2xl">
+              <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl text-center md:text-left">
+                {t.hero.title1} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title2}</span>, <br />
+                {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
+              </h1>
 
-            <p className="fade-in-up delay-200 text-white text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg px-4">
-              {t.hero.description}
-            </p>
+              <p className="fade-in-up delay-200 text-white text-base sm:text-lg leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg text-center md:text-left">
+                {t.hero.description}
+              </p>
 
-            <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-[280px] sm:max-w-none mx-auto">
-              <button 
-                onClick={() => scrollToSection('angebot')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-white md:hover:scale-105 transition-all duration-200 shadow-2xl"
-              >
-                {t.hero.quoteBtn}
-              </button>
-              <button 
-                onClick={() => scrollToSection('services')} 
-                className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-yellow-400 md:hover:border-yellow-400 md:hover:text-[#1a1a1a] md:hover:scale-105 transition-colors duration-200 shadow-xl"
-              >
-                {t.hero.servicesBtn}
-              </button>
+              <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center md:items-start gap-4">
+                <button 
+                  onClick={() => scrollToSection('angebot')} 
+                  className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-white md:hover:scale-105 transition-all duration-200 shadow-2xl"
+                >
+                  {t.hero.quoteBtn}
+                </button>
+                <button 
+                  onClick={() => scrollToSection('services')} 
+                  className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-yellow-400 md:hover:border-yellow-400 md:hover:text-[#1a1a1a] md:hover:scale-105 transition-colors duration-200 shadow-xl"
+                >
+                  {t.hero.servicesBtn}
+                </button>
+              </div>
             </div>
           </div>
         </header>
