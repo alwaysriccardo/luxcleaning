@@ -536,8 +536,7 @@ const App = () => {
   useEffect(() => {
     let rafId: number | null = null;
     let lastScrollY = 0;
-    const PARALLAX_SPEED_SLOW = 0.3; // First image (slower, more prominent)
-    const PARALLAX_SPEED_FAST = 0.6; // Second image (faster, behind)
+    const PARALLAX_SPEED = 0.4;
     const SCROLL_THROTTLE = 16; // ~60fps
     
     const handleScroll = () => {
@@ -553,17 +552,12 @@ const App = () => {
       
       rafId = requestAnimationFrame(() => {
         if (heroRef.current) {
-          // First image - slower parallax (more prominent)
-          const heroImage1 = heroRef.current.querySelector('.hero-image-1') as HTMLImageElement;
-          if (heroImage1 && currentScrollY < window.innerHeight) {
-            heroImage1.style.transform = `translate3d(0, ${currentScrollY * PARALLAX_SPEED_SLOW}px, 0)`;
-          }
-          
-          // Second image - faster parallax (behind)
-          const heroImage2 = heroRef.current.querySelector('.hero-image-2') as HTMLImageElement;
-          if (heroImage2 && currentScrollY < window.innerHeight) {
-            heroImage2.style.transform = `translate3d(0, ${currentScrollY * PARALLAX_SPEED_FAST}px, 0)`;
-          }
+          const heroImages = heroRef.current.querySelectorAll('.hero-bg-image') as NodeListOf<HTMLImageElement>;
+          heroImages.forEach((heroImage) => {
+            if (heroImage && currentScrollY < window.innerHeight) {
+              heroImage.style.transform = `translate3d(0, ${currentScrollY * PARALLAX_SPEED}px, 0)`;
+            }
+          });
         }
         rafId = null;
       });
@@ -1024,87 +1018,47 @@ const App = () => {
         </nav>
 
         {/* Hero Section */}
-        <header ref={heroRef} className="relative w-full min-h-screen flex flex-col items-center justify-center pt-24 md:pt-32 pb-20 px-6 overflow-hidden">
-          {/* Background Images - 60/40 Split with Fade Edge (Desktop) / Layered Parallax (Mobile) */}
+        <header ref={heroRef} className="relative w-full min-h-screen md:min-h-screen flex flex-col items-center justify-center pt-24 md:pt-32 pb-20 px-6 overflow-hidden">
+          {/* Background Images - 60/40 Split with Fade Edge */}
           <div className="absolute inset-0 z-0 overflow-hidden bg-[#Fdfcf8]">
-            {/* Desktop: Side by side layout */}
-            <div className="hidden md:flex absolute inset-0">
-              {/* Left Image - 60% */}
-              <div className="w-[60%] h-full relative overflow-hidden">
-                <img
-                  src="/hero-1.jpg"
-                  alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
-                  className="hero-bg-image hero-image-1 absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    filter: 'brightness(0.9) blur(1.5px)',
-                    willChange: 'transform'
-                  }}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
-                {/* Fade edge to right */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/20 z-[1]"></div>
-              </div>
-              
-              {/* Right Image - 40% */}
-              <div className="w-[40%] h-full relative overflow-hidden">
-                <img
-                  src="/hero-02.jpg"
-                  alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
-                  className="hero-bg-image hero-image-2 absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    filter: 'brightness(0.9) blur(1.5px)',
-                    willChange: 'transform'
-                  }}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
-                {/* Fade edge from left */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent z-[1]"></div>
-              </div>
+            {/* Left Image - 60% on desktop, full width on mobile */}
+            <div className="absolute inset-0 md:w-[60%] md:right-auto h-[50vh] md:h-full relative overflow-hidden">
+              <img
+                src="/hero-1.jpg"
+                alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
+                className="hero-bg-image absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: 'brightness(0.9) blur(1.5px)',
+                  willChange: 'transform'
+                }}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              {/* Fade edge to right (desktop) / bottom (mobile) */}
+              <div className="absolute inset-0 md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-black/20 bg-gradient-to-b from-transparent via-transparent to-black/10 z-[1]"></div>
             </div>
-
-            {/* Mobile: Layered parallax - both images full screen */}
-            <div className="md:hidden absolute inset-0">
-              {/* Second Image - Behind (faster parallax) */}
-              <div className="absolute inset-0 z-[1]">
-                <img
-                  src="/hero-02.jpg"
-                  alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
-                  className="hero-bg-image hero-image-2 absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    filter: 'brightness(0.85) blur(1.5px)',
-                    willChange: 'transform'
-                  }}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
-              </div>
-              
-              {/* First Image - On top (slower parallax, more prominent) */}
-              <div className="absolute inset-0 z-[2]">
-                <img
-                  src="/hero-1.jpg"
-                  alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
-                  className="hero-bg-image hero-image-1 absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    filter: 'brightness(0.9) blur(1.5px)',
-                    willChange: 'transform'
-                  }}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
-                {/* Subtle gradient overlay for depth */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent z-[1]"></div>
-              </div>
+            
+            {/* Right Image - 40% on desktop, full width on mobile - Sticks directly to bottom of first */}
+            <div className="absolute top-[50vh] md:top-0 left-0 md:left-[60%] w-full md:w-[40%] h-[50vh] md:h-full relative overflow-hidden">
+              <img
+                src="/hero-02.jpg"
+                alt="Professionelle Reinigungsdienstleistungen in der Schweiz"
+                className="hero-bg-image absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: 'brightness(0.9) blur(1.5px)',
+                  willChange: 'transform'
+                }}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              {/* Fade edge from left (desktop) / top (mobile) */}
+              <div className="absolute inset-0 md:bg-gradient-to-r md:from-black/20 md:via-transparent md:to-transparent bg-gradient-to-b from-black/10 via-transparent to-transparent z-[1]"></div>
             </div>
             
             {/* Overall gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[3]"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[2]"></div>
           </div>
 
           {/* Content - Centered */}
