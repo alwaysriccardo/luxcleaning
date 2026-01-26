@@ -1492,9 +1492,21 @@ const App = () => {
               </div>
               
               {/* Description text flows around image */}
-              <p className="text-stone-600 text-lg md:text-xl font-light leading-relaxed">
-                {t.painting.description}
-              </p>
+              <div className="text-stone-600 text-lg md:text-xl font-light leading-relaxed">
+                <p className="mb-4">
+                  {t.painting.description}
+                </p>
+                
+                {/* Additional text - Desktop only */}
+                <div className="hidden md:block space-y-4">
+                  <p className="text-stone-600">
+                    Unsere Malerarbeiten umfassen die professionelle Vorbereitung der Oberflächen, sorgfältiges Abkleben und den präzisen Auftrag hochwertiger weißer Farben. Wir arbeiten mit Präzision und Sorgfalt, um ein makelloses Ergebnis zu gewährleisten.
+                  </p>
+                  <p className="text-stone-500 text-base">
+                    Ideal für Auszüge, Renovationen oder wenn Sie einfach einen frischen, sauberen Look wünschen. Wir verwenden ausschließlich Premium-Produkte für langanhaltende Qualität und ein perfektes Finish.
+                  </p>
+                </div>
+              </div>
               
               {/* Clear float */}
               <div className="clear-both md:clear-none"></div>
