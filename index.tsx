@@ -1460,30 +1460,44 @@ const App = () => {
           {/* Subtle background accent */}
           <div className="absolute inset-0 bg-gradient-to-r from-white via-stone-100/30 to-white opacity-50"></div>
           
-          <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
-            <div className="text-center">
-              {/* Title with emphasis on "nur Weiß" */}
-              <div className="mb-6">
-                <div className="mb-4 opacity-60">
-                  <span className="font-serif-display text-4xl md:text-5xl font-light text-[#1a1a1a]">07</span>
-                </div>
-                <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light mb-3">
-                  {t.painting.title}
-                </h2>
-                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-[#1a1a1a] rounded-full shadow-lg">
-                  <span className="text-2xl md:text-3xl font-serif-display text-[#1a1a1a] font-semibold italic">
-                    {t.painting.subtitle}
-                  </span>
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-[#1a1a1a] rounded-full flex items-center justify-center">
-                    <span className="text-white text-lg md:text-xl font-bold">✓</span>
-                  </div>
+          <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
+            {/* Title - Centered */}
+            <div className="text-center mb-12 md:mb-16">
+              <div className="mb-4 opacity-60">
+                <span className="font-serif-display text-4xl md:text-5xl font-light text-[#1a1a1a]">07</span>
+              </div>
+              <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light mb-3">
+                {t.painting.title}
+              </h2>
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-[#1a1a1a] rounded-full shadow-lg">
+                <span className="text-2xl md:text-3xl font-serif-display text-[#1a1a1a] font-semibold italic">
+                  {t.painting.subtitle}
+                </span>
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-[#1a1a1a] rounded-full flex items-center justify-center">
+                  <span className="text-white text-lg md:text-xl font-bold">✓</span>
                 </div>
               </div>
+            </div>
+            
+            {/* Content with floating image */}
+            <div className="relative">
+              {/* Floating Image - Right side on desktop, full width on mobile */}
+              <div className="w-full mb-6 md:float-right md:w-[45%] md:ml-8 md:mb-4">
+                <img 
+                  src="/07painting.jpg" 
+                  alt="Malerarbeiten in Weiß"
+                  className="w-full h-auto rounded-2xl shadow-xl object-cover"
+                  loading="lazy"
+                />
+              </div>
               
-              {/* Description */}
-              <p className="text-stone-600 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mt-8">
+              {/* Description text flows around image */}
+              <p className="text-stone-600 text-lg md:text-xl font-light leading-relaxed">
                 {t.painting.description}
               </p>
+              
+              {/* Clear float */}
+              <div className="clear-both md:clear-none"></div>
             </div>
           </div>
         </section>
