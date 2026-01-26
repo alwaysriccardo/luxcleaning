@@ -1061,19 +1061,19 @@ const App = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-[#Fdfcf8]/90 z-[2]"></div>
           </div>
 
-          {/* Content - Positioned on left side (60% area) on desktop, centered on mobile */}
+          {/* Content - Centered */}
           <div className="max-w-5xl mx-auto relative z-10 w-full px-4">
-            <div className="w-full md:w-[60%] max-w-2xl">
-              <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl text-center md:text-left">
+            <div className="w-full max-w-2xl mx-auto">
+              <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-7xl lg:text-8xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl text-center">
                 {t.hero.title1} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title2}</span>, <br />
                 {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
               </h1>
 
-              <p className="fade-in-up delay-200 text-white text-base sm:text-lg leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg text-center md:text-left">
+              <p className="fade-in-up delay-200 text-white text-base sm:text-lg leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg text-center">
                 {t.hero.description}
               </p>
 
-              <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center md:items-start gap-4">
+              <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button 
                   onClick={() => scrollToSection('angebot')} 
                   className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-white md:hover:scale-105 transition-all duration-200 shadow-2xl"
