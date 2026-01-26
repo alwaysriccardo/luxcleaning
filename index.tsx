@@ -112,6 +112,21 @@ const translations = {
       subtitle: "nur Weiß",
       description: "Saubere, präzise Malerarbeiten in Weiß – ideal für Auszüge, Renovationen und Auffrischungen"
     },
+    housecare: {
+      title: "Hauswartung & Wartung",
+      outdoor: {
+        title: "Außenwartung",
+        description: "Professionelle Gartenpflege inklusive Rasenmähen, Hecken schneiden und saisonale Pflegearbeiten für ein gepflegtes Äußeres."
+      },
+      winter: {
+        title: "Winterdienst",
+        description: "Zuverlässiger Schneeräumdienst und Streusalz-Service für sichere Wege und Zufahrten während der Wintermonate."
+      },
+      technical: {
+        title: "Technische Wartung",
+        description: "Sicherheitsprüfungen, Glühbirnenwechsel und kleinere technische Wartungsarbeiten für ein sorgenfreies Zuhause."
+      }
+    },
     reviews: {
       title: "Unsere zufriedenen Kunden",
       customer: "Kunde",
@@ -216,6 +231,21 @@ const translations = {
       subtitle: "White Only",
       description: "Clean, precise white painting work – ideal for move-outs, renovations, and touch-ups"
     },
+    housecare: {
+      title: "House Care & Maintenance",
+      outdoor: {
+        title: "Outdoor Maintenance",
+        description: "Professional garden care including lawn mowing, hedge trimming, and seasonal maintenance for a well-kept exterior."
+      },
+      winter: {
+        title: "Winter Services",
+        description: "Reliable snow removal and salt spreading service for safe pathways and driveways during winter months."
+      },
+      technical: {
+        title: "Technical Maintenance",
+        description: "Safety checks, light bulb replacement, and minor technical maintenance tasks for a worry-free home."
+      }
+    },
     reviews: {
       title: "Our Satisfied Customers",
       customer: "Customer",
@@ -319,6 +349,21 @@ const translations = {
       title: "En Plus: Travaux de Peinture",
       subtitle: "Uniquement Blanc",
       description: "Travaux de peinture blancs propres et précis – idéal pour les déménagements, rénovations et retouches"
+    },
+    housecare: {
+      title: "Entretien & Maintenance",
+      outdoor: {
+        title: "Entretien Extérieur",
+        description: "Soins de jardin professionnels incluant la tonte de la pelouse, la taille des haies et l'entretien saisonnier pour un extérieur bien entretenu."
+      },
+      winter: {
+        title: "Service Hivernal",
+        description: "Service fiable de déneigement et de salage pour des allées et entrées sécurisées pendant les mois d'hiver."
+      },
+      technical: {
+        title: "Maintenance Technique",
+        description: "Contrôles de sécurité, remplacement d'ampoules et petites tâches de maintenance technique pour une maison sans souci."
+      }
     },
     reviews: {
       title: "Nos Clients Satisfaits",
@@ -730,6 +775,30 @@ const App = () => {
       document.body.style.overflow = '';
     };
   }, [expandedService]);
+
+  // Intersection Observer for house-care cards scale + fade animation
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0', 'scale-90');
+          entry.target.classList.add('opacity-100', 'scale-100');
+        }
+      });
+    }, observerOptions);
+
+    const cards = document.querySelectorAll('.housecare-card');
+    cards.forEach((card) => observer.observe(card));
+
+    return () => {
+      cards.forEach((card) => observer.unobserve(card));
+    };
+  }, []);
 
   return (
     <>
@@ -1510,6 +1579,108 @@ const App = () => {
               
               {/* Clear float */}
               <div className="clear-both md:clear-none"></div>
+            </div>
+          </div>
+        </section>
+
+        {/* House Care Services Section */}
+        <section className="relative bg-white pt-20 md:pt-28 pb-20 md:pb-28 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            {/* Section Title */}
+            <div className="text-center mb-12 md:mb-16">
+              <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light">
+                {t.housecare.title}
+              </h2>
+            </div>
+
+            {/* Services Cards */}
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-6">
+              {/* Outdoor Maintenance */}
+              <div 
+                className="housecare-card opacity-0 scale-90 transition-all duration-700 ease-out"
+                style={{ transitionDelay: '0ms' }}
+              >
+                <div className="relative overflow-hidden rounded-2xl shadow-lg group">
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img 
+                      src="/housecare-outdoor.jpg" 
+                      alt={t.housecare.outdoor.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="font-serif-display text-2xl md:text-3xl font-semibold mb-2 drop-shadow-lg">
+                      {t.housecare.outdoor.title}
+                    </h3>
+                    <p className="text-white/90 text-sm md:text-base leading-relaxed drop-shadow-md">
+                      {t.housecare.outdoor.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Winter Services */}
+              <div 
+                className="housecare-card opacity-0 scale-90 transition-all duration-700 ease-out"
+                style={{ transitionDelay: '150ms' }}
+              >
+                <div className="relative overflow-hidden rounded-2xl shadow-lg group">
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img 
+                      src="/housecare-winter.jpg" 
+                      alt={t.housecare.winter.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1482517967863-00e15c9b44be?q=80&w=800';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="font-serif-display text-2xl md:text-3xl font-semibold mb-2 drop-shadow-lg">
+                      {t.housecare.winter.title}
+                    </h3>
+                    <p className="text-white/90 text-sm md:text-base leading-relaxed drop-shadow-md">
+                      {t.housecare.winter.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Technical Maintenance */}
+              <div 
+                className="housecare-card opacity-0 scale-90 transition-all duration-700 ease-out"
+                style={{ transitionDelay: '300ms' }}
+              >
+                <div className="relative overflow-hidden rounded-2xl shadow-lg group">
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img 
+                      src="/housecare-technical.jpg" 
+                      alt={t.housecare.technical.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="font-serif-display text-2xl md:text-3xl font-semibold mb-2 drop-shadow-lg">
+                      {t.housecare.technical.title}
+                    </h3>
+                    <p className="text-white/90 text-sm md:text-base leading-relaxed drop-shadow-md">
+                      {t.housecare.technical.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
