@@ -552,7 +552,10 @@ const App = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const changeLanguage = (lang: 'de' | 'en' | 'fr') => {
@@ -1174,7 +1177,7 @@ const App = () => {
                   </button>
                   <button
                     onClick={() => {
-                      scrollToSection('angebot');
+                      scrollToSection('contact-details');
                       setMobileMenuOpen(false);
                     }}
                     className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
@@ -1207,8 +1210,8 @@ const App = () => {
               />
               {/* Fade edge to right (desktop) / bottom (mobile) */}
               <div className="absolute inset-0 md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-black/20 bg-gradient-to-b from-transparent via-transparent to-black/10 z-[1]"></div>
-            </div>
-            
+          </div>
+
             {/* Right Image - 40% on desktop, full width on mobile */}
             <div className="w-full md:w-[40%] h-[50vh] md:h-full relative overflow-hidden">
               <img
@@ -1237,25 +1240,25 @@ const App = () => {
               <h1 className="fade-in-up delay-100 font-serif-display text-5xl sm:text-7xl md:text-7xl lg:text-8xl leading-[0.9] text-white mb-8 md:mb-10 tracking-tight drop-shadow-2xl text-center">
                 {t.hero.title1} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title2}</span>, <br />
                 {t.hero.title3} <span className="italic text-yellow-400 drop-shadow-lg">{t.hero.title4}</span>
-              </h1>
+            </h1>
 
               <p className="fade-in-up delay-200 text-white text-base sm:text-lg leading-relaxed font-light mb-8 md:mb-12 drop-shadow-lg text-center">
                 {t.hero.description}
-              </p>
+            </p>
 
-              <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button 
                   onClick={() => scrollToSection('angebot')} 
                   className="w-full sm:w-auto px-10 py-5 rounded-full bg-yellow-400 text-[#1a1a1a] text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-white md:hover:scale-105 transition-all duration-200 shadow-2xl"
                 >
                   {t.hero.quoteBtn}
-                </button>
+              </button>
                 <button 
                   onClick={() => scrollToSection('services')} 
                   className="w-full sm:w-auto px-10 py-5 rounded-full border-2 border-white bg-white/10 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.2em] md:hover:bg-yellow-400 md:hover:border-yellow-400 md:hover:text-[#1a1a1a] md:hover:scale-105 transition-colors duration-200 shadow-xl"
                 >
                   {t.hero.servicesBtn}
-                </button>
+              </button>
               </div>
             </div>
           </div>
@@ -1638,7 +1641,7 @@ const App = () => {
               </div>
               <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light mb-3">
                 {t.painting.title}
-              </h2>
+            </h2>
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-[#1a1a1a] rounded-full shadow-lg">
                 <span className="text-2xl md:text-3xl font-serif-display text-[#1a1a1a] font-semibold italic">
                   {t.painting.subtitle}
@@ -1659,7 +1662,7 @@ const App = () => {
                   className="w-full h-auto rounded-2xl shadow-xl object-cover"
                   loading="lazy"
                 />
-              </div>
+                    </div>
               
               {/* Description text flows around image */}
               <div className="text-stone-600 text-lg md:text-xl font-light leading-relaxed">
@@ -1675,13 +1678,13 @@ const App = () => {
                   <p className="text-stone-500 text-base">
                     Ideal für Auszüge, Renovationen oder wenn Sie einfach einen frischen, sauberen Look wünschen. Wir verwenden ausschließlich Premium-Produkte für langanhaltende Qualität und ein perfektes Finish.
                   </p>
-                </div>
-              </div>
+                      </div>
+                      </div>
               
               {/* Clear float */}
               <div className="clear-both md:clear-none"></div>
-            </div>
-          </div>
+                    </div>
+                  </div>
         </section>
 
         {/* House Care Services Section */}
@@ -1692,7 +1695,7 @@ const App = () => {
               <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light">
                 {t.housecare.title}
               </h2>
-            </div>
+              </div>
 
             {/* Services Cards */}
             <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-6">
@@ -1872,7 +1875,7 @@ const App = () => {
             </div>
 
             {/* Contact Details with reduced padding */}
-            <div className="flex flex-col md:flex-row justify-center items-center gap-10">
+            <div id="contact-details" className="flex flex-col md:flex-row justify-center items-center gap-10">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-yellow-400/10 flex items-center justify-center text-yellow-600">
                   <Phone size={18} />
