@@ -1126,14 +1126,14 @@ const App = () => {
             </button>
 
             {/* Logo + Company Name - Center */}
-            <div className="flex items-center justify-center gap-2 flex-1 px-2">
+            <div className="flex items-center gap-2 ml-2">
               <img 
                 src="/luxlogofinal.png" 
                 alt="Lux Cleaning Logo" 
-                className="h-8 w-auto"
+                className="h-12 w-auto"
                 loading="eager"
               />
-              <div className="font-serif-display text-sm font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap">
+              <div className="font-serif-display text-base md:text-lg font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap uppercase">
                 Lux Cleaning & Hauswartung
               </div>
             </div>
