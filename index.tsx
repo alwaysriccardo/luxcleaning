@@ -1801,7 +1801,7 @@ const App = () => {
         <footer className="bg-[#1a1a1a] text-white py-12 px-12 border-t border-white/5">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
             <div>
-              <div className="font-serif-display text-4xl mb-2 tracking-tighter">Lux Cleaning</div>
+              <div className="font-serif-display text-4xl mb-2 tracking-tighter">Lux Cleaning & Hauswartung</div>
               <div className="text-[9px] text-stone-500 tracking-[0.5em] font-bold uppercase">{t.footer.tagline}</div>
             </div>
             <div className="text-[10px] text-stone-600 font-bold uppercase tracking-[0.2em]">{t.footer.copyright}</div>
