@@ -618,6 +618,38 @@ const App = () => {
   }, []);
 
 
+  // Play notification sound
+  const playNotificationSound = () => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      // Pleasant notification sound (two-tone chime)
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (error) {
+      // Silently fail if audio context is not available
+      console.log('Audio not available');
+    }
+  };
+
+  // Play sound when promo modal opens
+  useEffect(() => {
+    if (promoModalOpen) {
+      playNotificationSound();
+    }
+  }, [promoModalOpen]);
+
   // Promo Modal - Show after 3 seconds or on scroll
   useEffect(() => {
     if (promoModalShown.current) return;
