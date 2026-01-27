@@ -1911,9 +1911,92 @@ const App = () => {
         </section>
 
         {/* Fancy Footer with Quick Contact */}
-        <footer className="bg-gradient-to-b from-[#1a1a1a] to-black text-white border-t border-white/10">
+        <footer className="relative bg-gradient-to-b from-[#1a1a1a] to-black text-white border-t border-white/10 overflow-hidden">
+          {/* Geometric Grid Background */}
+          <div className="absolute inset-0 opacity-30">
+            {/* Grid Pattern */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '60px 60px',
+                backgroundPosition: '0 0, 0 0'
+              }}
+            />
+            
+            {/* Yellow Accent Points at Intersections */}
+            <div className="absolute inset-0">
+              {Array.from({ length: 8 }).map((_, row) => 
+                Array.from({ length: 12 }).map((_, col) => {
+                  const x = (col + 1) * (100 / 13);
+                  const y = (row + 1) * (100 / 9);
+                  return (
+                    <div
+                      key={`${row}-${col}`}
+                      className="absolute w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-50"
+                      style={{
+                        left: `${x}%`,
+                        top: `${y}%`,
+                        transform: 'translate(-50%, -50%)',
+                        boxShadow: '0 0 6px rgba(251, 191, 36, 0.6)'
+                      }}
+                    />
+                  );
+                })
+              )}
+            </div>
+
+            {/* Sparkle Elements */}
+            <div className="absolute inset-0">
+              {[
+                { x: 15, y: 20, delay: 0, size: 3 },
+                { x: 35, y: 15, delay: 0.5, size: 2.5 },
+                { x: 55, y: 25, delay: 1, size: 3.5 },
+                { x: 75, y: 18, delay: 1.5, size: 2.8 },
+                { x: 85, y: 30, delay: 2, size: 3.2 },
+                { x: 20, y: 45, delay: 0.3, size: 2.6 },
+                { x: 40, y: 50, delay: 0.8, size: 3.3 },
+                { x: 60, y: 48, delay: 1.2, size: 2.7 },
+                { x: 80, y: 55, delay: 1.8, size: 3.1 },
+                { x: 25, y: 70, delay: 0.6, size: 2.9 },
+                { x: 45, y: 75, delay: 1.1, size: 3.4 },
+                { x: 65, y: 72, delay: 1.6, size: 2.5 },
+                { x: 85, y: 78, delay: 2.2, size: 3.0 },
+                { x: 10, y: 50, delay: 0.4, size: 2.8 },
+                { x: 30, y: 60, delay: 0.9, size: 3.2 },
+                { x: 50, y: 65, delay: 1.3, size: 2.6 },
+                { x: 70, y: 62, delay: 1.9, size: 3.1 },
+                { x: 90, y: 68, delay: 2.3, size: 2.7 },
+                { x: 5, y: 35, delay: 0.2, size: 3.3 },
+                { x: 95, y: 40, delay: 2.5, size: 2.9 }
+              ].map((sparkle, i) => (
+                <div
+                  key={i}
+                  className="absolute sparkle"
+                  style={{
+                    left: `${sparkle.x}%`,
+                    top: `${sparkle.y}%`,
+                    width: `${sparkle.size}px`,
+                    height: `${sparkle.size}px`,
+                    animationDelay: `${sparkle.delay}s`
+                  }}
+                >
+                  <svg width="100%" height="100%" viewBox="0 0 20 20" className="text-yellow-400/60">
+                    <path
+                      d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z"
+                      fill="currentColor"
+                      opacity="0.6"
+                    />
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </div>
           {/* Quick Contact Section */}
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 border-b border-white/10">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-16 border-b border-white/10">
             <div className="text-center mb-10">
               <h3 className="font-serif-display text-3xl md:text-4xl mb-3 text-white">{t.contact.title}</h3>
               <p className="text-stone-400 text-sm md:text-base max-w-2xl mx-auto">{t.contact.description}</p>
@@ -1982,7 +2065,7 @@ const App = () => {
           </div>
 
           {/* Bottom Bar */}
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
             <div>
               <div className="font-serif-display text-3xl md:text-4xl mb-2 tracking-tighter">Lux Cleaning & Hauswartung</div>
               <div className="text-[9px] text-stone-500 tracking-[0.5em] font-bold uppercase">{t.footer.tagline}</div>

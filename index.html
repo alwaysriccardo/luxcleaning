@@ -406,6 +406,21 @@
                 box-shadow: 0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(251, 191, 36, 0.4);
             }
         }
+
+        /* Footer Sparkle Animation */
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+        .sparkle {
+            animation: sparkle 4s ease-in-out infinite;
+        }
     </style>
 <script type="importmap">
 {
