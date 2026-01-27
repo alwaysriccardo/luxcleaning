@@ -1012,15 +1012,18 @@ const App = () => {
               <Menu size={24} className="text-[#1a1a1a]" />
             </button>
 
-            {/* Logo - Center */}
-            <div className="flex items-center justify-center flex-1 px-2">
-            <img 
+            {/* Logo + Company Name - Center */}
+            <div className="flex items-center justify-center gap-2 flex-1 px-2">
+              <img 
                 src="/luxlogofinal.png" 
                 alt="Lux Cleaning Logo" 
                 className="h-8 w-auto"
                 loading="eager"
-            />
-          </div>
+              />
+              <div className="font-serif-display text-sm font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap">
+                Lux Cleaning & Hauswartung
+              </div>
+            </div>
 
             {/* Angebot Button - Right */}
             <div className="relative">
