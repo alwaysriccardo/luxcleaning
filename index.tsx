@@ -113,7 +113,7 @@ const translations = {
       description: "Saubere, präzise Malerarbeiten in Weiß – ideal für Auszüge, Renovationen und Auffrischungen"
     },
     housecare: {
-      title: "Hauswartung & Wartung",
+      title: "Hauswartung",
       outdoor: {
         title: "Außenwartung",
         description: "Professionelle Gartenpflege inklusive Rasenmähen, Hecken schneiden und saisonale Pflegearbeiten für ein gepflegtes Äußeres."
