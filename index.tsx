@@ -52,7 +52,9 @@ const translations = {
       services: "Leistungen",
       reviews: "Bewertungen",
       quote: "Gratis Angebot",
-      getQuote: "Angebot anfordern"
+      getQuote: "Angebot anfordern",
+      menu: "Menü",
+      contact: "Kontakt"
     },
     hero: {
       badge: "Schweizer Standard",
@@ -171,7 +173,9 @@ const translations = {
       services: "Services",
       reviews: "Reviews",
       quote: "Free Quote",
-      getQuote: "Get a Quote"
+      getQuote: "Get a Quote",
+      menu: "Menu",
+      contact: "Contact"
     },
     hero: {
       badge: "Swiss Standard",
@@ -290,7 +294,9 @@ const translations = {
       services: "Services",
       reviews: "Avis",
       quote: "Devis Gratuit",
-      getQuote: "Demander un Devis"
+      getQuote: "Demander un Devis",
+      menu: "Menu",
+      contact: "Contact"
     },
     hero: {
       badge: "Standard Suisse",
@@ -1138,7 +1144,7 @@ const App = () => {
             <div className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm pointer-events-auto" onClick={() => setMobileMenuOpen(false)}>
               <div className="bg-white w-64 h-full shadow-xl" onClick={(e) => e.stopPropagation()}>
                 <div className="p-6 border-b border-stone-200 flex items-center justify-between">
-                  <div className="font-serif-display text-lg font-semibold text-[#1a1a1a]">Menu</div>
+                  <div className="font-serif-display text-lg font-semibold text-[#1a1a1a]">{t.nav.menu}</div>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="p-2 -mr-2"
@@ -1155,7 +1161,7 @@ const App = () => {
                     }}
                     className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
                   >
-                    SERVICES
+                    {t.nav.services}
                   </button>
                   <button
                     onClick={() => {
@@ -1164,7 +1170,7 @@ const App = () => {
                     }}
                     className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
                   >
-                    GET A QUOTE
+                    {t.nav.getQuote}
                   </button>
                   <button
                     onClick={() => {
@@ -1173,7 +1179,7 @@ const App = () => {
                     }}
                     className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
                   >
-                    CONTACT
+                    {t.nav.contact}
                   </button>
                 </div>
               </div>
