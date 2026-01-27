@@ -1603,7 +1603,7 @@ const App = () => {
                 <div className="relative overflow-hidden rounded-2xl shadow-lg group">
                   <div className="aspect-[4/3] relative overflow-hidden">
                     <img 
-                      src="/housecare-outdoor.jpg" 
+                      src="/cuttinggrass.jpg" 
                       alt={t.housecare.outdoor.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
@@ -1632,7 +1632,7 @@ const App = () => {
                 <div className="relative overflow-hidden rounded-2xl shadow-lg group">
                   <div className="aspect-[4/3] relative overflow-hidden">
                     <img 
-                      src="/housecare-winter.jpg" 
+                      src="/winterservices.png" 
                       alt={t.housecare.winter.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
