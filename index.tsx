@@ -619,27 +619,87 @@ const App = () => {
 
 
   // Play notification sound
-  const playNotificationSound = () => {
+  const playNotificationSound = async () => {
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      // Pleasant notification sound (two-tone chime)
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const audioContext = new AudioContext();
       
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      // Resume audio context if suspended (required by browsers)
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
 
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.3);
+      // Create a pleasant two-tone chime
+      const playTone = (frequency: number, startTime: number, duration: number) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.value = frequency;
+
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(0.4, startTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start(startTime);
+        oscillator.stop(startTime + duration);
+      };
+
+      const now = audioContext.currentTime;
+      // First tone
+      playTone(800, now, 0.2);
+      // Second tone (slightly higher)
+      playTone(1000, now + 0.1, 0.2);
     } catch (error) {
-      // Silently fail if audio context is not available
-      console.log('Audio not available');
+      // Fallback: try using HTML5 audio with data URI
+      try {
+        const audio = new Audio();
+        // Create a simple beep using data URI (base64 encoded WAV)
+        // This is a simple 800Hz tone for 0.2 seconds
+        const sampleRate = 44100;
+        const duration = 0.2;
+        const frequency = 800;
+        const numSamples = Math.floor(sampleRate * duration);
+        const buffer = new ArrayBuffer(44 + numSamples * 2);
+        const view = new DataView(buffer);
+        
+        // WAV header
+        const writeString = (offset: number, string: string) => {
+          for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+          }
+        };
+        
+        writeString(0, 'RIFF');
+        view.setUint32(4, 36 + numSamples * 2, true);
+        writeString(8, 'WAVE');
+        writeString(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, 1, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * 2, true);
+        view.setUint16(32, 2, true);
+        view.setUint16(34, 16, true);
+        writeString(36, 'data');
+        view.setUint32(40, numSamples * 2, true);
+        
+        // Generate sine wave
+        for (let i = 0; i < numSamples; i++) {
+          const sample = Math.sin(2 * Math.PI * frequency * i / sampleRate);
+          view.setInt16(44 + i * 2, sample * 32767, true);
+        }
+        
+        const blob = new Blob([buffer], { type: 'audio/wav' });
+        audio.src = URL.createObjectURL(blob);
+        audio.volume = 0.5;
+        await audio.play();
+      } catch (fallbackError) {
+        console.log('Audio playback not available');
+      }
     }
   };
 
