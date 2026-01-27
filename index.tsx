@@ -1802,35 +1802,116 @@ const App = () => {
         </section>
 
         {/* Redesigned Footer Section */}
-        <section id="angebot" className="relative py-32 px-6 bg-white overflow-hidden text-center">
-          {/* Subtle Background Animation */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-blue-400/5 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
+        <section id="angebot" className="relative py-32 px-6 bg-gradient-to-b from-[#1a1a1a] to-black overflow-hidden text-center border-t border-white/10">
+          {/* Geometric Grid Background */}
+          <div className="absolute inset-0 opacity-30">
+            {/* Grid Pattern */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '60px 60px',
+                backgroundPosition: '0 0, 0 0'
+              }}
+            />
+            
+            {/* Yellow Accent Points at Intersections */}
+            <div className="absolute inset-0">
+              {Array.from({ length: 8 }).map((_, row) => 
+                Array.from({ length: 12 }).map((_, col) => {
+                  const x = (col + 1) * (100 / 13);
+                  const y = (row + 1) * (100 / 9);
+                  return (
+                    <div
+                      key={`${row}-${col}`}
+                      className="absolute w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-50"
+                      style={{
+                        left: `${x}%`,
+                        top: `${y}%`,
+                        transform: 'translate(-50%, -50%)',
+                        boxShadow: '0 0 6px rgba(251, 191, 36, 0.6)'
+                      }}
+                    />
+                  );
+                })
+              )}
+            </div>
+
+            {/* Sparkle Elements */}
+            <div className="absolute inset-0">
+              {[
+                { x: 15, y: 20, delay: 0, size: 3 },
+                { x: 35, y: 15, delay: 0.5, size: 2.5 },
+                { x: 55, y: 25, delay: 1, size: 3.5 },
+                { x: 75, y: 18, delay: 1.5, size: 2.8 },
+                { x: 85, y: 30, delay: 2, size: 3.2 },
+                { x: 20, y: 45, delay: 0.3, size: 2.6 },
+                { x: 40, y: 50, delay: 0.8, size: 3.3 },
+                { x: 60, y: 48, delay: 1.2, size: 2.7 },
+                { x: 80, y: 55, delay: 1.8, size: 3.1 },
+                { x: 25, y: 70, delay: 0.6, size: 2.9 },
+                { x: 45, y: 75, delay: 1.1, size: 3.4 },
+                { x: 65, y: 72, delay: 1.6, size: 2.5 },
+                { x: 85, y: 78, delay: 2.2, size: 3.0 },
+                { x: 10, y: 50, delay: 0.4, size: 2.8 },
+                { x: 30, y: 60, delay: 0.9, size: 3.2 },
+                { x: 50, y: 65, delay: 1.3, size: 2.6 },
+                { x: 70, y: 62, delay: 1.9, size: 3.1 },
+                { x: 90, y: 68, delay: 2.3, size: 2.7 },
+                { x: 5, y: 35, delay: 0.2, size: 3.3 },
+                { x: 95, y: 40, delay: 2.5, size: 2.9 }
+              ].map((sparkle, i) => (
+                <div
+                  key={i}
+                  className="absolute sparkle"
+                  style={{
+                    left: `${sparkle.x}%`,
+                    top: `${sparkle.y}%`,
+                    width: `${sparkle.size}px`,
+                    height: `${sparkle.size}px`,
+                    animationDelay: `${sparkle.delay}s`
+                  }}
+                >
+                  <svg width="100%" height="100%" viewBox="0 0 20 20" className="text-yellow-400/60">
+                    <path
+                      d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z"
+                      fill="currentColor"
+                      opacity="0.6"
+                    />
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </div>
           
           <div className="max-w-3xl mx-auto relative z-10">
-            <h2 className="font-serif-display text-5xl md:text-7xl text-[#1a1a1a] mb-4 italic tracking-tight">{t.contact.title}</h2>
-            <p className="text-stone-500 font-light mb-12 max-w-md mx-auto">{t.contact.description}</p>
+            <h2 className="font-serif-display text-5xl md:text-7xl text-white mb-4 italic tracking-tight">{t.contact.title}</h2>
+            <p className="text-stone-400 font-light mb-12 max-w-md mx-auto">{t.contact.description}</p>
             
             {/* Big Fancy Text CTA */}
             <div className="mb-16">
               <a 
                 href="mailto:luxcleaning@mail.ch" 
-                className="group relative inline-flex items-center gap-4 text-5xl md:text-8xl font-serif-display text-[#1a1a1a] hover:text-blue-600 transition-colors duration-500"
+                className="group relative inline-flex items-center gap-4 text-5xl md:text-8xl font-serif-display text-white hover:text-yellow-400 transition-colors duration-500"
               >
                 <span>{t.contact.freeQuote}</span>
-                <ArrowUpRight size={56} className="text-blue-500 group-hover:translate-x-3 group-hover:-translate-y-3 transition-transform duration-500" />
+                <ArrowUpRight size={56} className="text-yellow-400 group-hover:translate-x-3 group-hover:-translate-y-3 transition-transform duration-500" />
                 <span className="absolute bottom-[-10px] left-0 w-0 h-[3px] bg-yellow-400 group-hover:w-full transition-all duration-700 rounded-full"></span>
               </a>
             </div>
 
             {/* Minimalist Form */}
-            <div className="bg-[#Fdfcf8] p-8 md:p-12 rounded-[3.5rem] border border-stone-100 shadow-2xl max-w-xl mx-auto mb-12 hover:scale-[1.01] transition-transform duration-500">
+            <div className="bg-gradient-to-br from-black/40 to-[#1a1a1a]/60 backdrop-blur-sm p-8 md:p-12 rounded-[3.5rem] border border-white/20 shadow-2xl max-w-xl mx-auto mb-12 hover:scale-[1.01] transition-transform duration-500">
               {contactFormSubmitted ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Send size={32} className="text-green-600" />
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Send size={32} className="text-green-400" />
                   </div>
-                  <h3 className="font-serif-display text-2xl text-[#1a1a1a] mb-2">Vielen Dank!</h3>
-                  <p className="text-stone-600">Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+                  <h3 className="font-serif-display text-2xl text-white mb-2">Vielen Dank!</h3>
+                  <p className="text-stone-300">Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
                 </div>
               ) : (
                 <form className="space-y-5" onSubmit={handleContactSubmit}>
@@ -1842,7 +1923,7 @@ const App = () => {
                         type="text" 
                         value={contactFormData.name}
                         onChange={(e) => setContactFormData({ ...contactFormData, name: e.target.value })}
-                        className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                        className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-sm text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-all" 
                         placeholder={t.contact.name}
                         required
                         aria-label={t.contact.name}
@@ -1855,7 +1936,7 @@ const App = () => {
                         type="email" 
                         value={contactFormData.email}
                         onChange={(e) => setContactFormData({ ...contactFormData, email: e.target.value })}
-                        className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                        className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-sm text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition-all" 
                         placeholder={t.contact.email}
                         required
                         aria-label={t.contact.email}
@@ -1868,7 +1949,7 @@ const App = () => {
                       id="contact-message"
                       value={contactFormData.message}
                       onChange={(e) => setContactFormData({ ...contactFormData, message: e.target.value })}
-                      className="w-full bg-white border border-stone-200 rounded-2xl p-4 text-sm h-32 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-all" 
+                      className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 text-sm h-32 text-white placeholder-white/60 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none resize-none transition-all" 
                       placeholder={t.contact.message}
                       required
                       aria-label={t.contact.message}
@@ -1876,7 +1957,7 @@ const App = () => {
                   </div>
                   <button 
                     type="submit"
-                    className="w-full py-5 bg-[#1a1a1a] text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-blue-600 transition-all flex items-center justify-center gap-3 group shadow-xl"
+                    className="w-full py-5 bg-yellow-400 text-[#1a1a1a] rounded-2xl text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-yellow-500 transition-all flex items-center justify-center gap-3 group shadow-xl"
                     aria-label={t.contact.submit}
                   >
                     {t.contact.submit}
@@ -1889,21 +1970,21 @@ const App = () => {
             {/* Contact Details with reduced padding */}
             <div id="contact-details" className="flex flex-col md:flex-row justify-center items-center gap-10">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-yellow-400/10 flex items-center justify-center text-yellow-600">
+                <div className="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-400">
                   <Phone size={18} />
                 </div>
                 <div className="text-left">
                   <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t.contact.phone}</div>
-                  <div className="text-lg font-serif-display font-medium">+41 78 352 57 78</div>
+                  <div className="text-lg font-serif-display font-medium text-white">+41 78 352 57 78</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-600">
+                <div className="w-10 h-10 rounded-full bg-blue-400/20 flex items-center justify-center text-blue-400">
                   <MapPin size={18} />
                 </div>
                 <div className="text-left">
                   <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t.contact.location}</div>
-                  <div className="text-lg font-serif-display font-medium">Baden & Wettingen, CH</div>
+                  <div className="text-lg font-serif-display font-medium text-white">Baden & Wettingen, CH</div>
                 </div>
               </div>
             </div>
