@@ -1,5 +1,6 @@
 // Vercel API route for uploading files to Cloudflare R2
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import busboy from 'busboy';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -19,10 +20,41 @@ export default async function handler(req: any, res: any) {
       return res.status(500).json({ success: false, error: 'Cloudflare credentials not configured' });
     }
 
-    // Parse multipart form data
-    const formData = await req.formData();
-    const projectId = formData.get('projectId');
-    const files = formData.getAll('files') as File[];
+    // Parse multipart form data using busboy
+    let projectId = '';
+    const files: { name: string; data: Buffer; type: string }[] = [];
+
+    const bb = busboy({ headers: req.headers });
+    
+    bb.on('field', (fieldname, val) => {
+      if (fieldname === 'projectId') {
+        projectId = val;
+      }
+    });
+
+    bb.on('file', (fieldname, file, info) => {
+      const { filename, encoding, mimeType } = info;
+      const chunks: Buffer[] = [];
+      
+      file.on('data', (chunk: Buffer) => {
+        chunks.push(chunk);
+      });
+
+      file.on('end', () => {
+        files.push({
+          name: filename || 'unknown',
+          data: Buffer.concat(chunks),
+          type: mimeType || 'application/octet-stream'
+        });
+      });
+    });
+
+    // Wait for busboy to finish parsing
+    await new Promise<void>((resolve, reject) => {
+      bb.on('finish', resolve);
+      bb.on('error', reject);
+      req.pipe(bb);
+    });
 
     if (!projectId || files.length === 0) {
       return res.status(400).json({ success: false, error: 'Missing projectId or files' });
@@ -65,19 +97,15 @@ export default async function handler(req: any, res: any) {
     // Upload each file to R2
     for (const file of files) {
       const fileType = file.type.startsWith('image/') ? 'image' : 'video';
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split('.').pop() || 'jpg';
       const fileName = `${projectId}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-      
-      // Convert file to buffer
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
 
       // Upload to R2 using S3 SDK
       await s3Client.send(
         new PutObjectCommand({
           Bucket: bucketName,
           Key: fileName,
-          Body: buffer,
+          Body: file.data,
           ContentType: file.type,
         })
       );
@@ -126,6 +154,6 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ success: true, items: uploadedItems });
   } catch (error: any) {
     console.error('Upload error:', error);
-    return res.status(500).json({ success: false, error: 'Upload failed' });
+    return res.status(500).json({ success: false, error: 'Upload failed: ' + error.message });
   }
 }

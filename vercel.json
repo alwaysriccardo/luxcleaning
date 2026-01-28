@@ -3,12 +3,8 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/admin-login.html",
-      "destination": "/admin-login.html"
-    },
-    {
-      "source": "/admin.html",
-      "destination": "/admin.html"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     }
   ]
 }

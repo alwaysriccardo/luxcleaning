@@ -24,7 +24,7 @@ const AdminLogin = () => {
 
       if (data.success) {
         sessionStorage.setItem('adminAuth', 'true');
-        window.location.href = '/admin';
+        window.location.href = '/admin.html';
       } else {
         setError('Invalid username or password');
       }

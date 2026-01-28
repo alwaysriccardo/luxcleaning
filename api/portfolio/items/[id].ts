@@ -6,10 +6,37 @@ export default async function handler(req: any, res: any) {
 
   try {
     const itemId = req.query.id;
-    const { projectId } = req.body;
+    
+    // Parse request body for DELETE requests
+    let projectId = '';
+    
+    // Read request body
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
+    }
+    
+    if (chunks.length > 0) {
+      try {
+        const body = JSON.parse(Buffer.concat(chunks).toString());
+        projectId = body.projectId;
+      } catch (e) {
+        // If body is already parsed by Vercel
+        if (req.body && typeof req.body === 'object') {
+          projectId = req.body.projectId;
+        }
+      }
+    } else if (req.body) {
+      // Fallback if body is already parsed
+      if (typeof req.body === 'string') {
+        projectId = JSON.parse(req.body).projectId;
+      } else if (typeof req.body === 'object') {
+        projectId = req.body.projectId;
+      }
+    }
 
     if (!projectId) {
-      return res.status(400).json({ success: false, error: 'projectId is required' });
+      return res.status(400).json({ success: false, error: 'projectId is required in request body' });
     }
 
     const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;

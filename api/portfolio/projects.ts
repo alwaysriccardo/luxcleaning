@@ -43,7 +43,17 @@ export default async function handler(req: any, res: any) {
 
   if (req.method === 'POST') {
     try {
-      const { title } = req.body;
+      // Parse request body
+      let body = req.body;
+      if (typeof req.body === 'string') {
+        try {
+          body = JSON.parse(req.body);
+        } catch (e) {
+          return res.status(400).json({ success: false, error: 'Invalid request body' });
+        }
+      }
+
+      const { title } = body;
 
       if (!title || !title.trim()) {
         return res.status(400).json({ success: false, error: 'Title is required' });
