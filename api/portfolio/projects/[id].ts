@@ -1,0 +1,97 @@
+// Vercel API route for deleting projects (uses Cloudflare KV and R2)
+export default async function handler(req: any, res: any) {
+  if (req.method !== 'DELETE') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const projectId = req.query.id;
+
+    const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+    const namespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID;
+    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+    const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'luxcleaning-portfolio';
+
+    if (!accountId || !namespaceId || !apiToken) {
+      return res.status(500).json({ success: false, error: 'Cloudflare credentials not configured' });
+    }
+
+    // Get projects from KV
+    const getResponse = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
+      {
+        headers: {
+          'Authorization': `Bearer ${apiToken}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    if (!getResponse.ok && getResponse.status !== 404) {
+      throw new Error('Failed to fetch from KV');
+    }
+
+    const projectsData = getResponse.ok ? await getResponse.text() : null;
+    const projects = projectsData ? JSON.parse(projectsData) : [];
+    
+    const project = projects.find((p: any) => p.id === projectId);
+    if (!project) {
+      return res.status(404).json({ success: false, error: 'Project not found' });
+    }
+
+    // Delete all items from R2
+    for (const item of project.items) {
+      try {
+        // Extract key from URL
+        const urlParts = item.url.split('/');
+        const key = urlParts[urlParts.length - 1];
+        const fullKey = `${projectId}/${key}`;
+
+        // Delete from R2 using S3-compatible API
+        const { S3Client, DeleteObjectCommand } = await import('@aws-sdk/client-s3');
+        const s3Client = new S3Client({
+          region: 'auto',
+          endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+          credentials: {
+            accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID!,
+            secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY!,
+          },
+        });
+
+        await s3Client.send(
+          new DeleteObjectCommand({
+            Bucket: bucketName,
+            Key: fullKey,
+          })
+        );
+      } catch (err) {
+        console.error('Failed to delete item from R2:', err);
+      }
+    }
+
+    // Remove project from list
+    const updatedProjects = projects.filter((p: any) => p.id !== projectId);
+    
+    // Save to KV
+    const putResponse = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${apiToken}`,
+          'Content-Type': 'text/plain'
+        },
+        body: JSON.stringify(updatedProjects)
+      }
+    );
+
+    if (!putResponse.ok) {
+      throw new Error('Failed to save to KV');
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error: any) {
+    console.error('Delete error:', error);
+    return res.status(500).json({ success: false, error: 'Delete failed' });
+  }
+}

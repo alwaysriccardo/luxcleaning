@@ -2,11 +2,13 @@
 
 This guide will help you set up the portfolio system with Cloudflare R2 and KV storage.
 
+**Note:** This setup works for both Cloudflare Pages and Vercel deployments. The API routes automatically use Cloudflare's REST APIs to access R2 and KV.
+
 ## Prerequisites
 
 - Cloudflare account
 - Access to Cloudflare dashboard
-- Your website deployed on Cloudflare Pages (or ready to deploy)
+- Your website deployed on Vercel or Cloudflare Pages
 
 ## Step 1: Create R2 Bucket
 
@@ -34,6 +36,12 @@ This guide will help you set up the portfolio system with Cloudflare R2 and KV s
 
 ## Step 3: Get Your Credentials
 
+### Cloudflare Account ID
+
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
+2. Select your account (if you have multiple)
+3. Copy your **Account ID** from the right sidebar
+
 ### R2 Credentials
 
 1. Go to **R2** → Your bucket
@@ -52,9 +60,45 @@ This guide will help you set up the portfolio system with Cloudflare R2 and KV s
 2. Click on your `PORTFOLIO_METADATA` namespace
 3. Copy the **Namespace ID**
 
-## Step 4: Configure Cloudflare Pages
+### Cloudflare API Token
 
-### Option A: Using Cloudflare Pages Dashboard
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens)
+2. Click **Create Token**
+3. Use **Edit Cloudflare Workers** template or create custom token with:
+   - **Account** → **Cloudflare Workers** → **Edit**
+   - **Account** → **Account Settings** → **Read**
+4. Click **Continue to summary** → **Create Token**
+5. **Copy and save the token** (you won't see it again!)
+
+## Step 4: Configure Your Deployment Platform
+
+### For Vercel Deployment (Recommended)
+
+1. Go to your [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your project
+3. Go to **Settings** → **Environment Variables**
+4. Add the following environment variables:
+
+```
+CLOUDFLARE_ACCOUNT_ID=your-account-id
+CLOUDFLARE_API_TOKEN=your-api-token
+CLOUDFLARE_KV_NAMESPACE_ID=your-kv-namespace-id
+CLOUDFLARE_R2_BUCKET_NAME=luxcleaning-portfolio
+CLOUDFLARE_R2_ACCESS_KEY_ID=your-r2-access-key-id
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=your-r2-secret-access-key
+```
+
+**Important:** Make sure your R2 bucket has public access enabled:
+1. Go to R2 → Your bucket → Settings
+2. Enable "Public Access"
+3. The public URL will be: `https://pub-<bucket-name>.r2.dev`
+
+5. Make sure to add these for **Production**, **Preview**, and **Development** environments
+6. Click **Save**
+
+**Important:** The API routes in `/api` folder will automatically use these environment variables to access Cloudflare R2 and KV.
+
+### For Cloudflare Pages Deployment (Alternative)
 
 1. Go to **Workers & Pages** → Your site
 2. Go to **Settings** → **Variables and Secrets**
@@ -76,49 +120,26 @@ PORTFOLIO_KV_NAMESPACE_ID=your-kv-namespace-id
    - Variable name: `R2_BUCKET`
    - R2 bucket: `luxcleaning-portfolio`
 
-### Option B: Using wrangler.toml (Recommended)
+## Step 5: Deploy
 
-Create a `wrangler.toml` file in your project root:
+### For Vercel:
 
-```toml
-name = "luxcleaning"
-compatibility_date = "2024-01-01"
+1. Push your code to GitHub/GitLab
+2. Connect repository in Vercel (if not already connected)
+3. Vercel will automatically:
+   - Detect Vite
+   - Run `npm run build`
+   - Deploy to production
 
-[env.production]
-vars = { ENVIRONMENT = "production" }
-
-[[env.production.kv_namespaces]]
-binding = "PORTFOLIO_KV"
-id = "your-kv-namespace-id"
-
-[[env.production.r2_buckets]]
-binding = "R2_BUCKET"
-bucket_name = "luxcleaning-portfolio"
+Or deploy via CLI:
+```bash
+npm install -g vercel
+vercel
 ```
 
-## Step 5: Update Upload Endpoint
+### For Cloudflare Pages:
 
-The upload endpoint needs to know your R2 public URL. Update `functions/api/portfolio/upload.ts`:
-
-Find this line:
-```typescript
-const r2Url = `https://pub-${context.env.R2_BUCKET.name}.r2.dev/${fileName}`;
-```
-
-Replace with your actual R2 public URL format:
-```typescript
-const r2Url = `https://pub-<your-bucket-name>.r2.dev/${fileName}`;
-```
-
-Or use an environment variable:
-```typescript
-const R2_PUBLIC_URL = context.env.R2_PUBLIC_URL || `https://pub-${context.env.R2_BUCKET.name}.r2.dev`;
-const r2Url = `${R2_PUBLIC_URL}/${fileName}`;
-```
-
-## Step 6: Deploy
-
-1. Install Wrangler CLI (if not already installed):
+1. Install Wrangler CLI:
 ```bash
 npm install -g wrangler
 ```
@@ -128,18 +149,13 @@ npm install -g wrangler
 wrangler login
 ```
 
-3. Deploy your site:
+3. Deploy:
 ```bash
 npm run build
 wrangler pages deploy dist
 ```
 
-Or if using Cloudflare Pages from Git:
-- Push your code to GitHub/GitLab
-- Connect repository in Cloudflare Pages
-- Configure build settings:
-  - Build command: `npm run build`
-  - Build output directory: `dist`
+Or connect via Git in Cloudflare Pages dashboard.
 
 ## Step 7: Test the System
 
