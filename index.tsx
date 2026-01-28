@@ -16,7 +16,9 @@ import {
   ChevronRight,
   MessageCircle,
   Mail,
-  Menu
+  Menu,
+  Video,
+  Image as ImageIcon
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -51,6 +53,7 @@ const translations = {
     nav: {
       services: "Leistungen",
       reviews: "Bewertungen",
+      portfolio: "Portfolio",
       quote: "Gratis Angebot",
       getQuote: "Angebot anfordern",
       menu: "Menü",
@@ -176,6 +179,7 @@ const translations = {
     nav: {
       services: "Services",
       reviews: "Reviews",
+      portfolio: "Portfolio",
       quote: "Free Quote",
       getQuote: "Get a Quote",
       menu: "Menu",
@@ -301,6 +305,7 @@ const translations = {
     nav: {
       services: "Services",
       reviews: "Avis",
+      portfolio: "Portfolio",
       quote: "Devis Gratuit",
       getQuote: "Demander un Devis",
       menu: "Menu",
@@ -513,6 +518,10 @@ const App = () => {
   const [isReviewPaused, setIsReviewPaused] = useState(false);
   const [contactFormData, setContactFormData] = useState({ name: '', email: '', message: '' });
   const [contactFormSubmitted, setContactFormSubmitted] = useState(false);
+  const [portfolioProjects, setPortfolioProjects] = useState<any[]>([]);
+  const [selectedPortfolioProject, setSelectedPortfolioProject] = useState<any | null>(null);
+  const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<any | null>(null);
+  const [portfolioLoading, setPortfolioLoading] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const promoModalShown = useRef(false);
@@ -913,6 +922,26 @@ const App = () => {
     };
   }, []);
 
+  // Load portfolio projects
+  useEffect(() => {
+    const loadPortfolio = async () => {
+      try {
+        setPortfolioLoading(true);
+        const response = await fetch('/api/portfolio/projects');
+        const data = await response.json();
+        if (data.success && data.projects.length > 0) {
+          setPortfolioProjects(data.projects);
+          setSelectedPortfolioProject(data.projects[0]);
+        }
+      } catch (err) {
+        console.error('Failed to load portfolio:', err);
+      } finally {
+        setPortfolioLoading(false);
+      }
+    };
+    loadPortfolio();
+  }, []);
+
   return (
     <>
       {/* Preloader */}
@@ -1092,6 +1121,7 @@ const App = () => {
             <div className="pointer-events-auto flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
               <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
               <button onClick={() => scrollToSection('reviews')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.reviews}</button>
+              <button onClick={() => scrollToSection('portfolio')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.portfolio}</button>
               <button onClick={() => scrollToSection('angebot')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest bg-yellow-400 hover:bg-yellow-500 transition-colors">{t.nav.quote}</button>
           </div>
 
@@ -1177,6 +1207,15 @@ const App = () => {
                     className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
                   >
                     {t.nav.services}
+                  </button>
+                  <button
+                    onClick={() => {
+                      scrollToSection('portfolio');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-6 py-4 text-sm font-bold uppercase tracking-widest text-[#1a1a1a] hover:bg-stone-100 transition-colors"
+                  >
+                    {t.nav.portfolio}
                   </button>
                   <button
                     onClick={() => {
@@ -1799,6 +1838,152 @@ const App = () => {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Portfolio Section */}
+        <section id="portfolio" className="relative py-20 md:py-32 px-6 bg-white overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12 md:mb-16">
+              <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light">
+                Portfolio
+              </h2>
+            </div>
+
+            {portfolioLoading ? (
+              <div className="text-center py-12 text-stone-400">Loading portfolio...</div>
+            ) : portfolioProjects.length > 0 ? (
+              <>
+                {/* Project Switcher */}
+                {portfolioProjects.length > 1 && (
+                  <div className="mb-8 flex flex-wrap gap-3 justify-center">
+                    {portfolioProjects.map((project) => (
+                      <button
+                        key={project.id}
+                        onClick={() => setSelectedPortfolioProject(project)}
+                        className={`px-6 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-all ${
+                          selectedPortfolioProject?.id === project.id
+                            ? 'bg-yellow-400 text-[#1a1a1a]'
+                            : 'bg-stone-100 border border-stone-200 text-stone-700 hover:bg-stone-200'
+                        }`}
+                      >
+                        {project.title}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Portfolio Grid */}
+                {selectedPortfolioProject && selectedPortfolioProject.items.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {selectedPortfolioProject.items
+                      .sort((a: any, b: any) => a.order - b.order)
+                      .map((item: any) => (
+                        <div
+                          key={item.id}
+                          onClick={() => setSelectedPortfolioItem(item)}
+                          className="aspect-square rounded-xl overflow-hidden bg-stone-100 cursor-pointer group relative"
+                        >
+                          {item.type === 'image' ? (
+                            <img
+                              src={item.thumbnail || item.url}
+                              alt=""
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="relative w-full h-full">
+                              <video
+                                src={item.url}
+                                className="w-full h-full object-cover"
+                                muted
+                                loop
+                                playsInline
+                              />
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
+                                <Video size={32} className="text-white/80" />
+                              </div>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                        </div>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-stone-400">
+                    No items in this project yet.
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-center py-12 text-stone-400">
+                No portfolio projects yet.
+              </div>
+            )}
+          </div>
+
+          {/* Lightbox */}
+          {selectedPortfolioItem && selectedPortfolioProject && (
+            <div
+              className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+              onClick={() => setSelectedPortfolioItem(null)}
+            >
+              <button
+                onClick={() => setSelectedPortfolioItem(null)}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+
+              {selectedPortfolioProject.items.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const items = selectedPortfolioProject.items.sort((a: any, b: any) => a.order - b.order);
+                      const currentIndex = items.findIndex((i: any) => i.id === selectedPortfolioItem.id);
+                      const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+                      setSelectedPortfolioItem(items[prevIndex]);
+                    }}
+                    className="absolute left-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const items = selectedPortfolioProject.items.sort((a: any, b: any) => a.order - b.order);
+                      const currentIndex = items.findIndex((i: any) => i.id === selectedPortfolioItem.id);
+                      const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+                      setSelectedPortfolioItem(items[nextIndex]);
+                    }}
+                    className="absolute right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </>
+              )}
+
+              <div
+                className="max-w-7xl w-full h-full flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {selectedPortfolioItem.type === 'image' ? (
+                  <img
+                    src={selectedPortfolioItem.url}
+                    alt=""
+                    className="max-w-full max-h-full object-contain"
+                  />
+                ) : (
+                  <video
+                    src={selectedPortfolioItem.url}
+                    className="max-w-full max-h-full"
+                    controls
+                    autoPlay
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* Redesigned Footer Section */}
