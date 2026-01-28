@@ -1876,8 +1876,8 @@ const App = () => {
                       >
                         {project.title}
                       </button>
-                    ))}
-                  </div>
+                ))}
+              </div>
                 )}
 
                 {/* Portfolio Grid */}
@@ -1909,8 +1909,8 @@ const App = () => {
                               />
                               <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
                                 <Video size={32} className="text-white/80" />
-                              </div>
-                            </div>
+            </div>
+          </div>
                           )}
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                         </div>
