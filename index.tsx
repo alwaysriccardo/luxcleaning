@@ -1843,10 +1843,18 @@ const App = () => {
         {/* Portfolio Section */}
         <section id="portfolio" className="relative py-20 md:py-32 px-6 bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12 md:mb-16">
+            <div className="text-center mb-12 md:mb-16 relative">
               <h2 className="font-serif-display text-4xl md:text-6xl lg:text-7xl text-[#1a1a1a] tracking-tight italic font-light">
                 Portfolio
               </h2>
+              {/* Admin Login Button */}
+              <a
+                href="/admin-login.html"
+                className="absolute top-0 right-0 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-full text-[10px] font-bold uppercase tracking-wider text-stone-600 hover:text-stone-800 transition-all"
+                title="Admin Login"
+              >
+                Admin
+              </a>
             </div>
 
             {portfolioLoading ? (
