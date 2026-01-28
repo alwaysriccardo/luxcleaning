@@ -1,0 +1,24 @@
+# Cloudflare Pages/Workers Configuration
+# Copy this file to wrangler.toml and fill in your values
+
+name = "luxcleaning"
+compatibility_date = "2024-01-01"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+# KV Namespace Binding
+# Get your namespace ID from Cloudflare Dashboard > Workers & Pages > KV
+[[env.production.kv_namespaces]]
+binding = "PORTFOLIO_KV"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+
+# R2 Bucket Binding
+# Your bucket name should match what you created in R2
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "luxcleaning-portfolio"
+
+# Optional: R2 Public URL (if different from default)
+# [env.production.vars]
+# R2_PUBLIC_URL = "https://pub-luxcleaning-portfolio.r2.dev"
