@@ -35,6 +35,8 @@ const AdminEditor = () => {
   const [uploading, setUploading] = useState(false);
   const [newProjectTitle, setNewProjectTitle] = useState('');
   const [showNewProject, setShowNewProject] = useState(false);
+  const [error, setError] = useState('');
+  const [creating, setCreating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragCounter = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -66,7 +68,13 @@ const AdminEditor = () => {
   };
 
   const createProject = async () => {
-    if (!newProjectTitle.trim()) return;
+    if (!newProjectTitle.trim()) {
+      setError('Please enter a project title');
+      return;
+    }
+
+    setCreating(true);
+    setError('');
 
     try {
       const response = await fetch('/api/portfolio/projects', {
@@ -75,15 +83,26 @@ const AdminEditor = () => {
         body: JSON.stringify({ title: newProjectTitle })
       });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Failed to create project' }));
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       if (data.success) {
         setProjects([...projects, data.project]);
         setNewProjectTitle('');
         setShowNewProject(false);
         setSelectedProject(data.project);
+        setError('');
+      } else {
+        setError(data.error || 'Failed to create project');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to create project:', err);
+      setError(err.message || 'Failed to create project. Please check your environment variables.');
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -345,25 +364,37 @@ const AdminEditor = () => {
             <input
               type="text"
               value={newProjectTitle}
-              onChange={(e) => setNewProjectTitle(e.target.value)}
+              onChange={(e) => {
+                setNewProjectTitle(e.target.value);
+                setError('');
+              }}
               placeholder="Project title..."
               className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 mb-4"
-              onKeyPress={(e) => e.key === 'Enter' && createProject()}
+              onKeyPress={(e) => e.key === 'Enter' && !creating && createProject()}
               autoFocus
+              disabled={creating}
             />
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-sm">
+                {error}
+              </div>
+            )}
             <div className="flex gap-3">
               <button
                 onClick={createProject}
-                className="px-6 py-2 bg-yellow-400 text-[#1a1a1a] rounded-xl font-bold hover:bg-yellow-500 transition-colors"
+                disabled={creating}
+                className="px-6 py-2 bg-yellow-400 text-[#1a1a1a] rounded-xl font-bold hover:bg-yellow-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create
+                {creating ? 'Creating...' : 'Create'}
               </button>
               <button
                 onClick={() => {
                   setShowNewProject(false);
                   setNewProjectTitle('');
+                  setError('');
                 }}
-                className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
+                disabled={creating}
+                className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-xl transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
