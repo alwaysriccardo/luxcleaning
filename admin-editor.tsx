@@ -316,34 +316,8 @@ const AdminEditor = () => {
                           src={item.thumbnail || item.url}
                           alt=""
                           className="w-full h-full object-cover"
-                          crossOrigin="anonymous"
                           onError={(e) => {
-                            const currentSrc = e.currentTarget.src;
-                            console.error('Image failed to load:', {
-                              currentSrc,
-                              itemUrl: item.url,
-                              thumbnail: item.thumbnail,
-                              note: 'Check if URL format matches: https://pub-<account-id>.r2.dev/<file-path>'
-                            });
-                            
-                            // Try the main URL if thumbnail fails
-                            if (currentSrc !== item.url && item.url) {
-                              console.log('Trying fallback URL:', item.url);
-                              e.currentTarget.src = item.url;
-                            } else {
-                              // If both fail, show placeholder with URL for debugging
-                              e.currentTarget.style.display = 'none';
-                              const errorDiv = document.createElement('div');
-                              errorDiv.className = 'w-full h-full flex flex-col items-center justify-center text-white/40 text-xs p-2';
-                              errorDiv.innerHTML = `
-                                <div>Image failed to load</div>
-                                <div class="text-[10px] mt-1 break-all text-center">${currentSrc.substring(0, 80)}...</div>
-                              `;
-                              e.currentTarget.parentElement!.appendChild(errorDiv);
-                            }
-                          }}
-                          onLoad={() => {
-                            console.log('Image loaded successfully:', item.url);
+                            console.error('Image failed to load:', e.currentTarget.src);
                           }}
                           loading="lazy"
                         />
