@@ -132,6 +132,16 @@ const Portfolio = () => {
                     src={item.thumbnail || item.url}
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    crossOrigin="anonymous"
+                    onError={(e) => {
+                      console.error('Portfolio image failed to load:', e.currentTarget.src);
+                      if (e.currentTarget.src !== item.url && item.url) {
+                        e.currentTarget.src = item.url;
+                      } else {
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-stone-400 text-xs">Image unavailable</div>';
+                      }
+                    }}
                     loading="lazy"
                   />
                 ) : (
@@ -204,6 +214,11 @@ const Portfolio = () => {
                 src={selectedItem.url}
                 alt=""
                 className="max-w-full max-h-full object-contain"
+                crossOrigin="anonymous"
+                onError={(e) => {
+                  console.error('Lightbox image failed to load:', e.currentTarget.src);
+                  e.currentTarget.parentElement!.innerHTML = '<div class="text-white text-center">Image failed to load</div>';
+                }}
               />
             ) : (
               <video

@@ -316,11 +316,21 @@ const AdminEditor = () => {
                           src={item.thumbnail || item.url}
                           alt=""
                           className="w-full h-full object-cover"
+                          crossOrigin="anonymous"
                           onError={(e) => {
-                            console.error('Image failed to load:', e.currentTarget.src);
-                            // Fallback to url if thumbnail fails
-                            if (e.currentTarget.src !== item.url) {
+                            console.error('Image failed to load:', {
+                              src: e.currentTarget.src,
+                              itemUrl: item.url,
+                              thumbnail: item.thumbnail
+                            });
+                            // Try the main URL if thumbnail fails
+                            if (e.currentTarget.src !== item.url && item.url) {
+                              console.log('Trying fallback URL:', item.url);
                               e.currentTarget.src = item.url;
+                            } else {
+                              // If both fail, show placeholder
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-white/40 text-xs">Image failed to load</div>';
                             }
                           }}
                           onLoad={() => {

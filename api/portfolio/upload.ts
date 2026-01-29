@@ -183,11 +183,17 @@ export default async function handler(req: any, res: any) {
 
         console.log('File uploaded successfully to R2:', fileName);
 
-        // Get public URL - R2 public URLs use the file path directly (no encoding needed for path segments)
+        // Get public URL - R2 public URLs use the file path directly
         // Format: https://pub-<bucket-name>.r2.dev/<file-path>
+        // Note: Make sure bucket name matches exactly and public access is enabled
         const r2PublicUrl = `https://pub-${bucketName}.r2.dev/${fileName}`;
         
-        console.log('Generated public URL:', r2PublicUrl);
+        console.log('Generated public URL:', {
+          url: r2PublicUrl,
+          bucketName,
+          fileName,
+          note: 'Verify this URL is accessible in browser. Check R2 public access is enabled.'
+        });
         
         const newItem = {
           id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
