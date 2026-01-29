@@ -130,28 +130,112 @@ const AdminEditor = () => {
     if (!selectedProject || files.length === 0) return;
 
     setUploading(true);
-    const formData = new FormData();
-    Array.from(files).forEach(file => {
-      formData.append('files', file);
-    });
-    formData.append('projectId', selectedProject.id);
+    setError('');
+
+    const LARGE_FILE_THRESHOLD = 4 * 1024 * 1024; // 4MB - use direct upload for files larger than this
+    const fileArray = Array.from(files);
+    const largeFiles = fileArray.filter(f => f.size > LARGE_FILE_THRESHOLD);
+    const smallFiles = fileArray.filter(f => f.size <= LARGE_FILE_THRESHOLD);
 
     try {
-      const response = await fetch('/api/portfolio/upload', {
-        method: 'POST',
-        body: formData
-      });
+      const uploadedItems: any[] = [];
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: `HTTP ${response.status}: ${response.statusText}` }));
-        throw new Error(errorData.error || `Upload failed: ${response.status} ${response.statusText}`);
+      // Handle large files with direct upload to R2
+      for (const file of largeFiles) {
+        try {
+          const fileExt = file.name.split('.').pop() || 'mp4';
+          const fileName = `${selectedProject.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+          // Get presigned URL
+          const presignedResponse = await fetch('/api/portfolio/presigned-url', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fileName,
+              contentType: file.type || 'application/octet-stream'
+            })
+          });
+
+          if (!presignedResponse.ok) {
+            throw new Error(`Failed to get upload URL: ${presignedResponse.statusText}`);
+          }
+
+          const presignedData = await presignedResponse.json();
+          if (!presignedData.success) {
+            throw new Error(presignedData.error || 'Failed to get upload URL');
+          }
+
+          // Upload directly to R2
+          const uploadResponse = await fetch(presignedData.presignedUrl, {
+            method: 'PUT',
+            body: file,
+            headers: {
+              'Content-Type': file.type || 'application/octet-stream'
+            }
+          });
+
+          if (!uploadResponse.ok) {
+            throw new Error(`Direct upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
+          }
+
+          // Add to uploaded items
+          const fileType = file.type.startsWith('image/') ? 'image' : 'video';
+          uploadedItems.push({
+            id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+            type: fileType,
+            url: presignedData.publicUrl,
+            thumbnail: fileType === 'image' ? presignedData.publicUrl : '',
+            order: selectedProject.items.length + uploadedItems.length
+          });
+        } catch (fileError: any) {
+          console.error(`Failed to upload large file ${file.name}:`, fileError);
+          setError(`Failed to upload ${file.name}: ${fileError.message}`);
+        }
       }
 
-      const data = await response.json();
-      if (data.success) {
+      // Handle small files with regular upload (through Vercel function)
+      if (smallFiles.length > 0) {
+        const formData = new FormData();
+        smallFiles.forEach(file => {
+          formData.append('files', file);
+        });
+        formData.append('projectId', selectedProject.id);
+
+        const response = await fetch('/api/portfolio/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: `HTTP ${response.status}: ${response.statusText}` }));
+          throw new Error(errorData.error || `Upload failed: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        if (data.success && data.items) {
+          uploadedItems.push(...data.items);
+        } else {
+          throw new Error(data.error || 'Upload failed');
+        }
+      }
+
+      // Update project metadata with all uploaded items
+      if (uploadedItems.length > 0) {
+        const updateResponse = await fetch('/api/portfolio/update-items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projectId: selectedProject.id,
+            items: uploadedItems
+          })
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error('Failed to update project metadata');
+        }
+
         // Reload projects to get updated items
         await loadProjects();
-        // Update selected project with fresh data
         const allProjectsResponse = await fetch('/api/portfolio/projects');
         const allProjects = await allProjectsResponse.json();
         if (allProjects.success) {
@@ -162,7 +246,7 @@ const AdminEditor = () => {
           }
         }
       } else {
-        throw new Error(data.error || 'Upload failed');
+        throw new Error('No files were uploaded successfully');
       }
     } catch (err: any) {
       console.error('Upload failed:', err);
