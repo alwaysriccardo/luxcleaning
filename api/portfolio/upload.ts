@@ -112,14 +112,30 @@ export default async function handler(req: any, res: any) {
 
     // Wait for busboy to finish parsing
     await new Promise<void>((resolve, reject) => {
-      bb.on('finish', resolve);
-      bb.on('error', reject);
+      bb.on('finish', () => {
+        console.log('Busboy finished parsing:', { projectId, fileCount: files.length });
+        resolve();
+      });
+      bb.on('error', (err) => {
+        console.error('Busboy parsing error:', err);
+        reject(err);
+      });
       req.pipe(bb);
     });
 
-    if (!projectId || files.length === 0) {
-      return res.status(400).json({ success: false, error: 'Missing projectId or files' });
+    if (!projectId) {
+      return res.status(400).json({ success: false, error: 'Missing projectId' });
     }
+
+    if (files.length === 0) {
+      return res.status(400).json({ success: false, error: 'No files were uploaded. Please select files to upload.' });
+    }
+
+    console.log('Parsed upload request:', {
+      projectId,
+      fileCount: files.length,
+      files: files.map(f => ({ name: f.name, size: f.data.length, type: f.type }))
+    });
 
     // Get projects from R2
     const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
@@ -143,41 +159,56 @@ export default async function handler(req: any, res: any) {
 
     // Upload each file to R2
     for (const file of files) {
-      const fileType = file.type.startsWith('image/') ? 'image' : 'video';
-      const fileExt = file.name.split('.').pop() || 'jpg';
-      const fileName = `${projectId}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      try {
+        const fileType = file.type.startsWith('image/') ? 'image' : 'video';
+        const fileExt = file.name.split('.').pop() || 'jpg';
+        const fileName = `${projectId}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
 
-      // Upload to R2 using S3 SDK
-      await s3Client.send(
-        new PutObjectCommand({
-          Bucket: bucketName,
-          Key: fileName,
-          Body: file.data,
-          ContentType: file.type,
-        })
-      );
+        console.log('Uploading file to R2:', {
+          fileName,
+          fileSize: file.data.length,
+          fileType: file.type,
+          bucketName
+        });
 
-      // Get public URL - R2 public URLs use the file path directly (no encoding needed for path segments)
-      // Format: https://pub-<bucket-name>.r2.dev/<file-path>
-      const r2PublicUrl = `https://pub-${bucketName}.r2.dev/${fileName}`;
-      
-      console.log('Uploaded file:', {
-        fileName,
-        r2PublicUrl,
-        bucketName,
-        fileType,
-        fileSize: file.data.length
+        // Upload to R2 using S3 SDK
+        await s3Client.send(
+          new PutObjectCommand({
+            Bucket: bucketName,
+            Key: fileName,
+            Body: file.data,
+            ContentType: file.type,
+          })
+        );
+
+        console.log('File uploaded successfully to R2:', fileName);
+
+        // Get public URL - R2 public URLs use the file path directly (no encoding needed for path segments)
+        // Format: https://pub-<bucket-name>.r2.dev/<file-path>
+        const r2PublicUrl = `https://pub-${bucketName}.r2.dev/${fileName}`;
+        
+        console.log('Generated public URL:', r2PublicUrl);
+        
+        const newItem = {
+          id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+          type: fileType,
+          url: r2PublicUrl,
+          thumbnail: fileType === 'image' ? r2PublicUrl : '',
+          order: project.items.length + uploadedItems.length
+        };
+
+        uploadedItems.push(newItem);
+      } catch (fileError: any) {
+        console.error('Failed to upload file:', file.name, fileError);
+        // Continue with other files even if one fails
+      }
+    }
+
+    if (uploadedItems.length === 0) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Failed to upload any files. Check server logs for details.' 
       });
-      
-      const newItem = {
-        id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
-        type: fileType,
-        url: r2PublicUrl,
-        thumbnail: fileType === 'image' ? r2PublicUrl : '',
-        order: project.items.length + uploadedItems.length
-      };
-
-      uploadedItems.push(newItem);
     }
 
     // Update project with new items
