@@ -82,10 +82,19 @@ export default async function handler(req: any, res: any) {
     }
 
     // Parse multipart form data using busboy
+    // Note: Vercel has a 4.5MB limit on Hobby plan, 50MB on Pro plan
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB max per file
     let projectId = '';
     const files: { name: string; data: Buffer; type: string }[] = [];
+    let fileSizeError = false;
 
-    const bb = busboy({ headers: req.headers });
+    const bb = busboy({ 
+      headers: req.headers,
+      limits: {
+        fileSize: MAX_FILE_SIZE,
+        files: 10 // Max 10 files at once
+      }
+    });
     
     bb.on('field', (fieldname, val) => {
       if (fieldname === 'projectId') {
@@ -96,17 +105,27 @@ export default async function handler(req: any, res: any) {
     bb.on('file', (fieldname, file, info) => {
       const { filename, encoding, mimeType } = info;
       const chunks: Buffer[] = [];
+      let fileSize = 0;
       
       file.on('data', (chunk: Buffer) => {
+        fileSize += chunk.length;
         chunks.push(chunk);
       });
 
+      file.on('limit', () => {
+        console.error(`File ${filename} exceeded size limit`);
+        fileSizeError = true;
+      });
+
       file.on('end', () => {
-        files.push({
-          name: filename || 'unknown',
-          data: Buffer.concat(chunks),
-          type: mimeType || 'application/octet-stream'
-        });
+        if (!fileSizeError) {
+          files.push({
+            name: filename || 'unknown',
+            data: Buffer.concat(chunks),
+            type: mimeType || 'application/octet-stream'
+          });
+          console.log(`Received file: ${filename}, size: ${fileSize} bytes, type: ${mimeType}`);
+        }
       });
     });
 
@@ -122,6 +141,13 @@ export default async function handler(req: any, res: any) {
       });
       req.pipe(bb);
     });
+
+    if (fileSizeError) {
+      return res.status(413).json({ 
+        success: false, 
+        error: 'File too large. Maximum file size is 50MB. For larger videos, please compress them first.' 
+      });
+    }
 
     if (!projectId) {
       return res.status(400).json({ success: false, error: 'Missing projectId' });
