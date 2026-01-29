@@ -146,11 +146,18 @@ const AdminEditor = () => {
       if (data.success) {
         // Reload projects to get updated items
         await loadProjects();
-        // Update selected project
-        const updated = projects.find(p => p.id === selectedProject.id);
-        if (updated) {
-          setSelectedProject(updated);
+        // Update selected project with fresh data
+        const allProjectsResponse = await fetch('/api/portfolio/projects');
+        const allProjects = await allProjectsResponse.json();
+        if (allProjects.success) {
+          const updated = allProjects.projects.find((p: Project) => p.id === selectedProject.id);
+          if (updated) {
+            console.log('Updated project with items:', updated.items);
+            setSelectedProject(updated);
+          }
         }
+      } else {
+        console.error('Upload failed:', data.error);
       }
     } catch (err) {
       console.error('Upload failed:', err);
@@ -309,6 +316,13 @@ const AdminEditor = () => {
                           src={item.thumbnail || item.url}
                           alt=""
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            // Fallback to url if thumbnail fails
+                            if (e.currentTarget.src !== item.url) {
+                              e.currentTarget.src = item.url;
+                            }
+                          }}
+                          loading="lazy"
                         />
                       ) : (
                         <video
