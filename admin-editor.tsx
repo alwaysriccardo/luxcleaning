@@ -138,7 +138,8 @@ const AdminEditor = () => {
     const smallFiles = fileArray.filter(f => f.size <= LARGE_FILE_THRESHOLD);
 
     try {
-      const uploadedItems: any[] = [];
+      const directUploadItems: any[] = []; // Items from direct upload (large files) - need to add to metadata
+      let smallFilesUploaded = false;
 
       // Handle large files with direct upload to R2
       for (const file of largeFiles) {
@@ -178,14 +179,14 @@ const AdminEditor = () => {
             throw new Error(`Direct upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
           }
 
-          // Add to uploaded items
+          // Add to direct upload items (these need metadata update)
           const fileType = file.type.startsWith('image/') ? 'image' : 'video';
-          uploadedItems.push({
+          directUploadItems.push({
             id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
             type: fileType,
             url: presignedData.publicUrl,
             thumbnail: fileType === 'image' ? presignedData.publicUrl : '',
-            order: selectedProject.items.length + uploadedItems.length
+            order: selectedProject.items.length + directUploadItems.length
           });
         } catch (fileError: any) {
           console.error(`Failed to upload large file ${file.name}:`, fileError);
@@ -194,6 +195,7 @@ const AdminEditor = () => {
       }
 
       // Handle small files with regular upload (through Vercel function)
+      // Note: The upload endpoint already adds items to project metadata
       if (smallFiles.length > 0) {
         const formData = new FormData();
         smallFiles.forEach(file => {
@@ -212,29 +214,32 @@ const AdminEditor = () => {
         }
 
         const data = await response.json();
-        if (data.success && data.items) {
-          uploadedItems.push(...data.items);
+        if (data.success) {
+          smallFilesUploaded = true;
         } else {
           throw new Error(data.error || 'Upload failed');
         }
       }
 
-      // Update project metadata with all uploaded items
-      if (uploadedItems.length > 0) {
+      // Only update metadata for direct uploads (large files)
+      // Small files are already added by the /api/portfolio/upload endpoint
+      if (directUploadItems.length > 0) {
         const updateResponse = await fetch('/api/portfolio/update-items', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             projectId: selectedProject.id,
-            items: uploadedItems
+            items: directUploadItems
           })
         });
 
         if (!updateResponse.ok) {
           throw new Error('Failed to update project metadata');
         }
+      }
 
-        // Reload projects to get updated items
+      // Reload projects if anything was uploaded
+      if (directUploadItems.length > 0 || smallFilesUploaded) {
         await loadProjects();
         const allProjectsResponse = await fetch('/api/portfolio/projects');
         const allProjects = await allProjectsResponse.json();
