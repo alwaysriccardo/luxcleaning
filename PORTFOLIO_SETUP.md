@@ -29,6 +29,31 @@ This guide will help you set up the portfolio system using Cloudflare R2 for bot
    - Example: `https://pub-cea3e0ebe8a146528d60ab4085263b71.r2.dev`
 6. This will be used to serve uploaded images/videos
 
+### Configure CORS (Required for Video Uploads)
+
+For large files (like videos) to upload directly from the browser, you need to configure CORS:
+
+1. In your R2 bucket, go to **Settings** tab
+2. Scroll to **CORS Policy**
+3. Click **Add CORS policy** or **Edit**
+4. Add this configuration:
+
+```json
+[
+  {
+    "AllowedOrigins": ["*"],
+    "AllowedMethods": ["GET", "PUT", "POST", "DELETE", "HEAD"],
+    "AllowedHeaders": ["*"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+
+5. Click **Save**
+
+**Note:** For production, replace `"*"` in AllowedOrigins with your actual domain (e.g., `"https://luxcleaning.ch"`).
+
 ## Step 2: Get Your Credentials
 
 ### Cloudflare Account ID

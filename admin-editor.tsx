@@ -167,17 +167,33 @@ const AdminEditor = () => {
           }
 
           // Upload directly to R2
-          const uploadResponse = await fetch(presignedData.presignedUrl, {
-            method: 'PUT',
-            body: file,
-            headers: {
-              'Content-Type': file.type || 'application/octet-stream'
-            }
+          console.log('Uploading to R2:', { 
+            url: presignedData.presignedUrl.substring(0, 100) + '...', 
+            fileSize: file.size,
+            fileType: file.type 
           });
+          
+          let uploadResponse;
+          try {
+            uploadResponse = await fetch(presignedData.presignedUrl, {
+              method: 'PUT',
+              body: file,
+              headers: {
+                'Content-Type': file.type || 'application/octet-stream'
+              }
+            });
+          } catch (fetchError: any) {
+            console.error('Direct upload fetch error:', fetchError);
+            throw new Error(`Direct upload failed (network error): ${fetchError.message}. This may be a CORS issue - check R2 CORS settings.`);
+          }
 
           if (!uploadResponse.ok) {
-            throw new Error(`Direct upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
+            const errorText = await uploadResponse.text().catch(() => 'No error details');
+            console.error('Direct upload response error:', uploadResponse.status, errorText);
+            throw new Error(`Direct upload failed: ${uploadResponse.status} ${uploadResponse.statusText}. ${errorText}`);
           }
+          
+          console.log('Direct upload successful');
 
           // Add to direct upload items (these need metadata update)
           const fileType = file.type.startsWith('image/') ? 'image' : 'video';
@@ -190,7 +206,9 @@ const AdminEditor = () => {
           });
         } catch (fileError: any) {
           console.error(`Failed to upload large file ${file.name}:`, fileError);
-          setError(`Failed to upload ${file.name}: ${fileError.message}`);
+          const errorMsg = `Failed to upload ${file.name}: ${fileError.message}`;
+          setError(errorMsg);
+          alert(errorMsg);
         }
       }
 
