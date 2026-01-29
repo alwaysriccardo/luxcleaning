@@ -2,6 +2,14 @@
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import busboy from 'busboy';
 
+// Vercel Pro: Increase body size limit to 50MB
+export const config = {
+  api: {
+    bodyParser: false, // We use busboy for parsing
+    responseLimit: false,
+  },
+};
+
 const METADATA_KEY = 'projects.json';
 
 async function getProjectsFromR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string): Promise<any[]> {

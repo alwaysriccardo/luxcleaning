@@ -3,7 +3,8 @@
   "outputDirectory": "dist",
   "functions": {
     "api/portfolio/upload.ts": {
-      "maxDuration": 60
+      "maxDuration": 300,
+      "memory": 1024
     }
   },
   "rewrites": [
