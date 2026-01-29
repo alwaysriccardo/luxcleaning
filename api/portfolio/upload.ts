@@ -2,14 +2,6 @@
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import busboy from 'busboy';
 
-// Vercel Pro: Increase body size limit to 50MB
-export const config = {
-  api: {
-    bodyParser: false, // We use busboy for parsing
-    responseLimit: false,
-  },
-};
-
 const METADATA_KEY = 'projects.json';
 
 async function getProjectsFromR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string): Promise<any[]> {
@@ -90,19 +82,10 @@ export default async function handler(req: any, res: any) {
     }
 
     // Parse multipart form data using busboy
-    // Note: Vercel has a 4.5MB limit on Hobby plan, 50MB on Pro plan
-    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB max per file
     let projectId = '';
     const files: { name: string; data: Buffer; type: string }[] = [];
-    let fileSizeError = false;
 
-    const bb = busboy({ 
-      headers: req.headers,
-      limits: {
-        fileSize: MAX_FILE_SIZE,
-        files: 10 // Max 10 files at once
-      }
-    });
+    const bb = busboy({ headers: req.headers });
     
     bb.on('field', (fieldname, val) => {
       if (fieldname === 'projectId') {
@@ -113,27 +96,17 @@ export default async function handler(req: any, res: any) {
     bb.on('file', (fieldname, file, info) => {
       const { filename, encoding, mimeType } = info;
       const chunks: Buffer[] = [];
-      let fileSize = 0;
       
       file.on('data', (chunk: Buffer) => {
-        fileSize += chunk.length;
         chunks.push(chunk);
       });
 
-      file.on('limit', () => {
-        console.error(`File ${filename} exceeded size limit`);
-        fileSizeError = true;
-      });
-
       file.on('end', () => {
-        if (!fileSizeError) {
-          files.push({
-            name: filename || 'unknown',
-            data: Buffer.concat(chunks),
-            type: mimeType || 'application/octet-stream'
-          });
-          console.log(`Received file: ${filename}, size: ${fileSize} bytes, type: ${mimeType}`);
-        }
+        files.push({
+          name: filename || 'unknown',
+          data: Buffer.concat(chunks),
+          type: mimeType || 'application/octet-stream'
+        });
       });
     });
 
@@ -150,13 +123,6 @@ export default async function handler(req: any, res: any) {
       req.pipe(bb);
     });
 
-    if (fileSizeError) {
-      return res.status(413).json({ 
-        success: false, 
-        error: 'File too large. Maximum file size is 50MB. For larger videos, please compress them first.' 
-      });
-    }
-
     if (!projectId) {
       return res.status(400).json({ success: false, error: 'Missing projectId' });
     }
@@ -165,10 +131,26 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ success: false, error: 'No files were uploaded. Please select files to upload.' });
     }
 
+    // Check file sizes (Vercel has 4.5MB limit for serverless functions)
+    const MAX_FILE_SIZE = 4.5 * 1024 * 1024; // 4.5MB in bytes
+    const oversizedFiles = files.filter(f => f.data.length > MAX_FILE_SIZE);
+    if (oversizedFiles.length > 0) {
+      const fileNames = oversizedFiles.map(f => `${f.name} (${(f.data.length / 1024 / 1024).toFixed(2)}MB)`).join(', ');
+      return res.status(400).json({ 
+        success: false, 
+        error: `File(s) too large: ${fileNames}. Maximum file size is 4.5MB. For larger files (especially videos), consider compressing them or using a direct upload method.` 
+      });
+    }
+
     console.log('Parsed upload request:', {
       projectId,
       fileCount: files.length,
-      files: files.map(f => ({ name: f.name, size: f.data.length, type: f.type }))
+      files: files.map(f => ({ 
+        name: f.name, 
+        size: f.data.length, 
+        sizeMB: (f.data.length / 1024 / 1024).toFixed(2),
+        type: f.type 
+      }))
     });
 
     // Get projects from R2
@@ -243,14 +225,25 @@ export default async function handler(req: any, res: any) {
         uploadedItems.push(newItem);
       } catch (fileError: any) {
         console.error('Failed to upload file:', file.name, fileError);
-        // Continue with other files even if one fails
+        const errorMessage = fileError.message || fileError.toString() || 'Unknown error';
+        console.error('File upload error details:', {
+          fileName: file.name,
+          fileSize: file.data.length,
+          fileType: file.type,
+          error: errorMessage,
+          stack: fileError.stack
+        });
+        // Continue with other files even if one fails, but log the error
       }
     }
 
     if (uploadedItems.length === 0) {
+      const errorDetails = files.length > 0 
+        ? ` All ${files.length} file(s) failed to upload. Check server logs for details.`
+        : ' No files were processed.';
       return res.status(500).json({ 
         success: false, 
-        error: 'Failed to upload any files. Check server logs for details.' 
+        error: `Failed to upload any files.${errorDetails}` 
       });
     }
 

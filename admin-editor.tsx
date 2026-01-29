@@ -142,6 +142,11 @@ const AdminEditor = () => {
         body: formData
       });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: `HTTP ${response.status}: ${response.statusText}` }));
+        throw new Error(errorData.error || `Upload failed: ${response.status} ${response.statusText}`);
+      }
+
       const data = await response.json();
       if (data.success) {
         // Reload projects to get updated items
@@ -157,11 +162,13 @@ const AdminEditor = () => {
           }
         }
       } else {
-        console.error('Upload failed:', data.error);
+        throw new Error(data.error || 'Upload failed');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Upload failed:', err);
-      alert('Upload failed. Please try again.');
+      const errorMessage = err.message || 'Upload failed. Please try again.';
+      setError(errorMessage);
+      alert(`Upload failed: ${errorMessage}`);
     } finally {
       setUploading(false);
     }
