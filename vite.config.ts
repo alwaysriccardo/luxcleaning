@@ -20,6 +20,6 @@ export default defineConfig({
             'admin-login': path.resolve(__dirname, 'admin-login.html'),
             'admin': path.resolve(__dirname, 'admin.html'),
           }
-        }
+      }
       }
 });

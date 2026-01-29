@@ -24,9 +24,7 @@ This guide will help you set up the portfolio system using Cloudflare R2 for bot
 2. Go to **Settings** tab
 3. Under **Public Access**, click **Enable Public Development URL**
 4. Type `allow` to confirm
-5. Note the **Public URL** format: `https://pub-<account-id>.r2.dev`
-   - The account ID is shown in the public URL (not the bucket name)
-   - Example: `https://pub-cea3e0ebe8a146528d60ab4085263b71.r2.dev`
+5. Note the **Public URL** format: `https://pub-<bucket-name>.r2.dev`
 6. This will be used to serve uploaded images/videos
 
 ## Step 2: Get Your Credentials
@@ -140,13 +138,13 @@ Or connect via Git in Cloudflare Pages dashboard.
 
 - **File Storage**: Images and videos are stored directly in R2
 - **Metadata Storage**: Project information (titles, item lists, etc.) is stored as a `projects.json` file in R2
-- **Public Access**: Files are served via the public R2 URL: `https://pub-<account-id>.r2.dev/<file-path>`
+- **Public Access**: Files are served via the public R2 URL: `https://pub-<bucket-name>.r2.dev/<file-path>`
 
 ## Troubleshooting
 
 ### Images not displaying
 - Check R2 bucket public access is enabled
-- Verify R2 public URL format matches: `https://pub-<account-id>.r2.dev` (uses account ID, not bucket name)
+- Verify R2 public URL format matches: `https://pub-<bucket-name>.r2.dev`
 - Check browser console for CORS errors
 
 ### Upload fails

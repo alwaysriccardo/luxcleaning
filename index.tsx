@@ -1110,7 +1110,7 @@ const App = () => {
                 className="h-12 md:h-14 w-auto"
                 loading="eager"
               />
-          </div>
+              </div>
 
             <div className="pointer-events-auto flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
               <button onClick={() => scrollToSection('services')} className="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-100 transition-colors">{t.nav.services}</button>
@@ -1160,21 +1160,21 @@ const App = () => {
               <div className="font-serif-display text-base md:text-lg font-semibold text-[#1a1a1a] tracking-tight whitespace-nowrap uppercase">
                 Lux Cleaning & Hauswartung
               </div>
-            </div>
+          </div>
 
             {/* Angebot Button - Right */}
             <div className="relative">
-              <button 
-                onClick={() => scrollToSection('angebot')}
+            <button 
+              onClick={() => scrollToSection('angebot')}
                 className="flex items-center gap-1.5 bg-yellow-400 text-[#1a1a1a] px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all"
                 aria-label="Angebot anfordern"
-              >
+            >
                 <span>ANGEBOT</span>
-              </button>
+            </button>
               {/* Badge with text */}
               <div className="absolute -top-1 -right-1 bg-yellow-500 text-[#1a1a1a] text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full border border-yellow-400">
                 20%
-              </div>
+          </div>
             </div>
             </div>
             

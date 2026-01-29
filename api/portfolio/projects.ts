@@ -3,24 +3,33 @@ import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3
 
 const METADATA_KEY = 'projects.json';
 
-function fixImageUrls(projects: any[], accountId: string, bucketName: string): any[] {
-  // Fix old URL format (bucket name) to new format (account ID)
-  const oldUrlPattern = new RegExp(`https://pub-${bucketName}\\.r2\\.dev/`, 'g');
-  const newUrlBase = `https://pub-${accountId}.r2.dev/`;
+function fixImageUrls(projects: any[], accountId: string): any[] {
+  // Fix any old URL formats to use account ID as bucket ID
+  // Format: https://pub-<account-id>.r2.dev/<file-path>
+  const correctUrlBase = `https://pub-${accountId}.r2.dev/`;
   
   return projects.map(project => {
     // Fix cover image URL
-    if (project.coverImage && project.coverImage.includes(`pub-${bucketName}.r2.dev`)) {
-      project.coverImage = project.coverImage.replace(oldUrlPattern, newUrlBase);
+    if (project.coverImage && project.coverImage.includes('.r2.dev/')) {
+      const urlMatch = project.coverImage.match(/https:\/\/pub-[^/]+\.r2\.dev\/(.+)/);
+      if (urlMatch && urlMatch[1]) {
+        project.coverImage = correctUrlBase + urlMatch[1];
+      }
     }
     
     // Fix item URLs
     project.items = project.items.map((item: any) => {
-      if (item.url && item.url.includes(`pub-${bucketName}.r2.dev`)) {
-        item.url = item.url.replace(oldUrlPattern, newUrlBase);
+      if (item.url && item.url.includes('.r2.dev/')) {
+        const urlMatch = item.url.match(/https:\/\/pub-[^/]+\.r2\.dev\/(.+)/);
+        if (urlMatch && urlMatch[1]) {
+          item.url = correctUrlBase + urlMatch[1];
+        }
       }
-      if (item.thumbnail && item.thumbnail.includes(`pub-${bucketName}.r2.dev`)) {
-        item.thumbnail = item.thumbnail.replace(oldUrlPattern, newUrlBase);
+      if (item.thumbnail && item.thumbnail.includes('.r2.dev/')) {
+        const urlMatch = item.thumbnail.match(/https:\/\/pub-[^/]+\.r2\.dev\/(.+)/);
+        if (urlMatch && urlMatch[1]) {
+          item.thumbnail = correctUrlBase + urlMatch[1];
+        }
       }
       return item;
     });
@@ -49,8 +58,8 @@ async function getProjectsFromR2(accountId: string, accessKeyId: string, secretA
     const bodyString = await response.Body?.transformToString();
     const projects = bodyString ? JSON.parse(bodyString) : [];
     
-    // Fix old URL format to new format
-    return fixImageUrls(projects, accountId, bucketName);
+    // Fix any old URL formats to use account ID
+    return fixImageUrls(projects, accountId);
   } catch (error: any) {
     // If file doesn't exist (404), return empty array
     if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
@@ -101,19 +110,21 @@ export default async function handler(req: any, res: any) {
 
       const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
       
-      // Check if any URLs need fixing (old format with bucket name)
-      const needsUpdate = projects.some((p: any) => 
-        (p.coverImage && p.coverImage.includes(`pub-${bucketName}.r2.dev`)) ||
-        p.items.some((i: any) => 
-          (i.url && i.url.includes(`pub-${bucketName}.r2.dev`)) || 
-          (i.thumbnail && i.thumbnail.includes(`pub-${bucketName}.r2.dev`))
-        )
-      );
+      // Check if any URLs were fixed (any URL that doesn't use account ID)
+      const needsUpdate = projects.some((p: any) => {
+        if (p.coverImage && !p.coverImage.includes(`pub-${accountId}.r2.dev`)) {
+          return true;
+        }
+        return p.items.some((i: any) => 
+          (i.url && !i.url.includes(`pub-${accountId}.r2.dev`)) || 
+          (i.thumbnail && !i.thumbnail.includes(`pub-${accountId}.r2.dev`))
+        );
+      });
       
       if (needsUpdate) {
         // URLs were fixed by getProjectsFromR2, save them back
         await saveProjectsToR2(accountId, accessKeyId, secretAccessKey, bucketName, projects);
-        console.log('Fixed and saved old URL formats to new format');
+        console.log('Fixed and saved old URL formats to use account ID');
       }
       
       return res.status(200).json({ success: true, projects });
