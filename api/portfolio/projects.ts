@@ -3,34 +3,37 @@ import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3
 
 const METADATA_KEY = 'projects.json';
 
-function fixImageUrls(projects: any[], accountId: string): any[] {
-  // Fix any old URL formats to use account ID as bucket ID
-  // Format: https://pub-<account-id>.r2.dev/<file-path>
-  const correctUrlBase = `https://pub-${accountId}.r2.dev/`;
+function fixImageUrls(projects: any[], accountId: string, bucketName: string, r2PublicId: string): any[] {
+  // Fix ALL old URL formats to the correct R2 public URL format
+  // The correct format is: https://pub-<r2PublicId>.r2.dev/<file-path>
+  const correctUrlBase = `https://pub-${r2PublicId}.r2.dev/`;
+  
+  // Patterns to fix: bucket name or account ID in URL (both are wrong)
+  const fixUrl = (url: string | undefined): string | undefined => {
+    if (!url) return url;
+    
+    // Already correct format
+    if (url.startsWith(correctUrlBase)) {
+      return url;
+    }
+    
+    // Extract the file path from any pub-*.r2.dev URL
+    const match = url.match(/https:\/\/pub-[a-zA-Z0-9-]+\.r2\.dev\/(.+)/);
+    if (match) {
+      return `${correctUrlBase}${match[1]}`;
+    }
+    
+    return url;
+  };
   
   return projects.map(project => {
     // Fix cover image URL
-    if (project.coverImage && project.coverImage.includes('.r2.dev/')) {
-      const urlMatch = project.coverImage.match(/https:\/\/pub-[^/]+\.r2\.dev\/(.+)/);
-      if (urlMatch && urlMatch[1]) {
-        project.coverImage = correctUrlBase + urlMatch[1];
-      }
-    }
+    project.coverImage = fixUrl(project.coverImage);
     
     // Fix item URLs
     project.items = project.items.map((item: any) => {
-      if (item.url && item.url.includes('.r2.dev/')) {
-        const urlMatch = item.url.match(/https:\/\/pub-[^/]+\.r2\.dev\/(.+)/);
-        if (urlMatch && urlMatch[1]) {
-          item.url = correctUrlBase + urlMatch[1];
-        }
-      }
-      if (item.thumbnail && item.thumbnail.includes('.r2.dev/')) {
-        const urlMatch = item.thumbnail.match(/https:\/\/pub-[^/]+\.r2\.dev\/(.+)/);
-        if (urlMatch && urlMatch[1]) {
-          item.thumbnail = correctUrlBase + urlMatch[1];
-        }
-      }
+      item.url = fixUrl(item.url);
+      item.thumbnail = fixUrl(item.thumbnail);
       return item;
     });
     
@@ -58,8 +61,12 @@ async function getProjectsFromR2(accountId: string, accessKeyId: string, secretA
     const bodyString = await response.Body?.transformToString();
     const projects = bodyString ? JSON.parse(bodyString) : [];
     
-    // Fix any old URL formats to use account ID
-    return fixImageUrls(projects, accountId);
+    // Get R2 public ID from env or use account ID
+    // The public URL uses a specific ID (might be same as account ID or different)
+    const r2PublicId = process.env.CLOUDFLARE_R2_PUBLIC_ID || accountId;
+    
+    // Fix old URL format to new format
+    return fixImageUrls(projects, accountId, bucketName, r2PublicId);
   } catch (error: any) {
     // If file doesn't exist (404), return empty array
     if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
@@ -110,21 +117,24 @@ export default async function handler(req: any, res: any) {
 
       const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
       
-      // Check if any URLs were fixed (any URL that doesn't use account ID)
+      // Get R2 public ID for URL checking
+      const r2PublicId = process.env.CLOUDFLARE_R2_PUBLIC_ID || accountId;
+      const correctUrlBase = `https://pub-${r2PublicId}.r2.dev/`;
+      
+      // Check if any URLs need fixing (not starting with correct base)
       const needsUpdate = projects.some((p: any) => {
-        if (p.coverImage && !p.coverImage.includes(`pub-${accountId}.r2.dev`)) {
-          return true;
-        }
-        return p.items.some((i: any) => 
-          (i.url && !i.url.includes(`pub-${accountId}.r2.dev`)) || 
-          (i.thumbnail && !i.thumbnail.includes(`pub-${accountId}.r2.dev`))
+        const hasWrongCover = p.coverImage && p.coverImage.includes('.r2.dev/') && !p.coverImage.startsWith(correctUrlBase);
+        const hasWrongItems = p.items.some((i: any) => 
+          (i.url && i.url.includes('.r2.dev/') && !i.url.startsWith(correctUrlBase)) || 
+          (i.thumbnail && i.thumbnail.includes('.r2.dev/') && !i.thumbnail.startsWith(correctUrlBase))
         );
+        return hasWrongCover || hasWrongItems;
       });
       
       if (needsUpdate) {
         // URLs were fixed by getProjectsFromR2, save them back
         await saveProjectsToR2(accountId, accessKeyId, secretAccessKey, bucketName, projects);
-        console.log('Fixed and saved old URL formats to use account ID');
+        console.log('Fixed and saved old URL formats to new format. Using R2 public ID:', r2PublicId);
       }
       
       return res.status(200).json({ success: true, projects });

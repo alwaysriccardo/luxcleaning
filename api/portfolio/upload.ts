@@ -183,18 +183,19 @@ export default async function handler(req: any, res: any) {
 
         console.log('File uploaded successfully to R2:', fileName);
 
-        // Get public URL - R2 public URLs use bucket ID (which appears to be the account ID)
-        // Based on Cloudflare docs: https://pub-<bucket_id>.r2.dev/<object_key>
-        // The bucket_id in the public URL appears to be the account ID
-        // Format: https://pub-<account-id>.r2.dev/<file-path>
-        const r2PublicUrl = `https://pub-${accountId}.r2.dev/${fileName}`;
+        // Get public URL - R2 public URLs use a bucket/account identifier
+        // Format: https://pub-<bucket-id-or-account-id>.r2.dev/<file-path>
+        // Check if we have a specific R2 public URL ID, otherwise use account ID
+        const r2PublicId = process.env.CLOUDFLARE_R2_PUBLIC_ID || accountId;
+        const r2PublicUrl = `https://pub-${r2PublicId}.r2.dev/${fileName}`;
         
         console.log('Generated public URL:', {
           url: r2PublicUrl,
+          r2PublicId,
           accountId,
           bucketName,
           fileName,
-          note: 'R2 public URL uses account ID as bucket ID'
+          note: 'If URL doesn\'t work, verify CLOUDFLARE_R2_PUBLIC_ID matches the ID in your R2 public URL'
         });
         
         const newItem = {

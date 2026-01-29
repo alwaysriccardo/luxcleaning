@@ -318,19 +318,28 @@ const AdminEditor = () => {
                           className="w-full h-full object-cover"
                           crossOrigin="anonymous"
                           onError={(e) => {
+                            const currentSrc = e.currentTarget.src;
                             console.error('Image failed to load:', {
-                              src: e.currentTarget.src,
+                              currentSrc,
                               itemUrl: item.url,
-                              thumbnail: item.thumbnail
+                              thumbnail: item.thumbnail,
+                              note: 'Check if URL format matches: https://pub-<account-id>.r2.dev/<file-path>'
                             });
+                            
                             // Try the main URL if thumbnail fails
-                            if (e.currentTarget.src !== item.url && item.url) {
+                            if (currentSrc !== item.url && item.url) {
                               console.log('Trying fallback URL:', item.url);
                               e.currentTarget.src = item.url;
                             } else {
-                              // If both fail, show placeholder
+                              // If both fail, show placeholder with URL for debugging
                               e.currentTarget.style.display = 'none';
-                              e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-white/40 text-xs">Image failed to load</div>';
+                              const errorDiv = document.createElement('div');
+                              errorDiv.className = 'w-full h-full flex flex-col items-center justify-center text-white/40 text-xs p-2';
+                              errorDiv.innerHTML = `
+                                <div>Image failed to load</div>
+                                <div class="text-[10px] mt-1 break-all text-center">${currentSrc.substring(0, 80)}...</div>
+                              `;
+                              e.currentTarget.parentElement!.appendChild(errorDiv);
                             }
                           }}
                           onLoad={() => {
