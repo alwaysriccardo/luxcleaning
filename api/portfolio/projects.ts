@@ -111,6 +111,7 @@ export default async function handler(req: any, res: any) {
       projects.push(newProject);
 
       // Save to KV
+      // Cloudflare KV API requires the key name in the URL path
       const putResponse = await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
         {
@@ -124,7 +125,28 @@ export default async function handler(req: any, res: any) {
       );
 
       if (!putResponse.ok) {
-        throw new Error('Failed to save to KV');
+        let errorText = 'Unknown error';
+        try {
+          const errorData = await putResponse.json();
+          errorText = JSON.stringify(errorData);
+        } catch {
+          try {
+            errorText = await putResponse.text();
+          } catch {
+            errorText = `Status: ${putResponse.status} ${putResponse.statusText}`;
+          }
+        }
+        
+        console.error('KV PUT error:', {
+          status: putResponse.status,
+          statusText: putResponse.statusText,
+          error: errorText,
+          accountId: accountId ? accountId.substring(0, 8) + '...' : 'missing',
+          namespaceId: namespaceId ? namespaceId.substring(0, 8) + '...' : 'missing',
+          hasApiToken: !!apiToken
+        });
+        
+        throw new Error(`Failed to save to KV: ${putResponse.status} ${putResponse.statusText}. ${errorText}`);
       }
 
       return res.status(200).json({ success: true, project: newProject });
