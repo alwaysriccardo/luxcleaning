@@ -1,50 +1,80 @@
-// Vercel API route for portfolio projects (uses Cloudflare KV via REST API)
+// Vercel API route for portfolio projects (uses Cloudflare R2 for metadata storage)
+import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const METADATA_KEY = 'projects.json';
+
+async function getProjectsFromR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string): Promise<any[]> {
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    },
+  });
+
+  try {
+    const command = new GetObjectCommand({
+      Bucket: bucketName,
+      Key: METADATA_KEY,
+    });
+
+    const response = await s3Client.send(command);
+    const bodyString = await response.Body?.transformToString();
+    return bodyString ? JSON.parse(bodyString) : [];
+  } catch (error: any) {
+    // If file doesn't exist (404), return empty array
+    if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
+      return [];
+    }
+    throw error;
+  }
+}
+
+async function saveProjectsToR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string, projects: any[]): Promise<void> {
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    },
+  });
+
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: METADATA_KEY,
+    Body: JSON.stringify(projects),
+    ContentType: 'application/json',
+  });
+
+  await s3Client.send(command);
+}
+
 export default async function handler(req: any, res: any) {
   if (req.method === 'GET') {
     try {
-      // Get projects from Cloudflare KV
       const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-      const namespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID;
-      const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+      const accessKeyId = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
+      const secretAccessKey = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
+      const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'luxcleaning-portfolio';
 
-      if (!accountId || !namespaceId || !apiToken) {
+      if (!accountId || !accessKeyId || !secretAccessKey) {
         const missing = [];
         if (!accountId) missing.push('CLOUDFLARE_ACCOUNT_ID');
-        if (!namespaceId) missing.push('CLOUDFLARE_KV_NAMESPACE_ID');
-        if (!apiToken) missing.push('CLOUDFLARE_API_TOKEN');
+        if (!accessKeyId) missing.push('CLOUDFLARE_R2_ACCESS_KEY_ID');
+        if (!secretAccessKey) missing.push('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
         return res.status(500).json({ 
           success: false, 
           error: `Missing environment variables: ${missing.join(', ')}. Please configure them in Vercel.` 
         });
       }
 
-      // Get value from KV
-      const response = await fetch(
-        `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
-        {
-          headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      if (response.status === 404) {
-        // No projects yet
-        return res.status(200).json({ success: true, projects: [] });
-      }
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch from KV');
-      }
-
-      const projectsData = await response.text();
-      const projects = projectsData ? JSON.parse(projectsData) : [];
-
+      const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
       return res.status(200).json({ success: true, projects });
     } catch (error: any) {
-      console.error('KV fetch error:', error);
-      return res.status(500).json({ success: false, error: 'Failed to load projects' });
+      console.error('R2 fetch error:', error);
+      return res.status(500).json({ success: false, error: 'Failed to load projects: ' + error.message });
     }
   }
 
@@ -67,14 +97,15 @@ export default async function handler(req: any, res: any) {
       }
 
       const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-      const namespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID;
-      const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+      const accessKeyId = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
+      const secretAccessKey = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
+      const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'luxcleaning-portfolio';
 
-      if (!accountId || !namespaceId || !apiToken) {
+      if (!accountId || !accessKeyId || !secretAccessKey) {
         const missing = [];
         if (!accountId) missing.push('CLOUDFLARE_ACCOUNT_ID');
-        if (!namespaceId) missing.push('CLOUDFLARE_KV_NAMESPACE_ID');
-        if (!apiToken) missing.push('CLOUDFLARE_API_TOKEN');
+        if (!accessKeyId) missing.push('CLOUDFLARE_R2_ACCESS_KEY_ID');
+        if (!secretAccessKey) missing.push('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
         return res.status(500).json({ 
           success: false, 
           error: `Missing environment variables: ${missing.join(', ')}. Please configure them in Vercel.` 
@@ -82,21 +113,7 @@ export default async function handler(req: any, res: any) {
       }
 
       // Get existing projects
-      const getResponse = await fetch(
-        `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
-        {
-          headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      let projects = [];
-      if (getResponse.ok) {
-        const projectsData = await getResponse.text();
-        projects = projectsData ? JSON.parse(projectsData) : [];
-      }
+      const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
 
       // Create new project
       const newProject = {
@@ -110,48 +127,12 @@ export default async function handler(req: any, res: any) {
 
       projects.push(newProject);
 
-      // Save to KV
-      // Cloudflare KV API requires the key name in the URL path
-      const putResponse = await fetch(
-        `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify(projects)
-        }
-      );
-
-      if (!putResponse.ok) {
-        let errorText = 'Unknown error';
-        try {
-          const errorData = await putResponse.json();
-          errorText = JSON.stringify(errorData);
-        } catch {
-          try {
-            errorText = await putResponse.text();
-          } catch {
-            errorText = `Status: ${putResponse.status} ${putResponse.statusText}`;
-          }
-        }
-        
-        console.error('KV PUT error:', {
-          status: putResponse.status,
-          statusText: putResponse.statusText,
-          error: errorText,
-          accountId: accountId ? accountId.substring(0, 8) + '...' : 'missing',
-          namespaceId: namespaceId ? namespaceId.substring(0, 8) + '...' : 'missing',
-          hasApiToken: !!apiToken
-        });
-        
-        throw new Error(`Failed to save to KV: ${putResponse.status} ${putResponse.statusText}. ${errorText}`);
-      }
+      // Save to R2
+      await saveProjectsToR2(accountId, accessKeyId, secretAccessKey, bucketName, projects);
 
       return res.status(200).json({ success: true, project: newProject });
     } catch (error: any) {
-      console.error('KV save error:', error);
+      console.error('R2 save error:', error);
       const errorMessage = error.message || 'Failed to create project';
       return res.status(500).json({ success: false, error: errorMessage });
     }

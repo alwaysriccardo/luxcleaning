@@ -1,4 +1,55 @@
-// Vercel API route for deleting items (uses Cloudflare KV and R2)
+// Vercel API route for deleting items (uses Cloudflare R2 for metadata and file storage)
+import { S3Client, DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const METADATA_KEY = 'projects.json';
+
+async function getProjectsFromR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string): Promise<any[]> {
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    },
+  });
+
+  try {
+    const command = new GetObjectCommand({
+      Bucket: bucketName,
+      Key: METADATA_KEY,
+    });
+
+    const response = await s3Client.send(command);
+    const bodyString = await response.Body?.transformToString();
+    return bodyString ? JSON.parse(bodyString) : [];
+  } catch (error: any) {
+    if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
+      return [];
+    }
+    throw error;
+  }
+}
+
+async function saveProjectsToR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string, projects: any[]): Promise<void> {
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    },
+  });
+
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: METADATA_KEY,
+    Body: JSON.stringify(projects),
+    ContentType: 'application/json',
+  });
+
+  await s3Client.send(command);
+}
+
 export default async function handler(req: any, res: any) {
   if (req.method !== 'DELETE') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -40,31 +91,16 @@ export default async function handler(req: any, res: any) {
     }
 
     const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-    const namespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID;
-    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+    const accessKeyId = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
+    const secretAccessKey = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
     const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'luxcleaning-portfolio';
 
-    if (!accountId || !namespaceId || !apiToken) {
-      return res.status(500).json({ success: false, error: 'Cloudflare credentials not configured' });
+    if (!accountId || !accessKeyId || !secretAccessKey) {
+      return res.status(500).json({ success: false, error: 'Cloudflare R2 credentials not configured' });
     }
 
-    // Get projects from KV
-    const getResponse = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
-      {
-        headers: {
-          'Authorization': `Bearer ${apiToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    if (!getResponse.ok && getResponse.status !== 404) {
-      throw new Error('Failed to fetch from KV');
-    }
-
-    const projectsData = getResponse.ok ? await getResponse.text() : null;
-    const projects = projectsData ? JSON.parse(projectsData) : [];
+    // Get projects from R2
+    const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
     
     const project = projects.find((p: any) => p.id === projectId);
     if (!project) {
@@ -77,21 +113,19 @@ export default async function handler(req: any, res: any) {
     }
 
     // Delete from R2
+    const s3Client = new S3Client({
+      region: 'auto',
+      endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+      credentials: {
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
+      },
+    });
+
     try {
       const urlParts = item.url.split('/');
       const key = urlParts[urlParts.length - 1];
       const fullKey = `${projectId}/${key}`;
-
-      // Delete from R2 using S3-compatible API
-      const { S3Client, DeleteObjectCommand } = await import('@aws-sdk/client-s3');
-      const s3Client = new S3Client({
-        region: 'auto',
-        endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-        credentials: {
-          accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY!,
-        },
-      });
 
       await s3Client.send(
         new DeleteObjectCommand({
@@ -111,29 +145,15 @@ export default async function handler(req: any, res: any) {
       project.coverImage = firstImage ? firstImage.url : '';
     }
 
-    // Save updated projects
+    // Save updated projects to R2
     const projectIndex = projects.findIndex((p: any) => p.id === projectId);
     projects[projectIndex] = project;
 
-    const putResponse = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/projects`,
-      {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${apiToken}`,
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify(projects)
-      }
-    );
-
-    if (!putResponse.ok) {
-      throw new Error('Failed to save to KV');
-    }
+    await saveProjectsToR2(accountId, accessKeyId, secretAccessKey, bucketName, projects);
 
     return res.status(200).json({ success: true });
   } catch (error: any) {
     console.error('Delete error:', error);
-    return res.status(500).json({ success: false, error: 'Delete failed' });
+    return res.status(500).json({ success: false, error: 'Delete failed: ' + error.message });
   }
 }

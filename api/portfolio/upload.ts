@@ -1,6 +1,55 @@
 // Vercel API route for uploading files to Cloudflare R2
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import busboy from 'busboy';
+
+const METADATA_KEY = 'projects.json';
+
+async function getProjectsFromR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string): Promise<any[]> {
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    },
+  });
+
+  try {
+    const command = new GetObjectCommand({
+      Bucket: bucketName,
+      Key: METADATA_KEY,
+    });
+
+    const response = await s3Client.send(command);
+    const bodyString = await response.Body?.transformToString();
+    return bodyString ? JSON.parse(bodyString) : [];
+  } catch (error: any) {
+    if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
+      return [];
+    }
+    throw error;
+  }
+}
+
+async function saveProjectsToR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string, projects: any[]): Promise<void> {
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    },
+  });
+
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: METADATA_KEY,
+    Body: JSON.stringify(projects),
+    ContentType: 'application/json',
+  });
+
+  await s3Client.send(command);
+}
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -13,11 +62,9 @@ export default async function handler(req: any, res: any) {
     const accessKeyId = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
     const secretAccessKey = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
     const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'luxcleaning-portfolio';
-    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
-    const kvNamespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID;
 
-    if (!accountId || !accessKeyId || !secretAccessKey || !apiToken || !kvNamespaceId) {
-      return res.status(500).json({ success: false, error: 'Cloudflare credentials not configured' });
+    if (!accountId || !accessKeyId || !secretAccessKey) {
+      return res.status(500).json({ success: false, error: 'Cloudflare R2 credentials not configured' });
     }
 
     // Parse multipart form data using busboy
@@ -60,22 +107,8 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ success: false, error: 'Missing projectId or files' });
     }
 
-    // Get projects from KV
-    const kvResponse = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${kvNamespaceId}/values/projects`,
-      {
-        headers: {
-          'Authorization': `Bearer ${apiToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    let projects = [];
-    if (kvResponse.ok) {
-      const projectsData = await kvResponse.text();
-      projects = projectsData ? JSON.parse(projectsData) : [];
-    }
+    // Get projects from R2
+    const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
 
     const project = projects.find((p: any) => p.id === projectId);
     if (!project) {
@@ -131,25 +164,11 @@ export default async function handler(req: any, res: any) {
       project.coverImage = uploadedItems[0].url;
     }
 
-    // Save updated projects to KV
+    // Save updated projects to R2
     const projectIndex = projects.findIndex((p: any) => p.id === projectId);
     projects[projectIndex] = project;
 
-    const kvPutResponse = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${kvNamespaceId}/values/projects`,
-      {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${apiToken}`,
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify(projects)
-      }
-    );
-
-    if (!kvPutResponse.ok) {
-      throw new Error('Failed to save to KV');
-    }
+    await saveProjectsToR2(accountId, accessKeyId, secretAccessKey, bucketName, projects);
 
     return res.status(200).json({ success: true, items: uploadedItems });
   } catch (error: any) {
