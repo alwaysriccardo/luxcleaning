@@ -8,7 +8,14 @@ export default async function handler(req: any, res: any) {
       const apiToken = process.env.CLOUDFLARE_API_TOKEN;
 
       if (!accountId || !namespaceId || !apiToken) {
-        return res.status(500).json({ success: false, error: 'Cloudflare credentials not configured' });
+        const missing = [];
+        if (!accountId) missing.push('CLOUDFLARE_ACCOUNT_ID');
+        if (!namespaceId) missing.push('CLOUDFLARE_KV_NAMESPACE_ID');
+        if (!apiToken) missing.push('CLOUDFLARE_API_TOKEN');
+        return res.status(500).json({ 
+          success: false, 
+          error: `Missing environment variables: ${missing.join(', ')}. Please configure them in Vercel.` 
+        });
       }
 
       // Get value from KV
@@ -64,7 +71,14 @@ export default async function handler(req: any, res: any) {
       const apiToken = process.env.CLOUDFLARE_API_TOKEN;
 
       if (!accountId || !namespaceId || !apiToken) {
-        return res.status(500).json({ success: false, error: 'Cloudflare credentials not configured' });
+        const missing = [];
+        if (!accountId) missing.push('CLOUDFLARE_ACCOUNT_ID');
+        if (!namespaceId) missing.push('CLOUDFLARE_KV_NAMESPACE_ID');
+        if (!apiToken) missing.push('CLOUDFLARE_API_TOKEN');
+        return res.status(500).json({ 
+          success: false, 
+          error: `Missing environment variables: ${missing.join(', ')}. Please configure them in Vercel.` 
+        });
       }
 
       // Get existing projects
@@ -116,7 +130,8 @@ export default async function handler(req: any, res: any) {
       return res.status(200).json({ success: true, project: newProject });
     } catch (error: any) {
       console.error('KV save error:', error);
-      return res.status(500).json({ success: false, error: 'Failed to create project' });
+      const errorMessage = error.message || 'Failed to create project';
+      return res.status(500).json({ success: false, error: errorMessage });
     }
   }
 

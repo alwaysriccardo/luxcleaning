@@ -83,12 +83,12 @@ const AdminEditor = () => {
         body: JSON.stringify({ title: newProjectTitle })
       });
 
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Failed to create project' }));
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
       if (data.success) {
         setProjects([...projects, data.project]);
         setNewProjectTitle('');
