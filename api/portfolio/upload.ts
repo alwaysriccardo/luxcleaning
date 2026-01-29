@@ -64,7 +64,21 @@ export default async function handler(req: any, res: any) {
     const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'luxcleaning-portfolio';
 
     if (!accountId || !accessKeyId || !secretAccessKey) {
-      return res.status(500).json({ success: false, error: 'Cloudflare R2 credentials not configured' });
+      const missing = [];
+      if (!accountId) missing.push('CLOUDFLARE_ACCOUNT_ID');
+      if (!accessKeyId) missing.push('CLOUDFLARE_R2_ACCESS_KEY_ID');
+      if (!secretAccessKey) missing.push('CLOUDFLARE_R2_SECRET_ACCESS_KEY');
+      return res.status(500).json({ 
+        success: false, 
+        error: `Missing R2 credentials: ${missing.join(', ')}. Please configure them in Vercel.` 
+      });
+    }
+
+    if (!bucketName) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'CLOUDFLARE_R2_BUCKET_NAME not configured. Please set it in Vercel environment variables.' 
+      });
     }
 
     // Parse multipart form data using busboy
@@ -143,8 +157,17 @@ export default async function handler(req: any, res: any) {
         })
       );
 
-      // Get public URL
+      // Get public URL - R2 public URLs use the file path directly (no encoding needed for path segments)
+      // Format: https://pub-<bucket-name>.r2.dev/<file-path>
       const r2PublicUrl = `https://pub-${bucketName}.r2.dev/${fileName}`;
+      
+      console.log('Uploaded file:', {
+        fileName,
+        r2PublicUrl,
+        bucketName,
+        fileType,
+        fileSize: file.data.length
+      });
       
       const newItem = {
         id: `item-${Date.now()}-${Math.random().toString(36).substring(7)}`,
