@@ -3,6 +3,32 @@ import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3
 
 const METADATA_KEY = 'projects.json';
 
+function fixImageUrls(projects: any[], accountId: string, bucketName: string): any[] {
+  // Fix old URL format (bucket name) to new format (account ID)
+  const oldUrlPattern = new RegExp(`https://pub-${bucketName}\\.r2\\.dev/`, 'g');
+  const newUrlBase = `https://pub-${accountId}.r2.dev/`;
+  
+  return projects.map(project => {
+    // Fix cover image URL
+    if (project.coverImage && project.coverImage.includes(`pub-${bucketName}.r2.dev`)) {
+      project.coverImage = project.coverImage.replace(oldUrlPattern, newUrlBase);
+    }
+    
+    // Fix item URLs
+    project.items = project.items.map((item: any) => {
+      if (item.url && item.url.includes(`pub-${bucketName}.r2.dev`)) {
+        item.url = item.url.replace(oldUrlPattern, newUrlBase);
+      }
+      if (item.thumbnail && item.thumbnail.includes(`pub-${bucketName}.r2.dev`)) {
+        item.thumbnail = item.thumbnail.replace(oldUrlPattern, newUrlBase);
+      }
+      return item;
+    });
+    
+    return project;
+  });
+}
+
 async function getProjectsFromR2(accountId: string, accessKeyId: string, secretAccessKey: string, bucketName: string): Promise<any[]> {
   const s3Client = new S3Client({
     region: 'auto',
@@ -21,7 +47,10 @@ async function getProjectsFromR2(accountId: string, accessKeyId: string, secretA
 
     const response = await s3Client.send(command);
     const bodyString = await response.Body?.transformToString();
-    return bodyString ? JSON.parse(bodyString) : [];
+    const projects = bodyString ? JSON.parse(bodyString) : [];
+    
+    // Fix old URL format to new format
+    return fixImageUrls(projects, accountId, bucketName);
   } catch (error: any) {
     // If file doesn't exist (404), return empty array
     if (error.name === 'NoSuchKey' || error.$metadata?.httpStatusCode === 404) {
@@ -71,6 +100,22 @@ export default async function handler(req: any, res: any) {
       }
 
       const projects = await getProjectsFromR2(accountId, accessKeyId, secretAccessKey, bucketName);
+      
+      // Check if any URLs need fixing (old format with bucket name)
+      const needsUpdate = projects.some((p: any) => 
+        (p.coverImage && p.coverImage.includes(`pub-${bucketName}.r2.dev`)) ||
+        p.items.some((i: any) => 
+          (i.url && i.url.includes(`pub-${bucketName}.r2.dev`)) || 
+          (i.thumbnail && i.thumbnail.includes(`pub-${bucketName}.r2.dev`))
+        )
+      );
+      
+      if (needsUpdate) {
+        // URLs were fixed by getProjectsFromR2, save them back
+        await saveProjectsToR2(accountId, accessKeyId, secretAccessKey, bucketName, projects);
+        console.log('Fixed and saved old URL formats to new format');
+      }
+      
       return res.status(200).json({ success: true, projects });
     } catch (error: any) {
       console.error('R2 fetch error:', error);
