@@ -1102,20 +1102,14 @@ const App = () => {
         <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
           {/* Desktop Navigation */}
           <div className="hidden md:flex justify-between items-center px-6 md:px-12 max-w-[1800px] mx-auto pt-8 pointer-events-none">
-            {/* Company Name - Top Left */}
+            {/* Logo - Top Left */}
           <div className="pointer-events-auto">
-              <div className="text-left">
-                <div className={`font-serif-display text-lg md:text-xl font-semibold tracking-tight transition-colors duration-300 ${
-                  navTextColor === 'light' ? 'text-white drop-shadow-lg' : 'text-[#1a1a1a]'
-                }`}>
-                Lux Cleaning
-                </div>
-                <div className={`font-serif-display text-sm md:text-base tracking-tight transition-colors duration-300 ${
-                  navTextColor === 'light' ? 'text-white/90 drop-shadow-lg' : 'text-stone-600'
-                }`}>
-                  & Hauswartung
-                </div>
-            </div>
+              <img 
+                src="/luxlogofinal.png" 
+                alt="Lux Cleaning Logo" 
+                className="h-12 md:h-14 w-auto"
+                loading="eager"
+              />
           </div>
 
             <div className="pointer-events-auto flex items-center gap-1 bg-white/80 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-black/5 shadow-sm">
