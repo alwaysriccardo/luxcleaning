@@ -18,7 +18,8 @@ import {
   Mail,
   Menu,
   Video,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Leaf
 } from 'lucide-react';
 
 const SERVICES_DATA = [
@@ -70,9 +71,9 @@ const translations = {
       quoteBtn: "Angebot einholen"
     },
     promo: {
-      discount: "20% RABATT",
-      onAll: "AUF ALLE LEISTUNGEN",
-      until: "BIS ENDE FEBRUAR",
+      discount: "FRÜHJAHRS-AKTION",
+      onAll: "NUR NOCH WENIGE PLÄTZE FREI",
+      until: "MÄRZ & APRIL",
       requestNow: "JETZT ANGEBOT ANFORDERN"
     },
     services: {
@@ -164,14 +165,14 @@ const translations = {
       getInstantQuote: "Sofort Angebot"
     },
     promoModal: {
-      title: "20% RABATT FÜR NEUE KUNDEN",
-      subtitle: "Exklusives Angebot - Gültig bis Ende Februar",
+      title: "FRÜHJAHRSPUTZ-AKTION",
+      subtitle: "Nur noch wenige Plätze im März & April — Sichern Sie sich jetzt Ihr persönliches Angebot.",
       name: "Name",
       email: "Email",
       phone: "Telefon",
-      submit: "Angebot sichern",
+      submit: "Meinen Platz sichern",
       later: "Später",
-      success: "Vielen Dank! Wir senden Ihnen das Angebot per Email.",
+      success: "Vielen Dank! Wir melden uns mit Ihrem persönlichen Angebot.",
       close: "Schließen"
     }
   },
@@ -196,9 +197,9 @@ const translations = {
       quoteBtn: "Get a Quote"
     },
     promo: {
-      discount: "20% DISCOUNT",
-      onAll: "ON ALL SERVICES",
-      until: "UNTIL END OF FEBRUARY",
+      discount: "SPRING OFFER",
+      onAll: "LIMITED SPOTS AVAILABLE",
+      until: "MARCH & APRIL ONLY",
       requestNow: "REQUEST QUOTE NOW"
     },
     services: {
@@ -290,14 +291,14 @@ const translations = {
       getInstantQuote: "Get instant quote"
     },
     promoModal: {
-      title: "20% DISCOUNT FOR NEW CUSTOMERS",
-      subtitle: "Exclusive Offer - Valid Until End of February",
+      title: "SPRING CLEANING SEASON IS HERE",
+      subtitle: "Only a few spots available this March & April — request your personalized offer today.",
       name: "Name",
       email: "Email",
       phone: "Phone",
-      submit: "Secure Offer",
+      submit: "Claim My Spot",
       later: "Later",
-      success: "Thank you! We'll send you the offer via email.",
+      success: "Thank you! We'll be in touch with your personalized offer.",
       close: "Close"
     }
   },
@@ -322,9 +323,9 @@ const translations = {
       quoteBtn: "Demander un Devis"
     },
     promo: {
-      discount: "20% DE RÉDUCTION",
-      onAll: "SUR TOUS LES SERVICES",
-      until: "JUSQU'À LA FIN FÉVRIER",
+      discount: "OFFRE PRINTEMPS",
+      onAll: "PLACES LIMITÉES DISPONIBLES",
+      until: "MARS & AVRIL SEULEMENT",
       requestNow: "DEMANDER UN DEVIS MAINTENANT"
     },
     services: {
@@ -416,14 +417,14 @@ const translations = {
       getInstantQuote: "Devis instantané"
     },
     promoModal: {
-      title: "20% DE RÉDUCTION POUR NOUVEAUX CLIENTS",
-      subtitle: "Offre Exclusive - Valable Jusqu'à la Fin Février",
+      title: "LA SAISON DU NETTOYAGE DE PRINTEMPS EST LÀ",
+      subtitle: "Seulement quelques places disponibles en mars & avril — demandez votre offre personnalisée aujourd'hui.",
       name: "Nom",
       email: "Email",
       phone: "Téléphone",
-      submit: "Réserver l'Offre",
+      submit: "Réserver Ma Place",
       later: "Plus Tard",
-      success: "Merci! Nous vous enverrons l'offre par email.",
+      success: "Merci ! Nous vous contacterons avec votre offre personnalisée.",
       close: "Fermer"
     }
   }
@@ -779,9 +780,9 @@ const App = () => {
     if (!formData.email.trim()) return;
     
     // Create email content
-    const subject = encodeURIComponent('20% Rabatt Anfrage - Lux Cleaning');
+    const subject = encodeURIComponent('Frühjahrs-Aktion Anfrage - Lux Cleaning');
     const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nTelefon: ${formData.phone}\n\nIch interessiere mich für das 20% Rabatt Angebot.`
+      `Name: ${formData.name}\nEmail: ${formData.email}\nTelefon: ${formData.phone}\n\nIch interessiere mich für ein persönliches Angebot im Rahmen der Frühjahrs-Aktion.`
     );
     
     // Open email client
@@ -991,8 +992,8 @@ const App = () => {
                 {/* Badge */}
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center gap-2 bg-yellow-400/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-400/30 mb-4">
-                    <span className="text-3xl font-bold text-yellow-400">20%</span>
-                    <span className="text-white/90 text-sm font-bold uppercase">RABATT</span>
+                    <Leaf size={20} className="text-yellow-400" />
+                    <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">LIMITED SPOTS</span>
                   </div>
                   <h3 className="font-serif-display text-3xl md:text-4xl text-white mb-2 drop-shadow-lg">
                     {t.promoModal.title}
@@ -1133,7 +1134,7 @@ const App = () => {
             </button>
               {/* Badge with text */}
               <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
-                20% OFF
+                SPRING
           </div>
             </div>
           </div>
@@ -1173,7 +1174,7 @@ const App = () => {
             </button>
               {/* Badge with text */}
               <div className="absolute -top-1 -right-1 bg-yellow-500 text-[#1a1a1a] text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full border border-yellow-400">
-                20%
+                SPRING
           </div>
             </div>
             </div>
