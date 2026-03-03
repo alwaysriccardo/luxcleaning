@@ -74,7 +74,8 @@ const translations = {
       discount: "FRÜHJAHRS-AKTION",
       onAll: "NUR NOCH WENIGE PLÄTZE FREI",
       until: "MÄRZ & APRIL",
-      requestNow: "JETZT ANGEBOT ANFORDERN"
+      requestNow: "JETZT ANGEBOT ANFORDERN",
+      badge: "FRÜHLING"
     },
     services: {
       title: "Entdecken Sie Unsere Leistungen",
@@ -200,7 +201,8 @@ const translations = {
       discount: "SPRING OFFER",
       onAll: "LIMITED SPOTS AVAILABLE",
       until: "MARCH & APRIL ONLY",
-      requestNow: "REQUEST QUOTE NOW"
+      requestNow: "REQUEST QUOTE NOW",
+      badge: "SPRING"
     },
     services: {
       title: "Explore Our Services",
@@ -326,7 +328,8 @@ const translations = {
       discount: "OFFRE PRINTEMPS",
       onAll: "PLACES LIMITÉES DISPONIBLES",
       until: "MARS & AVRIL SEULEMENT",
-      requestNow: "DEMANDER UN DEVIS MAINTENANT"
+      requestNow: "DEMANDER UN DEVIS MAINTENANT",
+      badge: "PRINTEMPS"
     },
     services: {
       title: "Découvrez Nos Services",
@@ -1134,7 +1137,7 @@ const App = () => {
             </button>
               {/* Badge with text */}
               <div className="absolute -top-2 -right-2 bg-yellow-400 text-[#1a1a1a] text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg border border-yellow-300">
-                SPRING
+                {t.promo.badge}
           </div>
             </div>
           </div>
@@ -1174,7 +1177,7 @@ const App = () => {
             </button>
               {/* Badge with text */}
               <div className="absolute -top-1 -right-1 bg-yellow-500 text-[#1a1a1a] text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full border border-yellow-400">
-                SPRING
+                {t.promo.badge}
           </div>
             </div>
             </div>
