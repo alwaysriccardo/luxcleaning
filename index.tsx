@@ -75,7 +75,8 @@ const translations = {
       onAll: "NUR NOCH WENIGE PLÄTZE FREI",
       until: "MÄRZ & APRIL",
       requestNow: "JETZT ANGEBOT ANFORDERN",
-      badge: "FRÜHLING"
+      badge: "FRÜHLING",
+      limitedSpots: "BEGRENZTE PLÄTZE"
     },
     services: {
       title: "Entdecken Sie Unsere Leistungen",
@@ -202,7 +203,8 @@ const translations = {
       onAll: "LIMITED SPOTS AVAILABLE",
       until: "MARCH & APRIL ONLY",
       requestNow: "REQUEST QUOTE NOW",
-      badge: "SPRING"
+      badge: "SPRING",
+      limitedSpots: "LIMITED SPOTS"
     },
     services: {
       title: "Explore Our Services",
@@ -329,7 +331,8 @@ const translations = {
       onAll: "PLACES LIMITÉES DISPONIBLES",
       until: "MARS & AVRIL SEULEMENT",
       requestNow: "DEMANDER UN DEVIS MAINTENANT",
-      badge: "PRINTEMPS"
+      badge: "PRINTEMPS",
+      limitedSpots: "PLACES LIMITÉES"
     },
     services: {
       title: "Découvrez Nos Services",
@@ -996,7 +999,7 @@ const App = () => {
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center gap-2 bg-yellow-400/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-400/30 mb-4">
                     <Leaf size={20} className="text-yellow-400" />
-                    <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">LIMITED SPOTS</span>
+                    <span className="text-yellow-400 text-sm font-black uppercase tracking-widest">{t.promo.limitedSpots}</span>
                   </div>
                   <h3 className="font-serif-display text-3xl md:text-4xl text-white mb-2 drop-shadow-lg">
                     {t.promoModal.title}
