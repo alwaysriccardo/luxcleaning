@@ -159,12 +159,32 @@ const translations = {
     footer: {
       tagline: "Die Kunst der Sauberkeit",
       copyright: "© 2026 LUX CLEANING. FÜR PERFEKTE SAUBERKEIT.",
-      imprint: "Impressum",
+      terms: "AGB",
       privacy: "Datenschutz",
       callNow: "Jetzt anrufen",
       emailUs: "E-Mail senden",
       whatsappUs: "WhatsApp Nachricht",
       getInstantQuote: "Sofort Angebot"
+    },
+    legal: {
+      termsTitle: "Allgemeine Geschäftsbedingungen (AGB)",
+      privacyTitle: "Datenschutzerklärung",
+      termsParagraphs: [
+        "Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge und Leistungen von Lux Cleaning & Hauswartung (nachfolgend «Anbieter») im Bereich Reinigung und Hauswartung in der Schweiz, soweit nicht ausdrücklich etwas anderes vereinbart wurde.",
+        "Angebote sind freibleibend. Der Vertrag kommt durch schriftliche oder elektronische Annahme des Angebots bzw. durch Bestätigung des Termins zustande.",
+        "Stornierung und No-Show: Bei Absage oder Stornierung weniger als 24 Stunden vor dem vereinbarten Termin kann der Anbieter eine Ausfallgebühr in Höhe von 50 % bis 100 % des für die betreffende Leistung vereinbarten Preises verrechnen. Gleiches gilt, wenn der Kunde am vereinbarten Ort und zur vereinbarten Zeit ohne vorherige Absage nicht erscheint (Nichtantritt / No-Show). Die konkrete Höhe innerhalb dieses Rahmens richtet sich nach den Umständen des Einzelfalls und wird dem Kunden mitgeteilt.",
+        "Weitere Bestimmungen (Haftung, Zahlungsbedingungen, etc.) ergeben sich aus dem jeweiligen Angebot bzw. der individuellen Vereinbarung."
+      ],
+      privacyParagraphs: [
+        "Verantwortlich für die Datenbearbeitung im Sinne des geltenden Datenschutzrechts ist Lux Cleaning & Hauswartung. Kontakt: luxcleaning@mail.ch sowie die auf dieser Website angegebenen Telefon- und Kommunikationskanäle.",
+        "Wir bearbeiten personenbezogene Daten, die Sie uns freiwillig mitteilen, z. B. wenn Sie uns per Kontaktformular, E-Mail, Telefon oder WhatsApp kontaktieren (z. B. Name, E-Mail-Adresse, Telefonnummer, Inhalt Ihrer Nachricht).",
+        "Zweck der Bearbeitung ist die Bearbeitung Ihrer Anfragen, die Erstellung von Angeboten, die Kommunikation mit Ihnen sowie die Durchführung und Abwicklung von Aufträgen, soweit ein Vertragsverhältnis zustande kommt.",
+        "Die Bearbeitung erfolgt zur Erfüllung vorvertraglicher Massnahmen und vertraglicher Pflichten sowie, soweit erforderlich, zur Wahrung berechtigter Interessen (z. B. sichere Kommunikation, Nachweisführung).",
+        "Wir geben Ihre Daten nicht an Dritte weiter, ausser wir sind dazu gesetzlich verpflichtet oder die Weitergabe ist zur Vertragserfüllung ausdrücklich erforderlich und von Ihnen erwartbar (z. B. technische Dienstleister mit Auftragsdatenbearbeitung, soweit eingesetzt).",
+        "Wir bewahren Daten nur so lange auf, wie es für die genannten Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten dies verlangen.",
+        "Sie haben nach Massgabe des anwendbaren Rechts Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Bearbeitung, Widerspruch sowie gegebenenfalls Datenübertragbarkeit. Zudem können Sie sich bei einer zuständigen Aufsichtsbehörde beschweren.",
+        "Diese Website kann externe Links enthalten (z. B. zu sozialen Netzwerken). Für deren Inhalte und Datenschutzpraktiken sind die jeweiligen Betreiber verantwortlich."
+      ]
     },
     promoModal: {
       title: "FRÜHJAHRSPUTZ-AKTION",
@@ -287,12 +307,32 @@ const translations = {
     footer: {
       tagline: "The Art of Cleanliness",
       copyright: "© 2026 LUX CLEANING. FOR PERFECT CLEANLINESS.",
-      imprint: "Imprint",
+      terms: "Terms",
       privacy: "Privacy",
       callNow: "Call us now",
       emailUs: "Email us",
       whatsappUs: "WhatsApp message",
       getInstantQuote: "Get instant quote"
+    },
+    legal: {
+      termsTitle: "Terms & conditions",
+      privacyTitle: "Privacy policy",
+      termsParagraphs: [
+        "These terms and conditions apply to all contracts and services provided by Lux Cleaning & Hauswartung (the “provider”) for cleaning and property maintenance in Switzerland, unless expressly agreed otherwise.",
+        "Quotes are non-binding unless stated otherwise. A contract is formed when you accept the quote in writing or electronically, or when an appointment is confirmed.",
+        "Cancellation and no-show: If you cancel or reschedule less than 24 hours before the agreed appointment, the provider may charge a cancellation fee of between 50% and 100% of the agreed price for that service. The same applies if you do not show up at the agreed place and time without having cancelled in advance (no-show). The exact amount within that range depends on the circumstances of the case and will be communicated to you.",
+        "Further provisions (liability, payment terms, etc.) follow from the relevant quote or individual agreement."
+      ],
+      privacyParagraphs: [
+        "The controller of personal data under applicable data protection law is Lux Cleaning & Hauswartung. Contact: luxcleaning@mail.ch and the phone or messaging channels listed on this website.",
+        "We process personal data that you voluntarily provide when you contact us via the contact form, email, phone, or WhatsApp (for example name, email address, phone number, and the content of your message).",
+        "The purposes are to handle your enquiries, prepare quotes, communicate with you, and—where a contract is concluded—to perform and administer the work.",
+        "Processing is based on pre-contractual steps and contractual performance, and where necessary on legitimate interests (e.g. secure communication and record-keeping).",
+        "We do not sell your data. We only share it with third parties if required by law or if sharing is necessary to perform the contract and reasonably expected (e.g. technical processors under appropriate safeguards, if used).",
+        "We retain data only as long as needed for these purposes or as required by statutory retention obligations.",
+        "Depending on applicable law, you may have rights of access, rectification, erasure, restriction, objection, and in some cases data portability. You may also lodge a complaint with a supervisory authority.",
+        "This site may contain links to external services (e.g. social networks). Their content and privacy practices are the responsibility of the respective operators."
+      ]
     },
     promoModal: {
       title: "SPRING CLEANING SEASON IS HERE",
@@ -415,12 +455,32 @@ const translations = {
     footer: {
       tagline: "L'Art de la Propreté",
       copyright: "© 2026 LUX CLEANING. POUR UNE PROPRETÉ PARFAITE.",
-      imprint: "Mentions Légales",
-      privacy: "Confidentialité",
+      terms: "CGV",
+      privacy: "Données personnelles",
       callNow: "Appelez-nous",
       emailUs: "Envoyez un email",
       whatsappUs: "Message WhatsApp",
       getInstantQuote: "Devis instantané"
+    },
+    legal: {
+      termsTitle: "Conditions générales de vente (CGV)",
+      privacyTitle: "Protection des données",
+      termsParagraphs: [
+        "Les présentes conditions générales de vente (CGV) s'appliquent à tous les contrats et prestations fournis par Lux Cleaning & Hauswartung (le « prestataire ») dans le domaine du nettoyage et de l'entretien en Suisse, sauf accord express contraire.",
+        "Les devis sont donnés à titre indicatif sauf mention contraire. Le contrat est conclu lorsque vous acceptez le devis par écrit ou par voie électronique, ou lorsque le rendez-vous est confirmé.",
+        "Annulation tardive et absence sans préavis : en cas d'annulation ou de report moins de 24 heures avant le rendez-vous convenu, le prestataire peut facturer des frais d'annulation correspondant à 50 % à 100 % du prix convenu pour la prestation concernée. Il en va de même si vous ne vous présentez pas au lieu et à l'heure convenus sans avoir annulé au préalable (no-show). Le montant exact dans cette fourchette dépend des circonstances du cas et vous sera communiqué.",
+        "D'autres dispositions (responsabilité, modalités de paiement, etc.) figurent dans le devis concerné ou dans l'accord individuel."
+      ],
+      privacyParagraphs: [
+        "Le responsable du traitement des données au sens de la loi applicable est Lux Cleaning & Hauswartung. Contact : luxcleaning@mail.ch ainsi que les coordonnées téléphoniques et de messagerie indiquées sur ce site.",
+        "Nous traitons les données personnelles que vous nous communiquez volontairement lorsque vous nous contactez via le formulaire, l'e-mail, le téléphone ou WhatsApp (par ex. nom, adresse e-mail, numéro de téléphone, contenu du message).",
+        "Les finalités sont le traitement de vos demandes, l'établissement de devis, la communication avec vous et, le cas échéant, l'exécution et la gestion des contrats.",
+        "Le traitement repose sur des mesures précontractuelles et l'exécution du contrat, et le cas échéant sur des intérêts légitimes (p. ex. communication sécurisée et conservation de preuves).",
+        "Nous ne vendons pas vos données. Nous ne les transmettons à des tiers que si la loi l'exige ou si la transmission est nécessaire à l'exécution du contrat et raisonnablement prévisible (p. ex. sous-traitants techniques avec garanties appropriées, le cas échéant).",
+        "Nous conservons les données aussi longtemps que nécessaire à ces finalités ou que l'exigent des obligations légales de conservation.",
+        "Selon le droit applicable, vous pouvez disposer de droits d'accès, de rectification, d'effacement, de limitation, d'opposition et, le cas échéant, de portabilité. Vous pouvez également introduire une réclamation auprès d'une autorité de surveillance.",
+        "Ce site peut contenir des liens vers des services externes (p. ex. réseaux sociaux). Leur contenu et leurs pratiques en matière de données relèvent des exploitants concernés."
+      ]
     },
     promoModal: {
       title: "LA SAISON DU NETTOYAGE DE PRINTEMPS EST LÀ",
@@ -518,6 +578,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [promoModalOpen, setPromoModalOpen] = useState(false);
+  const [legalModal, setLegalModal] = useState<'terms' | 'privacy' | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [expandedReview, setExpandedReview] = useState<number | null>(null);
@@ -779,6 +840,15 @@ const App = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (!legalModal) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLegalModal(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [legalModal]);
 
   const handlePromoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1059,6 +1129,45 @@ const App = () => {
                 <p className="text-white/70 text-sm">{t.promoModal.close}</p>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Legal: AGB / Datenschutz */}
+      {legalModal && (
+        <div
+          className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+          onClick={() => setLegalModal(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="legal-modal-title"
+        >
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div
+            className="relative z-10 w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border border-stone-200 bg-[#Fdfcf8] shadow-2xl p-6 md:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setLegalModal(null)}
+              className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-stone-200/80 hover:bg-stone-300 transition-colors text-stone-800"
+              aria-label={t.promoModal.close}
+            >
+              <X size={18} />
+            </button>
+            <h2
+              id="legal-modal-title"
+              className="font-serif-display text-xl md:text-2xl text-[#1a1a1a] pr-10 mb-4"
+            >
+              {legalModal === 'terms' ? t.legal.termsTitle : t.legal.privacyTitle}
+            </h2>
+            <div className="space-y-3 text-sm text-stone-700 leading-relaxed">
+              {(legalModal === 'terms' ? t.legal.termsParagraphs : t.legal.privacyParagraphs).map(
+                (paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                )
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -2347,8 +2456,20 @@ const App = () => {
             </div>
             <div className="text-[10px] text-stone-600 font-bold uppercase tracking-[0.2em]">{t.footer.copyright}</div>
             <div className="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-stone-400">
-              <a href="#" className="hover:text-yellow-400 transition-colors">{t.footer.imprint}</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">{t.footer.privacy}</a>
+              <button
+                type="button"
+                onClick={() => setLegalModal('terms')}
+                className="hover:text-yellow-400 transition-colors cursor-pointer bg-transparent border-0 p-0 font-bold uppercase tracking-widest text-stone-400"
+              >
+                {t.footer.terms}
+              </button>
+              <button
+                type="button"
+                onClick={() => setLegalModal('privacy')}
+                className="hover:text-yellow-400 transition-colors cursor-pointer bg-transparent border-0 p-0 font-bold uppercase tracking-widest text-stone-400"
+              >
+                {t.footer.privacy}
+              </button>
             </div>
           </div>
         </footer>
