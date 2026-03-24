@@ -596,6 +596,7 @@ const App = () => {
   const reviewIntervalRef = useRef<number | null>(null);
   const reviewCarouselRef = useRef<HTMLDivElement>(null);
   const servicesScrollRef = useRef<HTMLDivElement>(null);
+  const legalModalScrollRef = useRef<HTMLDivElement>(null);
   const [navTextColor, setNavTextColor] = useState<'light' | 'dark'>('dark');
   const t = translations[language];
 
@@ -849,6 +850,12 @@ const App = () => {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [legalModal]);
+
+  useEffect(() => {
+    if (!legalModal) return;
+    const el = legalModalScrollRef.current;
+    if (el) el.scrollTop = 0;
+  }, [language, legalModal]);
 
   const handlePromoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1144,29 +1151,41 @@ const App = () => {
         >
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
           <div
-            className="relative z-10 w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border border-stone-200 bg-[#Fdfcf8] shadow-2xl p-6 md:p-8"
+            className="relative z-10 flex w-full max-w-lg max-h-[85vh] flex-col overflow-hidden rounded-2xl border border-stone-200 bg-[#Fdfcf8] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              type="button"
-              onClick={() => setLegalModal(null)}
-              className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-stone-200/80 hover:bg-stone-300 transition-colors text-stone-800"
-              aria-label={t.promoModal.close}
+            <div className="shrink-0 border-b border-stone-200/80 px-6 pt-6 md:px-8 md:pt-8">
+              <div className="flex items-start gap-3">
+                <h2
+                  id="legal-modal-title"
+                  className="font-serif-display min-w-0 flex-1 text-xl leading-snug text-[#1a1a1a] md:text-2xl"
+                >
+                  {legalModal === 'terms' ? t.legal.termsTitle : t.legal.privacyTitle}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setLegalModal(null)}
+                  className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-stone-200/80 text-stone-800 transition-colors hover:bg-stone-300"
+                  aria-label={t.promoModal.close}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+            <div
+              ref={legalModalScrollRef}
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-4 md:px-8 md:py-5"
             >
-              <X size={18} />
-            </button>
-            <h2
-              id="legal-modal-title"
-              className="font-serif-display text-xl md:text-2xl text-[#1a1a1a] pr-10 mb-4"
-            >
-              {legalModal === 'terms' ? t.legal.termsTitle : t.legal.privacyTitle}
-            </h2>
-            <div className="space-y-3 text-sm text-stone-700 leading-relaxed">
-              {(legalModal === 'terms' ? t.legal.termsParagraphs : t.legal.privacyParagraphs).map(
-                (paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                )
-              )}
+              <div
+                key={`${legalModal}-${language}`}
+                className="space-y-3 text-sm leading-relaxed text-stone-700"
+              >
+                {(legalModal === 'terms' ? t.legal.termsParagraphs : t.legal.privacyParagraphs).map(
+                  (paragraph, i) => (
+                    <p key={`${language}-${legalModal}-${i}`}>{paragraph}</p>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
