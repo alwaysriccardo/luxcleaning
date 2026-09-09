@@ -71,11 +71,11 @@ const translations = {
       quoteBtn: "Angebot einholen"
     },
     promo: {
-      discount: "FRÜHJAHRS-AKTION",
+      discount: "HERBST-AKTION",
       onAll: "NUR NOCH WENIGE PLÄTZE FREI",
-      until: "MÄRZ & APRIL",
+      until: "SEPTEMBER & OKTOBER",
       requestNow: "JETZT ANGEBOT ANFORDERN",
-      badge: "FRÜHLING",
+      badge: "HERBST",
       limitedSpots: "BEGRENZTE PLÄTZE"
     },
     services: {
@@ -187,8 +187,8 @@ const translations = {
       ]
     },
     promoModal: {
-      title: "FRÜHJAHRSPUTZ-AKTION",
-      subtitle: "Nur noch wenige Plätze im März & April — Sichern Sie sich jetzt Ihr persönliches Angebot.",
+      title: "HERBSTPUTZ-AKTION",
+      subtitle: "Nur noch wenige Plätze im September & Oktober — Sichern Sie sich jetzt Ihr persönliches Angebot.",
       name: "Name",
       email: "Email",
       phone: "Telefon",
@@ -219,11 +219,11 @@ const translations = {
       quoteBtn: "Get a Quote"
     },
     promo: {
-      discount: "SPRING OFFER",
+      discount: "AUTUMN OFFER",
       onAll: "LIMITED SPOTS AVAILABLE",
-      until: "MARCH & APRIL ONLY",
+      until: "SEPTEMBER & OCTOBER ONLY",
       requestNow: "REQUEST QUOTE NOW",
-      badge: "SPRING",
+      badge: "AUTUMN",
       limitedSpots: "LIMITED SPOTS"
     },
     services: {
@@ -335,8 +335,8 @@ const translations = {
       ]
     },
     promoModal: {
-      title: "SPRING CLEANING SEASON IS HERE",
-      subtitle: "Only a few spots available this March & April — request your personalized offer today.",
+      title: "AUTUMN CLEANING SEASON IS HERE",
+      subtitle: "Only a few spots available this September & October — request your personalized offer today.",
       name: "Name",
       email: "Email",
       phone: "Phone",
@@ -367,11 +367,11 @@ const translations = {
       quoteBtn: "Demander un Devis"
     },
     promo: {
-      discount: "OFFRE PRINTEMPS",
+      discount: "OFFRE AUTOMNE",
       onAll: "PLACES LIMITÉES DISPONIBLES",
-      until: "MARS & AVRIL SEULEMENT",
+      until: "SEPTEMBRE & OCTOBRE SEULEMENT",
       requestNow: "DEMANDER UN DEVIS MAINTENANT",
-      badge: "PRINTEMPS",
+      badge: "AUTOMNE",
       limitedSpots: "PLACES LIMITÉES"
     },
     services: {
@@ -483,8 +483,8 @@ const translations = {
       ]
     },
     promoModal: {
-      title: "LA SAISON DU NETTOYAGE DE PRINTEMPS EST LÀ",
-      subtitle: "Seulement quelques places disponibles en mars & avril — demandez votre offre personnalisée aujourd'hui.",
+      title: "LA SAISON DU NETTOYAGE D'AUTOMNE EST LÀ",
+      subtitle: "Seulement quelques places disponibles en septembre & octobre — demandez votre offre personnalisée aujourd'hui.",
       name: "Nom",
       email: "Email",
       phone: "Téléphone",
@@ -863,9 +863,9 @@ const App = () => {
     if (!formData.email.trim()) return;
     
     // Create email content
-    const subject = encodeURIComponent('Frühjahrs-Aktion Anfrage - Lux Cleaning');
+    const subject = encodeURIComponent('Herbst-Aktion Anfrage - Lux Cleaning');
     const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nTelefon: ${formData.phone}\n\nIch interessiere mich für ein persönliches Angebot im Rahmen der Frühjahrs-Aktion.`
+      `Name: ${formData.name}\nEmail: ${formData.email}\nTelefon: ${formData.phone}\n\nIch interessiere mich für ein persönliches Angebot im Rahmen der Herbst-Aktion.`
     );
     
     // Open email client
