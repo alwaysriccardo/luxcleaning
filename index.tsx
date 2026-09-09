@@ -608,6 +608,23 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Load top-offerten.ch widget scripts
+  useEffect(() => {
+    const loadScript = (src: string) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      document.body.appendChild(script);
+      return script;
+    };
+    const s1 = loadScript('https://top-offerten.ch/widget/partnerlabel.js');
+    const s2 = loadScript('https://top-offerten.ch/widget/reviews.js');
+    return () => {
+      document.body.removeChild(s1);
+      document.body.removeChild(s2);
+    };
+  }, []);
+
   // Detect background color for nav text
   useEffect(() => {
     const handleScroll = () => {
@@ -2464,6 +2481,18 @@ const App = () => {
                   </div>
                 </div>
               </a>
+            </div>
+          </div>
+
+          {/* top-offerten.ch Partner Widgets */}
+          <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-10 border-b border-white/10">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+              {/* Partner Label */}
+              <a href="https://top-offerten.ch/reinigungsfirma" target="_blank" rel="noopener noreferrer">
+                <img id="company-status-label" data-company-id="4187" src="" style={{ width: '150px' }} alt="top-offerten" />
+              </a>
+              {/* Reviews Widget */}
+              <div id="reviews-widget" data-company-id="4187"></div>
             </div>
           </div>
 
