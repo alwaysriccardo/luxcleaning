@@ -187,7 +187,7 @@ const translations = {
       ]
     },
     promoModal: {
-      title: "HERBSTPUTZ-AKTION",
+      title: "HERBST-AKTION",
       subtitle: "Nur noch wenige Plätze im September & Oktober — Sichern Sie sich jetzt Ihr persönliches Angebot.",
       name: "Name",
       email: "Email",
